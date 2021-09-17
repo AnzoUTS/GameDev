@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 3a06ed1b43ecbb94cb59fcae6fe88a81
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - PacStudent: {fileID: 919132149155446097, guid: e48b3b33dd39e15439154d50e77b5623, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
