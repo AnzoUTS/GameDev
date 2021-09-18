@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class Mover : MonoBehaviour
 {
     public GameObject PacStudent;
     public GameObject Cube;
-    private Vector3 currentPos;
+    public GameObject Pac;
+    public Vector3 currentPos;
     public Tween tween;
     private float speed;
     //private ArrayList path;
@@ -22,20 +23,22 @@ public class Movement : MonoBehaviour
         int path = 1;
 
         //PacStudent.transform.position = currentPos;
-        Cube.transform.position = currentPos;
+        //Cube.transform.position = currentPos;
+        Pac.transform.position = currentPos;
+        AddTween(Pac.transform, Pac.transform.position, new Vector3(-6.0f, 14.0f, 0.0f), speed);
 
         //AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(0.0f, 13.0f, 0.0f), 0.5f);
-        AddTween(Cube.transform, Cube.transform.position, new Vector3(-6.0f, 14.0f, 0.0f), speed);
+        //AddTween(Cube.transform, Cube.transform.position, new Vector3(-6.0f, 14.0f, 0.0f), speed);
 
 
 
-        Debug.Log("POS" + PacStudent.transform.position);
+        //Debug.Log("POS" + PacStudent.transform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (path)
+/*        switch (path)
         {
             case 1:
                 AddTween(Cube.transform, Cube.transform.position, new Vector3(-6.0f, 14.0f, 0.0f), speed);
@@ -52,33 +55,54 @@ public class Movement : MonoBehaviour
                 break;
 
         }
+*/
 
-        
 
-        Debug.Log(tween.Target + ":"+ tween.StartPos + ":" + tween.EndPos + ":" + tween.Duration);
-        Debug.Log(tween.Target.position + ":" + tween.EndPos + ":" + currentPos);
+        switch (path)
+        {
+            case 1:
+                AddTween(Pac.transform, Pac.transform.position, new Vector3(-6.0f, 14.0f, 0.0f), speed);
+                break;
+            case 2:
+                AddTween(Pac.transform, Pac.transform.position, new Vector3(-6.0f, 10.0f, 0.0f), speed);
+                break;
+            case 3:
+                AddTween(Pac.transform, Pac.transform.position, new Vector3(-11.0f, 10.0f, 0.0f), speed);
+                break;
+            case 4:
+                AddTween(Pac.transform, Pac.transform.position, new Vector3(-11.0f, 14.0f, 0.0f), speed);
+                path = 0;
+                break;
+
+        }
+
+
+       // Debug.Log(tween.Target + ":"+ tween.StartPos + ":" + tween.EndPos + ":" + tween.Duration);
+        //Debug.Log(tween.Target.position + ":" + tween.EndPos + ":" + currentPos);
 
         if (Vector3.Distance(tween.Target.position, tween.EndPos) >= 0.01)
         {
         float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
             currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
             tween.Target.position = currentPos;
-            Debug.Log("GO");
+            //Debug.Log("GO");
         }
        else
         {
             tween.Target.position = tween.EndPos;
             tween = null;
-            Debug.Log("NO");
+            Debug.Log("Change Pos");
             path++;
             //AddTween(Cube.transform, Cube.transform.position, new Vector3(-6.0f, 10.0f, 0.0f), speed);
 
         }
 
         //PacStudent.transform.position = currentPos;
-        Cube.transform.position = currentPos;
+        //Cube.transform.position = currentPos;
+        Pac.transform.position = currentPos;
 
-        Debug.Log("POS" + PacStudent.transform.position + "POSCube" + Cube.transform.position);
+        //Debug.Log("POS" + PacStudent.transform.position + "POSCube" + Cube.transform.position);
+        Debug.Log("Mover POS " + currentPos + "Mover ENDPOS: "+tween.EndPos );
 
     }
 
@@ -94,7 +118,10 @@ public class Movement : MonoBehaviour
 
     }
 
-
+    public Vector3 GetEndPos()
+    {
+        return tween.EndPos;
+    }
 
 
 
