@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Animation : MonoBehaviour
+public class Anim: MonoBehaviour
 {
-    public GameObject Pac;
+    public Vector3 Pac;
+    public Vector3 position;
+    public Vector3 endposition;
     private Animator anim;
     public Tween tween;
     public Mover pos;
@@ -15,7 +17,10 @@ public class Animation : MonoBehaviour
     void Start()
     {
        anim = GetComponent<Animator>();
-      
+        //Pac = pos.currentPos;
+        position = pos.position;
+        //endposition = pos.GetEndPos();
+
 
 
     }
@@ -23,22 +28,28 @@ public class Animation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+/*        endposition = pos.position;
 
-        //z = Mover.GetEndPos();
-        Debug.Log(pos.GetEndPos());
+
+        Debug.Log("PACX :" +Pac.x);
+        Debug.Log("PACY :" + Pac.y);
+        Debug.Log("posAnim :" + position);
+        Debug.Log("GetAnim :" + endposition);*/
 
         /*        Debug.Log(Pac.transform.position.x);
                 Debug.Log(Pac.transform.position.y);
                 Debug.Log(Pac.transform.position.z);
                 Debug.Log(Pac.transform.position);*/
 
-        if (Input.GetKey(KeyCode.UpArrow))
+
+
+
+/*        if (Input.GetKey(KeyCode.UpArrow))
         {
             anim.SetBool("up", true);
         }
 
-        if (Pac.transform.localPosition.magnitude <= 0f)
+        if (Pac.x <= 0f)
         {
             anim.SetBool("right", true);
         }
@@ -58,18 +69,18 @@ public class Animation : MonoBehaviour
         {
             anim.SetBool("die", true);
         }
-
+*/
         // Debug.Log("anim Pos ::" + position.currentPos);
-        Debug.Log("local Pos ::" + Pac.transform.localPosition);
+       // Debug.Log("local Pos ::" + Pac.transform.localPosition + "LocaX:" + Pac.transform.localPosition.x + "LocaY:" + Pac.transform.localPosition.y);
         //Debug.Log("local Pos X::" + Pac.transform.localPosition);
         //Debug.Log("endPos:" + tween.Target);
-        Debug.Log("LocalNormPos:" + Pac.transform.localPosition.normalized);
-        Debug.Log("LocaX:" + Pac.transform.localPosition.x + "LocaY:" + Pac.transform.localPosition.y);
+        //Debug.Log("LocalNormPos:" + Pac.transform.localPosition.normalized);
+        //Debug.Log("LocaX:" + Pac.transform.localPosition.x + "LocaY:" + Pac.transform.localPosition.y);
 
     }
-
+/*
     private Vector3 GetCurrentPos()
     {
-        return pos.currentPos;
-    }
+        //return currentPos;
+    }*/
 }
