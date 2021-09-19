@@ -4,9 +4,11 @@ using UnityEngine;
 public class AudioController : MonoBehaviour
 {
 
-    // Audio Clips x2
+    // Audio Clips x3
     public AudioClip Intro;
     public AudioClip Main;
+    public AudioClip Movement;
+   
 
     IEnumerator Start()
     {
