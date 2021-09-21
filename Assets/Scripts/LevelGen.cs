@@ -10,7 +10,8 @@ public class LevelGen : MonoBehaviour
     public GameObject[] TileMaps;
     private float Pos_X;
     private float Pos_Y;
-    private Vector3 Vec3;
+    //private float ArrayPos;
+
     public int[,] levelMap = {
 {1,2,2,2,2,2,2,2,2,2,2,2,2,7},
 {2,5,5,5,5,5,5,5,5,5,5,5,5,4},
@@ -38,11 +39,6 @@ public class LevelGen : MonoBehaviour
        Quad4();
     }
 
-    private void Update()
-    {
-      
-    }
-
     void DestroyGameObject()
     {
         Destroy(DestroyWalls);
@@ -53,78 +49,87 @@ public class LevelGen : MonoBehaviour
 
     void Quad1()
     {
-
         Quaternion Qua = Quaternion.Euler(0, 0, 90);
 
-        int Rowlength = levelMap.GetLength(0); // number of rows in array : 15
-        int ColLength = levelMap.GetLength(1); // number of columns in array : 14
+        float Rowlength = levelMap.GetLength(0); // number of rows in array : 15
+        float ColLength = levelMap.GetLength(1); // number of columns in array : 14
+        float ArrayPos = ColLength;
+        float Adj_X;
 
         Pos_X = 2;
         Pos_Y = ColLength + 1;
-
-        Debug.Log(Rowlength);
-        Debug.Log(ColLength);
 
         for (int row = 0; row < Rowlength; row++)
         {
 
             for (int col = 0; col < ColLength; col++)
             {
-
-                Vector3 Vec3 = new Vector3(Pos_X, Pos_Y, 0);
-
+                //Vector3 Vec3 = new Vector3(Pos_X + ArrayPos - ArrayAdjust, Pos_Y, 0);
+                //Adjust = Pos_X + ArrayPos - Pos_X + 1;
+                Adj_X = ArrayPos + 1;
 
                 if (levelMap[row, col] == 0)
                 {
-                    Instantiate(TileMaps[0], Vec3, Qua);
+                    Instantiate(TileMaps[0], new Vector3(Adj_X, Pos_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Pos_Y, 0));
                 }
                 else if (levelMap[row, col] == 1)
                 {
-                    Instantiate(TileMaps[1], new Vector3(Pos_X, Pos_Y, 0), Qua);
-                    Debug.Log("Vec-1: " + new Vector3(Pos_X, Pos_Y, 0));
+                    Instantiate(TileMaps[1], new Vector3(Adj_X, Pos_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Pos_Y, 0));
                 }
                 else if (levelMap[row, col] == 2)
                 {
-                    Instantiate(TileMaps[2], new Vector3(Pos_X, Pos_Y, 0), Qua);
-                    Debug.Log("Vec-2: " + new Vector3(Pos_X, Pos_Y, 0));
+                    Instantiate(TileMaps[2], new Vector3(Adj_X, Pos_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Pos_Y, 0));
                 }
                 else if (levelMap[row, col] == 3)
                 {
-                    Instantiate(TileMaps[3], Vec3, Qua);
+                    Instantiate(TileMaps[3], new Vector3(Adj_X, Pos_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Pos_Y, 0));
                 }
                 else if (levelMap[row, col] == 4)
                 {
-                    Instantiate(TileMaps[4], Vec3, Qua);
+                    Instantiate(TileMaps[4], new Vector3(Adj_X, Pos_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Pos_Y, 0));
                 }
                 else if (levelMap[row, col] == 5)
                 {
-                    Instantiate(TileMaps[5], Vec3, Qua);
+                    Instantiate(TileMaps[5], new Vector3(Adj_X, Pos_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Pos_Y, 0));
                 }
                 else if (levelMap[row, col] == 6)
                 {
-                    Instantiate(TileMaps[6], Vec3, Qua);
+                    Instantiate(TileMaps[6], new Vector3(Adj_X, Pos_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Pos_Y, 0));
                 }
                 else if (levelMap[row, col] == 7)
                 {
-                    Instantiate(TileMaps[7], Vec3, Qua);
+                    Instantiate(TileMaps[7], new Vector3(Adj_X, Pos_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Pos_Y, 0));
                 }
 
-                Pos_X++;
+                ArrayPos--;
 
-                Debug.Log("X: " + Pos_X + " Y :" + Pos_Y);
-
-                if (Pos_X == 16f)
+                Debug.Log("ArrayPos: " + ArrayPos);
+                if (ArrayPos <= 0)
                 {
-                    Pos_X = 2f;
+                    ArrayPos = ColLength;
                 }
+
+                /*     Pos_X++;*/
+                /*               if (Pos_X == ColLength + Pos_X)
+                               {
+                                   Pos_X = 2f;
+                               }*/
             }
 
             Pos_Y--;
 
-            if (Pos_Y == 0f)
+/*            if (Pos_Y == 0f)
             {
-                Pos_Y = 14f;
-            }
+                Pos_Y = ColLength;
+            }*/
 
 
         }
