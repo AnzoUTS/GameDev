@@ -32,6 +32,46 @@ public class LevelGen : MonoBehaviour
 {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
 };
 
+
+    /*    public int[,] levelMap = { // test array large
+    {1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,7},
+    {2,2,2,5,5,5,5,5,5,5,5,5,5,5,5,4},
+    {2,2,2,5,3,4,4,3,5,3,4,4,4,3,5,4},
+    {2,2,2,6,4,0,0,4,5,4,0,0,0,4,5,4},
+    {2,2,2,5,3,4,4,3,5,3,4,4,4,3,5,3},
+    {2,2,2,5,5,5,5,5,5,5,5,5,5,5,5,5},
+    {2,2,2,5,3,4,4,3,5,3,3,5,3,4,4,4},
+    {2,2,2,5,3,4,4,3,5,4,4,5,3,4,4,3},
+    {2,2,2,5,5,5,5,5,5,4,4,5,5,5,5,4},
+    {1,2,2,2,2,2,2,1,5,4,3,4,4,3,0,4},
+    {0,0,0,0,0,0,0,2,5,4,3,4,4,3,0,3},
+    {0,0,0,0,0,0,0,2,5,4,4,0,0,0,0,0},
+    {0,0,0,0,0,0,0,2,5,4,4,0,3,4,4,0},
+    {2,2,2,2,2,2,2,1,5,3,3,0,4,0,0,0},
+    {0,0,0,0,0,0,0,0,5,0,0,0,4,0,0,0},
+    {0,0,0,0,0,0,0,0,5,0,0,0,4,0,0,0},
+    {0,0,0,0,0,0,0,0,5,0,0,0,4,0,0,0},
+    };
+    */
+
+
+    /*    public int[,] levelMap = { // test 2 small
+    {1,2,2,2,2,2,2,2,2,2,2,2},
+    {2,5,5,5,5,5,5,5,5,5,5,5},
+    {2,5,3,4,4,3,5,3,4,4,4,3},
+    {2,6,4,0,0,4,5,4,0,0,0,4},
+    {2,5,3,4,4,3,5,3,4,4,4,3},
+    {2,5,5,5,5,5,5,5,5,5,5,5},
+    {2,5,3,4,4,3,5,3,3,5,3,4},
+    {2,5,3,4,4,3,5,4,4,5,3,4},
+    {2,5,5,5,5,5,5,4,4,5,5,5},
+    {1,2,2,2,2,1,5,4,3,4,4,3},
+    {0,0,0,0,0,2,5,4,3,4,4,3},
+    {0,0,0,0,0,2,5,4,4,0,0,0},
+    };*/
+
+
+
     void Start()
     {
         DestroyGameObject();
@@ -53,7 +93,7 @@ public class LevelGen : MonoBehaviour
 
     void Quad1()
     {
-        Quaternion Qua = Quaternion.Euler(0, 0, 90);
+        Quaternion Qua = Quaternion.Euler(0, 0, 270);
 
         float Rowlength = levelMap.GetLength(0); // number of rows in array : 15
         float ColLength = levelMap.GetLength(1); // number of columns in array : 14
@@ -103,12 +143,12 @@ public class LevelGen : MonoBehaviour
                 }
                 else if (levelMap[row, col] == 5)
                 {
-                    Instantiate(TileMaps[5], new Vector3(Adj_X, Pos_Y, 0), Qua);
+                    Instantiate(TileMaps[5], new Vector3(Adj_X, Pos_Y, 0), Quaternion.Euler(0, 0, 0));
                    // Debug.Log("Vec-POS: " + new Vector3(Adj_X, Pos_Y, 0));
                 }
                 else if (levelMap[row, col] == 6)
                 {
-                    Instantiate(TileMaps[6], new Vector3(Adj_X, Pos_Y, 0), Qua);
+                    Instantiate(TileMaps[6], new Vector3(Adj_X, Pos_Y, 0), Quaternion.Euler(0, 0, 0));
                   //  Debug.Log("Vec-POS: " + new Vector3(Adj_X, Pos_Y, 0));
                 }
                 else if (levelMap[row, col] == 7)
@@ -135,7 +175,7 @@ public class LevelGen : MonoBehaviour
     void Quad2()
     {
 
-    Quaternion Qua = Quaternion.Euler(0, 0, 90);
+    Quaternion Qua = Quaternion.Euler(0, 0, 0);
 
     int Rowlength = levelMap.GetLength(0); // number of rows in array : 15
     int ColLength = levelMap.GetLength(1); // number of columns in array : 14
@@ -173,11 +213,11 @@ public class LevelGen : MonoBehaviour
                 }
                 else if (levelMap[row, col] == 5)
                 {
-                    Instantiate(TileMaps[5], Vec3, Qua);
+                    Instantiate(TileMaps[5], Vec3, Quaternion.Euler(0, 0, 0));
                 }
                 else if (levelMap[row, col] == 6)
                 {
-                    Instantiate(TileMaps[6], Vec3, Qua);
+                    Instantiate(TileMaps[6], Vec3, Quaternion.Euler(0, 0, 0));
                 }
                 else if (levelMap[row, col] == 7)
                 {
@@ -246,12 +286,12 @@ public class LevelGen : MonoBehaviour
                 }
                 else if (levelMap[row, col] == 5)
                 {
-                    Instantiate(TileMaps[5], new Vector3(Pos_X, Adj_Y, 0), Qua);
+                    Instantiate(TileMaps[5], new Vector3(Pos_X, Adj_Y, 0), Quaternion.Euler(0, 0, 0));
                     Debug.Log("Vec-POS: " + new Vector3(Pos_X, Adj_Y, 0));
                 }
                 else if (levelMap[row, col] == 6)
                 {
-                    Instantiate(TileMaps[6], new Vector3(Pos_X, Adj_Y, 0), Qua);
+                    Instantiate(TileMaps[6], new Vector3(Pos_X, Adj_Y, 0), Quaternion.Euler(0, 0, 0));
                     Debug.Log("Vec-POS: " + new Vector3(Pos_X, Adj_Y, 0));
                 }
                 else if (levelMap[row, col] == 7)
@@ -279,7 +319,7 @@ public class LevelGen : MonoBehaviour
     void Quad4()
     {
         
-        Quaternion Qua = Quaternion.Euler(0, 0, 90);
+        Quaternion Qua = Quaternion.Euler(0, 0, 180);
 
         int Rowlength = levelMap.GetLength(0); // number of rows in array : 15
         int ColLength = levelMap.GetLength(1); // number of columns in array : 14
@@ -327,12 +367,12 @@ public class LevelGen : MonoBehaviour
                 }
                 else if (levelMap[row, col] == 5)
                 {
-                    Instantiate(TileMaps[5], new Vector3(Adj_X, Adj_Y, 0), Qua);
+                    Instantiate(TileMaps[5], new Vector3(Adj_X, Adj_Y, 0), Quaternion.Euler(0, 0, 0));
                     Debug.Log("Vec-POS: " + new Vector3(Adj_X, Adj_Y, 0));
                 }
                 else if (levelMap[row, col] == 6)
                 {
-                    Instantiate(TileMaps[6], new Vector3(Adj_X, Adj_Y, 0), Qua);
+                    Instantiate(TileMaps[6], new Vector3(Adj_X, Adj_Y, 0), Quaternion.Euler(0, 0, 0));
                     Debug.Log("Vec-POS: " + new Vector3(Adj_X, Adj_Y, 0));
                 }
                 else if (levelMap[row, col] == 7)
