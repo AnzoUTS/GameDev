@@ -119,26 +119,13 @@ public class LevelGen : MonoBehaviour
 
                 ArrayPos--;
 
-                //Debug.Log("ArrayPos: " + ArrayPos);
                 if (ArrayPos <= 0)
                 {
                     ArrayPos = ColLength;
                 }
-
-                /*     Pos_X++;*/
-                /*               if (Pos_X == ColLength + Pos_X)
-                               {
-                                   Pos_X = 2f;
-                               }*/
             }
 
             Pos_Y--;
-
-/*            if (Pos_Y == 0f)
-            {
-                Pos_Y = ColLength;
-            }*/
-
 
         }
     }
@@ -152,10 +139,6 @@ public class LevelGen : MonoBehaviour
 
     int Rowlength = levelMap.GetLength(0); // number of rows in array : 15
     int ColLength = levelMap.GetLength(1); // number of columns in array : 14
-
-/*        Pos_X = -Rowlength+3;
-        Pos_Y = ColLength+1;
-*/
 
         Pos_X = Center_X - Rowlength +1;
         Pos_Y = ColLength + 1;
@@ -211,24 +194,11 @@ public class LevelGen : MonoBehaviour
 
             Pos_Y--;
 
-/*            if (Pos_Y == -14f)
-            {
-                Pos_Y = 14f;
-            }*/
-
-
         }
     }
 
     void Quad3()
     {
-
-   /*     Pos_X = -12f;
-        Pos_Y = 0;*/
-
-
-
-
 
         Quaternion Qua = Quaternion.Euler(0, 0, 90);
 
@@ -290,12 +260,9 @@ public class LevelGen : MonoBehaviour
                     Debug.Log("Vec-POS: " + new Vector3(Pos_X, Adj_Y, 0));
                 }
 
-                
-                Debug.Log("ArrayPos: " + ArrayPos);
+               
 
                 Pos_X++;
-
-                //Debug.Log("X: " + Pos_X + " Y :" + Pos_Y);
 
                 if (Pos_X == Center_X)
                 {
@@ -303,13 +270,7 @@ public class LevelGen : MonoBehaviour
                 }
             }
 
-            //Pos_Y--;
             ArrayPos--;
-            /*            if (Pos_Y == -ColLength + 1)
-                        {
-                            Pos_Y = Center_Y;
-                        }
-            */
 
         }
     }
@@ -318,13 +279,17 @@ public class LevelGen : MonoBehaviour
     void Quad4()
     {
         
-        Pos_X = 2f;
-        Pos_Y = 0f;
-
         Quaternion Qua = Quaternion.Euler(0, 0, 90);
 
         int Rowlength = levelMap.GetLength(0); // number of rows in array : 15
         int ColLength = levelMap.GetLength(1); // number of columns in array : 14
+        float ArrayPosX = ColLength;
+        float ArrayPosY = ColLength;
+        float Adj_X;
+        float Adj_Y;
+
+        Pos_X = Center_X - Rowlength + 1;
+        Pos_Y = -ColLength + 1;
 
         for (int row = 0; row < Rowlength; row++)
         {
@@ -332,60 +297,59 @@ public class LevelGen : MonoBehaviour
             for (int col = 0; col < ColLength; col++)
             {
 
-                Vector3 Vec3 = new Vector3(Pos_X, Pos_Y, 0);
-
+                Adj_X = ArrayPosX + 1;
+                Adj_Y = -ArrayPosY + 1;
 
                 if (levelMap[row, col] == 0)
                 {
-                    Instantiate(TileMaps[0], Vec3, Qua);
+                    Instantiate(TileMaps[0], new Vector3(Adj_X, Adj_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Adj_Y, 0));
                 }
                 else if (levelMap[row, col] == 1)
                 {
-                    Instantiate(TileMaps[1], new Vector3(Pos_X, Pos_Y, 0), Qua);
-                    Debug.Log("Vec-1: " + new Vector3(Pos_X, Pos_Y, 0));
+                    Instantiate(TileMaps[1], new Vector3(Adj_X, Adj_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Adj_Y, 0));
                 }
                 else if (levelMap[row, col] == 2)
                 {
-                    Instantiate(TileMaps[2], new Vector3(Pos_X, Pos_Y, 0), Qua);
-                    Debug.Log("Vec-2: " + new Vector3(Pos_X, Pos_Y, 0));
+                    Instantiate(TileMaps[2], new Vector3(Adj_X, Adj_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Adj_Y, 0));
                 }
                 else if (levelMap[row, col] == 3)
                 {
-                    Instantiate(TileMaps[3], Vec3, Qua);
+                    Instantiate(TileMaps[3], new Vector3(Adj_X, Adj_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Adj_Y, 0));
                 }
                 else if (levelMap[row, col] == 4)
                 {
-                    Instantiate(TileMaps[4], Vec3, Qua);
+                    Instantiate(TileMaps[4], new Vector3(Adj_X, Adj_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Adj_Y, 0));
                 }
                 else if (levelMap[row, col] == 5)
                 {
-                    Instantiate(TileMaps[5], Vec3, Qua);
+                    Instantiate(TileMaps[5], new Vector3(Adj_X, Adj_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Adj_Y, 0));
                 }
                 else if (levelMap[row, col] == 6)
                 {
-                    Instantiate(TileMaps[6], Vec3, Qua);
+                    Instantiate(TileMaps[6], new Vector3(Adj_X, Adj_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Adj_Y, 0));
                 }
                 else if (levelMap[row, col] == 7)
                 {
-                    Instantiate(TileMaps[7], Vec3, Qua);
+                    Instantiate(TileMaps[7], new Vector3(Adj_X, Adj_Y, 0), Qua);
+                    Debug.Log("Vec-POS: " + new Vector3(Adj_X, Adj_Y, 0));
                 }
 
-                Pos_X++;
+                ArrayPosX--;
 
-                Debug.Log("X: " + Pos_X + " Y :" + Pos_Y);
-
-                if (Pos_X == 16f)
+                if (ArrayPosX <= 0)
                 {
-                    Pos_X = 2f;
+                    ArrayPosX = ColLength;
                 }
             }
 
-            Pos_Y--;
-
-            if (Pos_Y == -15f)
-            {
-                Pos_Y = Center_Y;
-            }
+            ArrayPosY--;
 
 
         }
