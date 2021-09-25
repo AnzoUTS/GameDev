@@ -8389,6 +8389,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall-Light
       objectReference: {fileID: 0}
+    - target: {fileID: 4837313944120286262, guid: e4cbdd43e90b1ae4f9028fdc70bffd70, type: 3}
+      propertyPath: m_TagString
+      value: In-W
+      objectReference: {fileID: 0}
     - target: {fileID: 7520416017785068349, guid: e4cbdd43e90b1ae4f9028fdc70bffd70, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -37594,6 +37598,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Junction
       objectReference: {fileID: 0}
+    - target: {fileID: 3812348483559007820, guid: 56683d5d3487074448444758702348df, type: 3}
+      propertyPath: m_TagString
+      value: Junc
+      objectReference: {fileID: 0}
     - target: {fileID: 3952654197343837142, guid: 56683d5d3487074448444758702348df, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -49735,6 +49743,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall-Dark
       objectReference: {fileID: 0}
+    - target: {fileID: 4527562850344383385, guid: c89611961ed5a594bb1d2ec5ea78f1ad, type: 3}
+      propertyPath: m_TagString
+      value: Out-W
+      objectReference: {fileID: 0}
     - target: {fileID: 8158319563527369514, guid: c89611961ed5a594bb1d2ec5ea78f1ad, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -49791,6 +49803,10 @@ PrefabInstance:
     - target: {fileID: 275533393997939217, guid: a83b2c4102b44b6459be7e00f5911b72, type: 3}
       propertyPath: m_Name
       value: Wall-Dark-C
+      objectReference: {fileID: 0}
+    - target: {fileID: 275533393997939217, guid: a83b2c4102b44b6459be7e00f5911b72, type: 3}
+      propertyPath: m_TagString
+      value: Out-C
       objectReference: {fileID: 0}
     - target: {fileID: 2264423427603686866, guid: a83b2c4102b44b6459be7e00f5911b72, type: 3}
       propertyPath: m_RootOrder
@@ -79435,6 +79451,10 @@ PrefabInstance:
     - target: {fileID: 7744260343197223630, guid: 21eecba7789b9dd4f80761c907c96e6c, type: 3}
       propertyPath: m_Name
       value: Wall-Light-C
+      objectReference: {fileID: 0}
+    - target: {fileID: 7744260343197223630, guid: 21eecba7789b9dd4f80761c907c96e6c, type: 3}
+      propertyPath: m_TagString
+      value: In-C
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21eecba7789b9dd4f80761c907c96e6c, type: 3}

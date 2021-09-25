@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Walls
   - Item
+  - Out-C
+  - Out-W
+  - In-C
+  - In-W
+  - Junc
   layers:
   - Default
   - TransparentFX
