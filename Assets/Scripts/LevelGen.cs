@@ -97,9 +97,86 @@ public class LevelGen : MonoBehaviour
     }
 
 
-
+    List<GameObject> TilesOutCorner = new List<GameObject>(); // create a list (dont need to know the array size in advance)
+    List<GameObject> TilesOutside = new List<GameObject>(); // create a list (dont need to know the array size in advance)
     List<GameObject> TilesInCorner = new List<GameObject>(); // create a list (dont need to know the array size in advance)
     List<GameObject> TilesInside = new List<GameObject>(); // create a list (dont need to know the array size in advance)
+
+
+
+
+
+
+
+
+    int OutLoop(float x, float y, float Pos_X, float Pos_Y)
+    {
+
+        for (int i = 0; i < TilesOutCorner.Count; i++)
+        {
+            Vector3 wall_distance = TilesOutCorner[i].transform.position - new Vector3(Pos_X, Pos_Y, 0);
+          //  Vector3 wall_distance =  new Vector3(Pos_X, Pos_Y, 0)- TilesOutCorner[i].transform.position;
+            Debug.Log(" ----------OUT C WALL1-------------- " + wall_distance);
+
+
+            if (wall_distance.x == x && wall_distance.y == 0f)
+            {
+                Debug.Log(" ----------OUT C1-------------- ");
+
+                return 1;
+            }
+            else if (wall_distance.x == 0f && wall_distance.y == y)
+            {
+
+                Debug.Log(" ----------OUT C2 -------------- ");
+                return 2;
+            }
+            else
+            {
+
+                continue;
+            }
+        }
+        return 0;
+    }
+
+
+
+
+    int OutLoop2(float x, float y, float Pos_X, float Pos_Y)
+    {
+
+        for (int i = 0; i < TilesOutside.Count; i++)
+        {
+            Vector3 wall_distance = TilesOutside[i].transform.position - new Vector3(Pos_X, Pos_Y, 0);
+            //Vector3 wall_distance =  new Vector3(Pos_X, Pos_Y, 0)- TilesOutside[i].transform.position;
+            Debug.Log(" ----------OUT WALL2-------------- " + wall_distance);
+
+            if (wall_distance.x == x && wall_distance.y == 0f)
+            {
+                Debug.Log(" ----------OUT W1-------------- ");
+
+                return 3;
+            }
+            else if (wall_distance.x == 0f && wall_distance.y == y)
+            {
+
+                Debug.Log(" ----------OUT W2 -------------- ");
+                return 4;
+            }
+            else
+            {
+
+                continue;
+            }
+        }
+        return 0;
+    }
+
+
+
+
+
 
 
     int BigLoop(float x, float y, float Pos_X, float Pos_Y)
@@ -171,12 +248,12 @@ public class LevelGen : MonoBehaviour
 
         float Rowlength = levelMap.GetLength(0); // number of rows in array : 15
         float ColLength = levelMap.GetLength(1); // number of columns in array : 14
-        List<GameObject> Q1_TilesOutCorner = new List<GameObject>(); // create a list (dont need to know the array size in advance)
+/*        List<GameObject> Q1_TilesOutCorner = new List<GameObject>(); // create a list (dont need to know the array size in advance)
         List<GameObject> Q1_TilesOutside = new List<GameObject>(); // create a list (dont need to know the array size in advance)
         List<GameObject> Q1_TilesInCorner = new List<GameObject>(); // create a list (dont need to know the array size in advance)
         List<GameObject> Q1_TilesInside = new List<GameObject>(); // create a list (dont need to know the array size in advance)
         float angle = 0;
-        float angle2 = 90;
+        float angle2 = 90;*/
         float horizontal = 90f;
         float vertical = 0f;
 
@@ -188,71 +265,6 @@ public class LevelGen : MonoBehaviour
         Pos_Y = ColLength + 1;
 
 
-
-/*        int Match1(float Pos_X, float Pos_Y)
-        {
-
-            for (int i = 0; i < Q1_TilesInCorner.Count; i++)
-            {
-                Vector3 wall_distance = Q1_TilesInCorner[i].transform.position - new Vector3(Pos_X, Pos_Y, 0);
-
-
-                if (wall_distance.x == -1f && wall_distance.y == 0f)
-                {
-                    Debug.Log(" ----------HITTTTTT C1-------------- ");
-
-                    return 1;
-                }
-                else if (wall_distance.x == 0f && wall_distance.y == 1f)
-                {
-           
-                    Debug.Log(" ----------HITTTTTT C2 -------------- ");
-                    return 2;
-                }
-                else
-                {
-
-                    continue;
-                }
-            }
-            return 0;
-        }
-
-
-
-
-        int Match2(float Pos_X, float Pos_Y)
-        {
-
-            for (int i = 0; i < Q1_TilesInside.Count; i++)
-            {
-                Vector3 wall_distance = Q1_TilesInside[i].transform.position - new Vector3(Pos_X, Pos_Y, 0);
-
-
-                if (wall_distance.x == -1f && wall_distance.y == 0f)
-                {
-
-                    Debug.Log(" ----------HITTTTTT W1-------------- ");
-
-                    return 3;
-                }
-                else if (wall_distance.x == 0f && wall_distance.y == 1f)
-                {
-                    Debug.Log(" ----------HITTTTTT W2 -------------- ");
-                    return 4;
-                }
-                else
-                {
-
-                    continue;
-                }
-
-            }
-
-            return 0;
-        }*/
-
-
         for (int row = 0; row < Rowlength; row++)
         {
 
@@ -260,56 +272,108 @@ public class LevelGen : MonoBehaviour
             {
                 Adj_X = ArrayPos + 1;
 
-                switch(levelMap[row, col])
+
+
+                Vector3 pos = new Vector3(Adj_X, Pos_Y, 0);
+                Quaternion quat = Quaternion.Euler(0, 0, horizontal);
+
+                switch (levelMap[row, col])
                 {
+
+
+                         
+
+
                     case 0:
                         Instantiate(TileMaps[0], new Vector3(Adj_X, Pos_Y, 0), Qua);
                         break;
 
                     case 1:
-                        if (Q1_TilesOutCorner.Count == 0)
+                        if (TilesOutside.Count == 0)
                         {
-                            Q1_TilesOutCorner.Add(Instantiate(TileMaps[1], new Vector3(Adj_X, Pos_Y, 0), Quaternion.Euler(0, 0, 270)));
+                            TilesOutside.Add(Instantiate(TileMaps[1], new Vector3(Adj_X, Pos_Y, 0), Quaternion.Euler(0, 0, 270)));
                         }
                         else
                         {
-                            Q1_TilesOutCorner.Add(Instantiate(TileMaps[1], new Vector3(Adj_X, Pos_Y, 0), Qua));
+                            TilesOutside.Add(Instantiate(TileMaps[1], new Vector3(Adj_X, Pos_Y, 0), Qua));
                         }
                         break;
                     case 2:
 
-                        if (Q1_TilesOutside.Count == 0)
-                        {
-                            Q1_TilesOutside.Add(Instantiate(TileMaps[2], new Vector3(Adj_X, Pos_Y, 0), Quaternion.Euler(0, 0, 90)));
-                        }
 
-                        else if (Q1_TilesOutside[Q1_TilesOutside.Count - 1].transform.position.y == Pos_Y || Q1_TilesOutside[Q1_TilesOutside.Count - 1].transform.position.x == Adj_X)
-                        {
-                            Q1_TilesOutside.Add(Instantiate(TileMaps[2], new Vector3(Adj_X, Pos_Y, 0), Quaternion.Euler(0, 0, Q1_TilesOutside[Q1_TilesOutside.Count - 1].transform.eulerAngles.z)));
-                        }
-                        else
-                        {
-                            Q1_TilesOutside.Add(Instantiate(TileMaps[2], new Vector3(Adj_X, Pos_Y, 0), Quaternion.Euler(0, 0, angle)));
 
-                            if (angle == 0)
+                        if (TilesOutside.Count == 0) // never trigger?
+                        {
+                            TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, vertical)));
+                            break;
+
+                        }
+                        else if (OutLoop(-1, -1, Adj_X, Pos_Y) > 0)
+                        {
+
+                            if (OutLoop(-1, -1, Adj_X, Pos_Y) == 1)
                             {
-                                angle = 90;
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, horizontal)));
+                                Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
+                                break;
+
                             }
                             else
                             {
-                                angle = 0;
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, vertical)));
+                                Debug.Log(" ---------## -HITTTTTT C2 -------------- ");
+                                break;
 
                             }
+
                         }
 
-                        break;
+                        else if (OutLoop2(-1, -1, Adj_X, Pos_Y) > 2)
+                        {
+
+                            if (OutLoop2(-1, -1, Adj_X, Pos_Y) == 3)
+                            {
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, horizontal)));
+                                Debug.Log(" ---------- ## HITTTTTT W1-------------- ");
+                                break;
+
+                            }
+                            else
+                            {
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, vertical)));
+                                Debug.Log(" ---------## -HITTTTTT W2 -------------- ");
+                                break;
+
+                            }
+
+                        }
+
+
+
+                        else
+                        {
+
+                            Debug.Log(" -----------NO IDEA------------- ");
+                            TilesOutside.Add(Instantiate(TileMaps[2], pos, quat));
+                            Debug.Log(" ############## " + pos + " ################## ");
+                            break;
+
+
+
+                        }
+
+
+
+
+
+
                     case 3:
                         TilesInCorner.Add(Instantiate(TileMaps[3], new Vector3(Adj_X, Pos_Y, 0), Qua));
                         break;
                     case 4:
 
-                        Vector3 pos = new Vector3(Adj_X, Pos_Y, 0);
-                        Quaternion quat = Quaternion.Euler(0, 0, horizontal);
+                       // Vector3 pos = new Vector3(Adj_X, Pos_Y, 0);
+                      //  Quaternion quat = Quaternion.Euler(0, 0, horizontal);
 
                         if (TilesInside.Count == 0)
                         {
@@ -317,10 +381,10 @@ public class LevelGen : MonoBehaviour
                             break;
 
                         }
-                        else if (BigLoop(-1, 1, Adj_X, Pos_Y) > 0)
+                        else if (BigLoop(1, 1, Adj_X, Pos_Y) > 0)
                         {
 
-                            if (BigLoop(-1, 1, Pos_X, Pos_Y) == 1)
+                            if (BigLoop(1, 1, Adj_X, Pos_Y) == 1)
                             {
                                 TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, horizontal)));
                                 Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
@@ -337,10 +401,10 @@ public class LevelGen : MonoBehaviour
 
                         }
 
-                        else if (BigLoop2(-1, 1, Adj_X, Pos_Y) > 0)
+                        else if (BigLoop2(1, 1, Adj_X, Pos_Y) > 2)
                         {
 
-                            if (BigLoop2(-1, 1, Pos_X, Pos_Y) == 3)
+                            if (BigLoop2(1, 1, Adj_X, Pos_Y) == 3)
                             {
                                 TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, horizontal)));
                                 Debug.Log(" --------## --HITTTTTT W1-------------- ");
@@ -367,82 +431,6 @@ public class LevelGen : MonoBehaviour
 
 
                         }
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-                        Vector3 pos = new Vector3(Adj_X, Pos_Y, 0);
-                        Quaternion quat = Quaternion.Euler(0, 0, horizontal);
-
-                        if (Q1_TilesInside.Count == 0)
-                        {
-                            Q1_TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, vertical)));
-                            break;
-
-                        }
-                        else if (Match1(Adj_X, Pos_Y) > 0)
-                        {
-
-                            Debug.Log("match A :" + Match1(Adj_X, Pos_Y));
-
-                            if (Match1(Pos_X, Pos_Y) == 1)
-                            {
-                                Q1_TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, horizontal)));
-                                Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
-                                break;
-
-                            }
-                            else
-                            {
-                                Q1_TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, vertical)));
-                                Debug.Log(" ---------## -HITTTTTT C2 -------------- ");
-                                break;
-
-                            }
-
-                        }
-
-                        else if (Match2(Adj_X, Pos_Y) > 0)
-                        {
-
-                            Debug.Log("match B :" + Match2(Adj_X, Pos_Y));
-
-                            if (Match2(Pos_X, Pos_Y) == 3)
-                            {
-                                Q1_TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, horizontal)));
-                                Debug.Log(" --------## --HITTTTTT W1-------------- ");
-                                break;
-
-                            }
-                            else
-                            {
-                                Q1_TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, vertical)));
-                                Debug.Log(" -------## ---HITTTTTT W2 -------------- ");
-                                break;
-
-                            }
-
-                        }
-                        else
-                        {
-
-                            Debug.Log(" -----------NO IDEA------------- ");
-                            Q1_TilesInside.Add(Instantiate(TileMaps[4], pos, quat));
-                            Debug.Log(" ############## " + pos + " ################## ");
-                            break;
-
-
-*/
-                        //}
 
 
                     case 5:
