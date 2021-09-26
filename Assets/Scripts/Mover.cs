@@ -20,17 +20,23 @@ public class Mover : MonoBehaviour
 
         anim = GetComponent<Animator>();
         speed = 2.5f;
-        currentPos = new Vector3(-11f, 14f, 0f);
+     
         audio = GetComponent<AudioSource>();
         path = 1;
-    
+
+        // ### 90% Band - START 
+        // currentPos = new Vector3(-11f, 14f, 0f);
+        // AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(-6.0f, 14.0f, 0.0f), speed);
+        // ### 90% Band - END 
+
+        currentPos = new Vector3(1f, -1f, -1f);
+        AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(6.0f, -1f, -1.0f), speed);
         PacStudent.transform.position = currentPos;
-        AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(-6.0f, 14.0f, 0.0f), speed);
+ 
     }
 
     void Update()
     {
-
         NormPos = (tween.EndPos - tween.StartPos).normalized;
        // Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
 
@@ -62,17 +68,35 @@ public class Mover : MonoBehaviour
 
         switch (path)
         {
+
+            // ### 90% Band - START 
+            /*            case 1:
+                            AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(-6.0f, 14.0f, 0.0f), speed);
+                            break;
+                        case 2:
+                            AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(-6.0f, 10.0f, 0.0f), speed);
+                            break;
+                        case 3:
+                            AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(-11.0f, 10.0f, 0.0f), speed);
+                            break;
+                        case 4:
+                            AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(-11.0f, 14.0f, 0.0f), speed);
+                            path = 0;
+                            break;*/
+
+            // ### 90% Band - END 
+
             case 1:
-                AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(-6.0f, 14.0f, 0.0f), speed);
+                AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(6.0f, -1.0f, -1.0f), speed);
                 break;
             case 2:
-                AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(-6.0f, 10.0f, 0.0f), speed);
+                AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(6.0f, -5.0f, -1.0f), speed);
                 break;
             case 3:
-                AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(-11.0f, 10.0f, 0.0f), speed);
+                AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(1.0f, -5.0f, -1.0f), speed);
                 break;
             case 4:
-                AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(-11.0f, 14.0f, 0.0f), speed);
+                AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(1.0f, -1.0f, -1.0f), speed);
                 path = 0;
                 break;
 
