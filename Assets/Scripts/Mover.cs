@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,11 +16,12 @@ public class Mover : MonoBehaviour
     int path;
 
 
+
     void Start()
     {
 
         anim = GetComponent<Animator>();
-        speed = 2.5f;
+        speed = 2f;
      
         audio = GetComponent<AudioSource>();
         path = 1;
@@ -35,9 +37,17 @@ public class Mover : MonoBehaviour
  
     }
 
+    private void FixedUpdate()
+    {
+        float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
+        currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
+        PacStudent.transform.position = currentPos;
+    }
+
+
     void Update()
     {
-        NormPos = (tween.EndPos - tween.StartPos).normalized;
+       NormPos = (tween.EndPos - tween.StartPos).normalized;
        Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
 
         if (NormPos.x != 0.0f || NormPos.y != 0.0f)
@@ -50,11 +60,8 @@ public class Mover : MonoBehaviour
             }
         }
 
-
         if (Vector3.Distance(tween.Target.position, tween.EndPos) >= 0.01)
         {
-        float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
-            currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
             tween.Target.position = currentPos;
         }
        else
@@ -102,7 +109,7 @@ public class Mover : MonoBehaviour
 
         }
 
-        PacStudent.transform.position = currentPos;
+        //PacStudent.transform.position = currentPos;  // moved to fixed update
 
         if (NormPos.x == 0.0f && NormPos.y == 1.0f)
         {
