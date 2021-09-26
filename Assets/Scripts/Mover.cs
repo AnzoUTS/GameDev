@@ -38,7 +38,7 @@ public class Mover : MonoBehaviour
     void Update()
     {
         NormPos = (tween.EndPos - tween.StartPos).normalized;
-       // Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
+       Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
 
         if (NormPos.x != 0.0f || NormPos.y != 0.0f)
         {
@@ -155,7 +155,7 @@ public class Mover : MonoBehaviour
 
         if (tween == null)
         {
-            Debug.Log("Add Tween");
+           //Debug.Log("Add Tween");
             tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
         }
 

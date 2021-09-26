@@ -4,7 +4,7 @@ using UnityEngine;
 public class AudioController : MonoBehaviour
 {
 
-    // Audio Clips x3
+    // Audio Clips 
     public AudioClip Intro;
     public AudioClip Main;
     public AudioClip Movement;
