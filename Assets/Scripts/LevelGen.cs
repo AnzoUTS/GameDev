@@ -93,10 +93,9 @@ public class LevelGen : MonoBehaviour
         Quad3();
         Quad4();
 
+        // Rotate the corner pieces
         OutWallRotate();
-
-
-
+        InWallRotate();
     }
 
     void DestroyGameObject()
@@ -111,6 +110,84 @@ public class LevelGen : MonoBehaviour
     List<GameObject> TilesOutside = new List<GameObject>(); 
     List<GameObject> TilesInCorner = new List<GameObject>(); 
     List<GameObject> TilesInside = new List<GameObject>();
+
+
+
+
+    void InWallRotate()
+    {
+        for (int i = 0; i < TilesInCorner.Count; i++)
+        {
+
+            Vector3 CornerPos = TilesInCorner[i].transform.position;
+            Debug.Log(CornerPos);
+
+            float X = 99;
+            float Y = 99;
+            float Z = 99;
+            for (int j = 0; j < TilesInside.Count; j++)
+            {
+
+                Vector3 WallPos = TilesInside[j].transform.position - CornerPos;
+                if (WallPos.x == 1 && WallPos.y == 0 || WallPos.x == -1f && WallPos.y == 0)
+                {
+                    X = WallPos.x;
+                    // Debug.Log("X"+WallPos.x);
+                }
+                //Vector3 WallPos = TilesOutside[j].transform.position - CornerPos;
+                if (WallPos.x == 0 && WallPos.y == 1 || WallPos.x == 0 && WallPos.y == -1f)
+                {
+                    Y = WallPos.y;
+                    // Debug.Log("Y" + WallPos.y);
+                }
+            }
+
+
+            for (int j = 0; j < TilesInCorner.Count; j++)
+            {
+
+                Vector3 WallPos = TilesInCorner[j].transform.position - CornerPos;
+                if (WallPos.x == 1 && WallPos.y == 0 || WallPos.x == -1f && WallPos.y == 0)
+                {
+                    X = WallPos.x;
+                    // Debug.Log("X"+WallPos.x);
+                }
+                //Vector3 WallPos = TilesOutside[j].transform.position - CornerPos;
+                if (WallPos.x == 0 && WallPos.y == 1 || WallPos.x == 0 && WallPos.y == -1f)
+                {
+                    Y = WallPos.y;
+                    // Debug.Log("Y" + WallPos.y);
+                }
+            }
+
+
+
+            if (X == 1 && Y == -1)
+            {
+                Z = 0;
+            }
+            else if (X == 1 && Y == 1)
+            {
+                Z = 90;
+            }
+            else if (X == -1 && Y == 1)
+            {
+                Z = 180;
+            }
+            else if (X == -1 && Y == -1)
+            {
+                Z = 270;
+            }
+            else
+            {
+                Debug.Log("Error");
+            }
+
+            TilesInCorner[i].transform.rotation = Quaternion.Euler(0f, 0f, Z);
+        }
+
+    }
+
 
 
     void OutWallRotate()
