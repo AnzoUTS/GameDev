@@ -161,7 +161,7 @@ public class LevelGen : MonoBehaviour
         for (int i = 0; i < TilesInCorner.Count; i++)
         {
             Vector3 wall_distance = TilesInCorner[i].transform.position - new Vector3(Pos_X, Pos_Y, 0);
-          // Debug.Log(" ----------IN C WALL1-------------- ::: " + wall_distance);
+           Debug.Log(" ----------IN C WALL1-------------- ::: " + wall_distance);
 
             if (wall_distance.x == x && wall_distance.y == 0f)
             {
@@ -180,7 +180,7 @@ public class LevelGen : MonoBehaviour
             for (int j = 0; j < TilesInside.Count; j++)
             {
                 Vector3 wall_distance2 = TilesInside[j].transform.position - new Vector3(Pos_X, Pos_Y, 0);
-                // Debug.Log(" ----------IN W WALL1-------------- |||| " + wall_distance2);
+                Debug.Log(" ----------IN W WALL1-------------- |||| " + wall_distance2);
                 if (wall_distance2.x == x && wall_distance2.y == 0f)
                 {
                     Debug.Log(" ----------IN W1-------------- !!! " + wall_distance2);
@@ -240,7 +240,7 @@ public class LevelGen : MonoBehaviour
                         break;
                     case 2:
 
-                        switch (OutTiles(-1, 1, Adj_X, Pos_Y))
+                        switch (OutTiles(1, 1, Adj_X, Pos_Y))
                             {
                             case 0:
                                 Debug.Log(" -----------NO IDEA-------------#### " + pos + " ##### ");
@@ -248,20 +248,20 @@ public class LevelGen : MonoBehaviour
                                 break;
                             case 1:
                                 TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, horizontal)));
-                                Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
+                                Debug.Log(" ---------- ## HITTTTTT C1-------------- " + pos);
                                 break;
                                 
                             case 2:
                                 TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, vertical)));
-                                Debug.Log(" ---------## -HITTTTTT C2 -------------- ");
+                                Debug.Log(" ---------## -HITTTTTT C2 -------------- " + pos);
                                 break;
                             case 3:
                                 TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, horizontal)));
-                                Debug.Log(" ---------- ## HITTTTTT W1-------------- ");
+                                Debug.Log(" ---------- ## HITTTTTT W1-------------- " + pos);
                                 break;
                             case 4:
                                 TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, vertical)));
-                                Debug.Log(" ---------## -HITTTTTT W2 -------------- ");
+                                Debug.Log(" ---------## -HITTTTTT W2 -------------- " + pos);
                                 break;
                         }
                         break;
@@ -270,7 +270,7 @@ public class LevelGen : MonoBehaviour
                         TilesInCorner.Add(Instantiate(TileMaps[3], new Vector3(Adj_X, Pos_Y, 0), Qua));
                         break;
                     case 4:
-                        switch (InTiles(-1, 1, Adj_X, Pos_Y))
+                        switch (InTiles(1, 1, Adj_X, Pos_Y))
                         {
                             case 0:
                                 Debug.Log(" -----------NO IDEA----------#### " + pos + " #####--- ");
@@ -278,20 +278,20 @@ public class LevelGen : MonoBehaviour
                                 break;
                             case 1:
                                 TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, horizontal)));
-                                Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
+                                Debug.Log(" ---------- ## HITTTTTT C1-------------- " + pos);
                                 break;
 
                             case 2:
                                 TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, vertical)));
-                                Debug.Log(" ---------## -HITTTTTT C2 -------------- ");
+                                Debug.Log(" ---------## -HITTTTTT C2 -------------- " + pos);
                                 break;
                             case 3:
                                 TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, TilesInside[TilesInside.Count - 1].transform.eulerAngles.z)));
-                                Debug.Log(" ---------- ## HITTTTTT W1-------------- ");
+                                Debug.Log(" ---------- ## HITTTTTT W1-------------- " + pos);
                                 break;
                             case 4:
                                 TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, vertical)));
-                                Debug.Log(" ---------## -HITTTTTT W2 -------------- ");
+                                Debug.Log(" ---------## -HITTTTTT W2 -------------- " + pos);
                                 break;
                         }
                         break;
@@ -365,25 +365,25 @@ public class LevelGen : MonoBehaviour
                         switch (OutTiles(-1, 1, Pos_X, Pos_Y))
                         {
                             case 0:
-                                Debug.Log(" -----------NO IDEA-------------#### " + pos + " ##### ");
+                             //   Debug.Log(" -----------NO IDEA-------------#### " + pos + " ##### ");
                                 TilesOutside.Add(Instantiate(TileMaps[2], pos, quat));
                                 break;
                             case 1:
                                 TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, horizontal)));
-                                Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
+                           //     Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
                                 break;
 
                             case 2:
                                 TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, vertical)));
-                                Debug.Log(" ---------## -HITTTTTT C2 -------------- ");
+                           //     Debug.Log(" ---------## -HITTTTTT C2 -------------- ");
                                 break;
                             case 3:
                                 TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, horizontal)));
-                                Debug.Log(" ---------- ## HITTTTTT W1-------------- ");
+                           //     Debug.Log(" ---------- ## HITTTTTT W1-------------- ");
                                 break;
                             case 4:
                                 TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, vertical)));
-                                Debug.Log(" ---------## -HITTTTTT W2 -------------- ");
+                            //    Debug.Log(" ---------## -HITTTTTT W2 -------------- ");
                                 break;
                         }
                         break;
@@ -400,20 +400,20 @@ public class LevelGen : MonoBehaviour
                                 break;
                             case 1:
                                 TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, horizontal)));
-                                Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
+                           //     Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
                                 break;
 
                             case 2:
                                 TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, vertical)));
-                                Debug.Log(" ---------## -HITTTTTT C2 -------------- ");
+                            //    Debug.Log(" ---------## -HITTTTTT C2 -------------- ");
                                 break;
                             case 3:
                                 TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, TilesInside[TilesInside.Count - 1].transform.eulerAngles.z)));
-                                Debug.Log(" ---------- ## HITTTTTT W1-------------- ");
+                             //   Debug.Log(" ---------- ## HITTTTTT W1-------------- ");
                                 break;
                             case 4:
                                 TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, vertical)));
-                                Debug.Log(" ---------## -HITTTTTT W2 -------------- ");
+                             //   Debug.Log(" ---------## -HITTTTTT W2 -------------- ");
                                 break;
                         }
                         break;
