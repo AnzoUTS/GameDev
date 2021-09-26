@@ -91,7 +91,7 @@ public class LevelGen : MonoBehaviour
 
         Quad1();
         Quad2();
-       // Quad3();
+        Quad3();
         //Quad4();
 
        
@@ -330,12 +330,12 @@ public class LevelGen : MonoBehaviour
     {
         Quaternion Qua = Quaternion.Euler(0, 0, 90);
 
-        float Rowlength = levelMap.GetLength(0); // number of rows in array : 15
-        float ColLength = levelMap.GetLength(1); // number of columns in array : 14
+      //  float Rowlength = levelMap.GetLength(0); // number of rows in array : 15
+     //   float ColLength = levelMap.GetLength(1); // number of columns in array : 14
         float horizontal = 90f;
         float vertical = 0f;
 
-        for (int row = 0; row < Rowlength; row++)
+        for (int row = 0; row < RowLength; row++)
         {
 
             for (int col = 0; col < ColLength; col++)
@@ -438,7 +438,119 @@ public class LevelGen : MonoBehaviour
 
     }
 
+    void Quad3()
+    {
+        Quaternion Qua = Quaternion.Euler(0, 0, 90);
+        float horizontal = 90f;
+        float vertical = 0f;
+        float ArrayPos = Center_Y - RowLength;
+        float Adj_Y;
 
+
+        for (int row = 0; row < RowLength; row++)
+        {
+
+            for (int col = 0; col < ColLength; col++)
+            {
+                Adj_Y = -RowLength + ArrayPos + 2;
+                Vector3 pos = new Vector3(Pos_X, Adj_Y, 0);
+                Quaternion quat = Quaternion.Euler(0, 0, horizontal);
+
+               
+                switch (levelMap[row, col])
+                {
+
+                    case 0:
+                        Instantiate(TileMaps[0], new Vector3(Pos_X, Adj_Y, 0), Qua);
+                        break;
+
+                    case 1:
+                        if (TilesOutCorner.Count == 0)
+                        {
+                            TilesOutCorner.Add(Instantiate(TileMaps[1], new Vector3(Pos_X, Adj_Y, 0), Quaternion.Euler(0, 0, 270)));
+                        }
+                        else
+                        {
+                            TilesOutCorner.Add(Instantiate(TileMaps[1], new Vector3(Pos_X, Adj_Y, 0), Qua));
+                        }
+                        break;
+                    case 2:
+
+                        switch (OutTiles(-1, -1, Pos_X, Adj_Y))
+                        {
+                            case 0:
+                                //   Debug.Log(" -----------NO IDEA-------------#### " + pos + " ##### ");
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, quat));
+                                break;
+                            case 1:
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, horizontal)));
+                                //     Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
+                                break;
+
+                            case 2:
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, vertical)));
+                                //     Debug.Log(" ---------## -HITTTTTT C2 -------------- ");
+                                break;
+                            case 3:
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, horizontal)));
+                                //     Debug.Log(" ---------- ## HITTTTTT W1-------------- ");
+                                break;
+                            case 4:
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, vertical)));
+                                //    Debug.Log(" ---------## -HITTTTTT W2 -------------- ");
+                                break;
+                        }
+                        break;
+
+                    case 3:
+                        TilesInCorner.Add(Instantiate(TileMaps[3], new Vector3(Pos_X, Adj_Y, 0), Qua));
+                        break;
+                    case 4:
+                        switch (InTiles(-1, -1, Pos_X, Adj_Y))
+                        {
+                            case 0:
+                                Debug.Log(" -----------NO IDEA----------#### " + pos + " #####--- ");
+                                TilesInside.Add(Instantiate(TileMaps[4], pos, quat));
+                                break;
+                            case 1:
+                                TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, horizontal)));
+                                //     Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
+                                break;
+
+                            case 2:
+                                TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, vertical)));
+                                //    Debug.Log(" ---------## -HITTTTTT C2 -------------- ");
+                                break;
+                            case 3:
+                                TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, TilesInside[TilesInside.Count - 1].transform.eulerAngles.z)));
+                                //   Debug.Log(" ---------- ## HITTTTTT W1-------------- ");
+                                break;
+                            case 4:
+                                TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, vertical)));
+                                //   Debug.Log(" ---------## -HITTTTTT W2 -------------- ");
+                                break;
+                        }
+                        break;
+                    case 5:
+                        Instantiate(TileMaps[5], new Vector3(Pos_X, Adj_Y, 0), Quaternion.Euler(0, 0, 0));
+                        break;
+                    case 6:
+                        Instantiate(TileMaps[6], new Vector3(Pos_X, Adj_Y, 0), Quaternion.Euler(0, 0, 0));
+                        break;
+                    case 7:
+                        TilesInCorner.Add(Instantiate(TileMaps[7], new Vector3(Pos_X, Adj_Y, 0), Qua));
+                        break;
+                }
+                Pos_X++;
+                if (Pos_X == Center_X + ColLength)
+                {
+                    Pos_X = Center_X;
+                }
+            }
+            ArrayPos++;
+        }
+
+    }
 
 
 
