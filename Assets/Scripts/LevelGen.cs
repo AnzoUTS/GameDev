@@ -75,14 +75,17 @@ public class LevelGen : MonoBehaviour
     void Start()
     {
         DestroyGameObject();
-        Center_X = 2;
+        //Center_X = 2;
+        Center_X = 0;
         Center_Y = 0;
 
-       // Instantiate(GameObject.Find("Q2"), new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
-        Quad1();
-        Quad2();
-        Quad3();
-        Quad4();
+        // Instantiate(GameObject.Find("Q2"), new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
+
+        Quad1A();
+        //Quad1();
+        //Quad2();
+       // Quad3();
+        //Quad4();
 
        
 
@@ -107,9 +110,299 @@ public class LevelGen : MonoBehaviour
 
 
 
+    int OutTiles(float x, float y, float Pos_X, float Pos_Y)
+    {
+        for (int i = 0; i < TilesOutCorner.Count; i++)
+        {
+            Vector3 wall_distance = TilesOutCorner[i].transform.position - new Vector3(Pos_X, Pos_Y, 0);
+            Debug.Log(" ----------OUT C WALL1-------------- ::: " + wall_distance);
+
+            if (wall_distance.x == x && wall_distance.y == 0f)
+            {
+                Debug.Log(" ----------OUT C1-------------- ");
+
+                return 1;
+            }
+            else if (wall_distance.x == 0f && wall_distance.y == y)
+            {
+
+                Debug.Log(" ----------OUT C2 -------------- ");
+                return 2;
+            }
+            else 
+            {
+                for (int j = 0; j < TilesOutside.Count; j++)
+                {
+                    Vector3 wall_distance2 = TilesOutside[j].transform.position - new Vector3(Pos_X, Pos_Y, 0);
+                    Debug.Log(" ----------OUT W WALL1-------------- |||| " + wall_distance2);
+
+                    if (wall_distance2.x == x && wall_distance2.y == 0f)
+                    {
+                        Debug.Log(" ----------OUT W1-------------- ");
+
+                        return 3;
+                    }
+                    else if (wall_distance2.x == 0f && wall_distance2.y == y)
+                    {
+
+                        Debug.Log(" ----------OUT W2 -------------- ");
+                        return 4;
+                    }
+                    continue;
+                }
+            }
+        }
+        return 0;
+    }
+
+    int InTiles(float x, float y, float Pos_X, float Pos_Y)
+    {
 
 
-    int OutLoop(float x, float y, float Pos_X, float Pos_Y)
+
+
+
+        /*        bool cornerFound = false;
+
+                for (int i = 0; i < TilesInCorner.Count; i++)
+                {
+                    Vector3 wall_distance = TilesInCorner[i].transform.position - new Vector3(Pos_X, Pos_Y, 0);
+                    Debug.Log(" ----------IN C WALL1-------------- ::: " + wall_distance);
+
+                    if (wall_distance.x == x && wall_distance.y == 0f)
+                    {
+                        Debug.Log(" ----------IN C1-------------- ");
+                        cornerFound = true;
+                        return 1;
+                    }
+                    else if (wall_distance.x == 0f && wall_distance.y == y)
+                    {
+                        Debug.Log(" ----------IN C2 -------------- ");
+                        cornerFound = true;
+                        return 2;
+
+                    }
+                    else 
+                    {
+                        if (cornerFound == false)
+                        {
+                            for (int j = 0; j < TilesInside.Count; j++)
+                            {
+                                Vector3 wall_distance2 = TilesInside[j].transform.position - new Vector3(Pos_X, Pos_Y, 0);
+                                Debug.Log(" ----------IN W WALL1-------------- |||| " + wall_distance2);
+
+                                if (wall_distance2.x == x && wall_distance2.y == 0f)
+                                {
+                                    Debug.Log(" ----------IN W1-------------- ");
+
+                                    return 3;
+                                }
+                                else if (wall_distance2.x == 0f && wall_distance2.y == y)
+                                {
+
+                                    Debug.Log(" ----------IN W2 -------------- ");
+                                    return 4;
+                                }
+                                continue;
+                            }
+                        }
+                    }
+                }
+                return 0;
+            }*/
+
+
+        int bestMatch = 0;
+
+        bool cornerFound = false;
+
+        for (int i = 0; i < TilesInCorner.Count; i++)
+        {
+            Vector3 wall_distance = TilesInCorner[i].transform.position - new Vector3(Pos_X, Pos_Y, 0);
+          // Debug.Log(" ----------IN C WALL1-------------- ::: " + wall_distance);
+
+            if (wall_distance.x == x && wall_distance.y == 0f)
+            {
+                Debug.Log(" ----------IN C1---::: " + wall_distance);
+                cornerFound = true;
+                bestMatch = 1;
+            }
+            if (wall_distance.x == 0f && wall_distance.y == y)
+            {
+                Debug.Log(" ----------IN C2 ---::: " + wall_distance);
+                cornerFound = true;
+                bestMatch = 2;
+
+            }
+
+        }
+
+        if (bestMatch == 0) {
+
+            for (int j = 0; j < TilesInside.Count; j++)
+            {
+                Vector3 wall_distance2 = TilesInside[j].transform.position - new Vector3(Pos_X, Pos_Y, 0);
+                // Debug.Log(" ----------IN W WALL1-------------- |||| " + wall_distance2);
+
+
+
+                if (wall_distance2.x == x && wall_distance2.y == 0f)
+                {
+                    Debug.Log(" ----------IN W1-------------- !!! "+ wall_distance2);
+
+                    bestMatch = 3;
+                }
+
+
+                if (wall_distance2.x == 0f && wall_distance2.y == y)
+                {
+
+                    Debug.Log(" ----------IN W2 --------------!!! " + wall_distance2);
+                    bestMatch = 4;
+                }
+
+            }
+
+        }
+
+        Debug.Log(" ---BEST MATCH == "+bestMatch+ " -------------- !!");
+        return bestMatch;
+    }
+        
+    
+
+
+    void Quad1A()
+    {
+        Quaternion Qua = Quaternion.Euler(0, 0, 90);
+
+        float Rowlength = levelMap.GetLength(0); // number of rows in array : 15
+        float ColLength = levelMap.GetLength(1); // number of columns in array : 14
+        float horizontal = 90f;
+        float vertical = 0f;
+
+        for (int row = 0; row < Rowlength; row++)
+        {
+
+            for (int col = 0; col < ColLength; col++)
+            {
+                Vector3 pos = new Vector3(Pos_X, Pos_Y, 0);
+                Quaternion quat = Quaternion.Euler(0, 0, horizontal);
+
+                switch (levelMap[row, col])
+                {
+
+                    case 0:
+                        Instantiate(TileMaps[0], new Vector3(Pos_X, Pos_Y, 0), Qua);
+                        break;
+
+                    case 1:
+                        if (TilesOutCorner.Count == 0)
+                        {
+                            TilesOutCorner.Add(Instantiate(TileMaps[1], new Vector3(Pos_X, Pos_Y, 0), Quaternion.Euler(0, 0, 270)));
+                        }
+                        else
+                        {
+                            TilesOutCorner.Add(Instantiate(TileMaps[1], new Vector3(Pos_X, Pos_Y, 0), Qua));
+                        }
+                        break;
+                    case 2:
+
+                        switch (OutTiles(-1, 1, Pos_X, Pos_Y))
+                            {
+                            case 0:
+                                Debug.Log(" -----------NO IDEA-------------#### " + pos + " ##### ");
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, quat));
+                                break;
+                            case 1:
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, horizontal)));
+                                Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
+                                break;
+                                
+                            case 2:
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, vertical)));
+                                Debug.Log(" ---------## -HITTTTTT C2 -------------- ");
+                                break;
+                            case 3:
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, horizontal)));
+                                Debug.Log(" ---------- ## HITTTTTT W1-------------- ");
+                                break;
+                            case 4:
+                                TilesOutside.Add(Instantiate(TileMaps[2], pos, Quaternion.Euler(0, 0, vertical)));
+                                Debug.Log(" ---------## -HITTTTTT W2 -------------- ");
+                                break;
+                        }
+                        break;
+
+                    case 3:
+                        TilesInCorner.Add(Instantiate(TileMaps[3], new Vector3(Pos_X, Pos_Y, 0), Qua));
+                        break;
+                    case 4:
+                        switch (InTiles(-1, 1, Pos_X, Pos_Y))
+                        {
+                            case 0:
+                                Debug.Log(" -----------NO IDEA----------#### " + pos + " #####--- ");
+                                TilesInside.Add(Instantiate(TileMaps[4], pos, quat));
+                                break;
+                            case 1:
+                                TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, horizontal)));
+                                Debug.Log(" ---------- ## HITTTTTT C1-------------- ");
+                                break;
+
+                            case 2:
+                                TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, vertical)));
+                                Debug.Log(" ---------## -HITTTTTT C2 -------------- ");
+                                break;
+                            case 3:
+                                TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, TilesInside[TilesInside.Count - 1].transform.eulerAngles.z)));
+                                Debug.Log(" ---------- ## HITTTTTT W1-------------- ");
+                                break;
+                            case 4:
+                                TilesInside.Add(Instantiate(TileMaps[4], pos, Quaternion.Euler(0, 0, vertical)));
+                                Debug.Log(" ---------## -HITTTTTT W2 -------------- ");
+                                break;
+                        }
+                        break;
+                    case 5:
+                        Instantiate(TileMaps[5], new Vector3(Pos_X, Pos_Y, 0), Quaternion.Euler(0, 0, 0));
+                        break;
+                    case 6:
+                        Instantiate(TileMaps[6], new Vector3(Pos_X, Pos_Y, 0), Quaternion.Euler(0, 0, 0));
+                        break;
+                    case 7:
+                        TilesInCorner.Add(Instantiate(TileMaps[7], new Vector3(Pos_X, Pos_Y, 0), Qua));
+                        break;
+                }
+                Pos_X++;
+                if (Pos_X == Center_X + Rowlength-1 )
+                {
+                    Pos_X = Center_X;
+                }
+            }
+            Pos_Y--;
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int OutLoop(float x, float y, float Pos_X, float Pos_Y)
     {
 
         for (int i = 0; i < TilesOutCorner.Count; i++)
