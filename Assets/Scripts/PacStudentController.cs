@@ -15,17 +15,20 @@ public class PacStudentController : MonoBehaviour
     private Animator anim;
     public AudioClip Movement;
     private AudioSource audio;
+    private bool keyPress;
+    private float distance;
 
     void Start()
     {
-
+        KeyCode lastInput = KeyCode.None;
         anim = GetComponent<Animator>();
         speed = 0.5f;
 
+        distance = 0;
         audio = GetComponent<AudioSource>();
 
-        currentPos = new Vector3(1f, -1f, 0f);
-        AddTween(PacStudent.transform, currentPos, new Vector3(1f, -1f, 0f), speed);
+        currentPos = new Vector3(1f, -1f, -1f);
+        AddTween(PacStudent.transform, currentPos, new Vector3(1f, -1f, -1f), speed);
         PacStudent.transform.position = currentPos;
 
     }
@@ -46,8 +49,10 @@ public class PacStudentController : MonoBehaviour
     void Update()
     {
 
-        if (tween != null)
-        {
+       if (tween != null)
+       {
+
+            float distance = Vector3.Distance(tween.Target.position, tween.EndPos);
             NormPos = (tween.EndPos - tween.StartPos).normalized;
             //Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
 
@@ -61,7 +66,8 @@ public class PacStudentController : MonoBehaviour
                 }
             }
 
-            if (Vector3.Distance(tween.Target.position, tween.EndPos) >= 0.01)
+           // if (Vector3.Distance(tween.Target.position, tween.EndPos) > 0)
+           if (distance > 0)
             {
                 tween.Target.position = currentPos;
             }
@@ -73,29 +79,60 @@ public class PacStudentController : MonoBehaviour
 
             }
 
+           // Debug.Log("Distance " + distance);
         }
 
-        if (Input.GetKeyDown(KeyCode.A)){
+        if (lastInput != KeyCode.None && tween == null)
+        {
+            if(keyPress == true)
+            {
+                lastInput = currentInput;
+                Debug.Log("KeyChange - local " + localPos + " : lastkey " + lastInput);
+                keyPress = false;
+
+            } else
+            {
+               
+                Debug.Log("continue : " +keyPress + " lastkey " + lastInput);
+            }
+
+
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.A)|| lastInput == KeyCode.A){
+            //lastInput = KeyCode.A;
+            currentInput = KeyCode.A;
             AddTween(PacStudent.transform, localPos, new Vector3(localPos.x-1, localPos.y, localPos.z), speed);
             Debug.Log("KeyPress  : A " + localPos);
+            keyPress = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D)|| lastInput == KeyCode.D)
         {
+           // lastInput = KeyCode.D;
+            currentInput = KeyCode.D;
             AddTween(PacStudent.transform, currentPos, new Vector3(localPos.x + 1, localPos.y, localPos.z), speed);
-            Debug.Log("KeyPress  : D " + localPos + " : " + (float)localPos.x + 1f);
+            Debug.Log("KeyPress  : D " + localPos);
+            keyPress = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) ||lastInput == KeyCode.W)
         {
+            //lastInput = KeyCode.W;
+            currentInput = KeyCode.W;
             AddTween(PacStudent.transform, localPos, new Vector3(localPos.x, localPos.y+1, localPos.z), speed);
             Debug.Log("KeyPress  : W " + localPos);
+            keyPress = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S)|| lastInput == KeyCode.S)
         {
+           // lastInput = KeyCode.S;
+            currentInput = KeyCode.S;
             AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(localPos.x, localPos.y-1, localPos.z), speed);
             Debug.Log("KeyPress  : S " + localPos);
+            keyPress = true;
         }
 
 
@@ -148,11 +185,11 @@ public class PacStudentController : MonoBehaviour
         if (tween == null)
        // if (tween != null)
         {
-            Debug.Log("Add Tween " +targetObject + " : " +  startPos + " : " + endpos );
+          //  Debug.Log("Add Tween " +targetObject + " : " +  startPos + " : " + endpos );
             tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
         } else
         {
-            Debug.Log("Add Tween NULL " + targetObject + " : " + startPos + " : " + endpos);
+          //  Debug.Log(" NULL " + targetObject + " : " + startPos + " : " + endpos);
         }
 
     }
