@@ -15,26 +15,17 @@ public class PacStudentController : MonoBehaviour
     private Animator anim;
     public AudioClip Movement;
     private AudioSource audio;
-    int path;
-
-
 
     void Start()
     {
 
         anim = GetComponent<Animator>();
-        speed = 2f;
+        speed = 0.5f;
 
         audio = GetComponent<AudioSource>();
-        //path = 1;
-
-        // ### 90% Band - START 
-        // currentPos = new Vector3(-11f, 14f, 0f);
-        // AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(-6.0f, 14.0f, 0.0f), speed);
-        // ### 90% Band - END 
 
         currentPos = new Vector3(1f, -1f, 0f);
-        AddTween(PacStudent.transform, currentPos, new Vector3(2f, -1f, 0f), 0f);
+        AddTween(PacStudent.transform, currentPos, new Vector3(1f, -1f, 0f), speed);
         PacStudent.transform.position = currentPos;
 
     }
@@ -42,94 +33,71 @@ public class PacStudentController : MonoBehaviour
     private void FixedUpdate()
     {
         localPos = PacStudent.transform.localPosition;
-
-        float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
-        currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
-        PacStudent.transform.position = currentPos;
+        
+        if (tween != null)
+        {
+            float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
+            currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
+            PacStudent.transform.position = currentPos;
+        }
     }
 
 
     void Update()
     {
-        NormPos = (tween.EndPos - tween.StartPos).normalized;
-        //Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
 
-        if (NormPos.x != 0.0f || NormPos.y != 0.0f)
+        if (tween != null)
         {
-            if (!audio.isPlaying)
+            NormPos = (tween.EndPos - tween.StartPos).normalized;
+            //Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
+
+            if (NormPos.x != 0.0f || NormPos.y != 0.0f)
             {
-                audio.clip = Movement;
-                audio.Play();
+                if (!audio.isPlaying)
+                {
+                    audio.clip = Movement;
+                    audio.Play();
+
+                }
+            }
+
+            if (Vector3.Distance(tween.Target.position, tween.EndPos) >= 0.01)
+            {
+                tween.Target.position = currentPos;
+            }
+            else
+            {
+                tween.Target.position = tween.EndPos;
+                tween = null;
+                //path++;
 
             }
-        }
-
-        if (Vector3.Distance(tween.Target.position, tween.EndPos) >= 0.01)
-        {
-            tween.Target.position = currentPos;
-        }
-        else
-        {
-            tween.Target.position = tween.EndPos;
-            //tween = null;
-            //path++;
 
         }
-
-        //localPos = PacStudent.transform.localPosition;
-
-
-        Debug.Log("LocalPos :" +localPos + " : CurrentPos :" + currentPos);
- //       Debug.Log("CurrentPos :" + currentPos);
 
         if (Input.GetKeyDown(KeyCode.A)){
             AddTween(PacStudent.transform, localPos, new Vector3(localPos.x-1, localPos.y, localPos.z), speed);
-            Debug.Log("KeyPress  : A");
+            Debug.Log("KeyPress  : A " + localPos);
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            AddTween(PacStudent.transform, localPos, new Vector3(localPos.x + 1, localPos.y, localPos.z), speed);
-            Debug.Log("KeyPress  : D");
+            AddTween(PacStudent.transform, currentPos, new Vector3(localPos.x + 1, localPos.y, localPos.z), speed);
+            Debug.Log("KeyPress  : D " + localPos + " : " + (float)localPos.x + 1f);
         }
-
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            AddTween(PacStudent.transform, localPos, new Vector3(localPos.x, localPos.y -1, localPos.z), speed);
-            Debug.Log("KeyPress  : W");
+            AddTween(PacStudent.transform, localPos, new Vector3(localPos.x, localPos.y+1, localPos.z), speed);
+            Debug.Log("KeyPress  : W " + localPos);
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            AddTween(PacStudent.transform, localPos, new Vector3(localPos.x, localPos.y+1, localPos.z), speed);
-            Debug.Log("KeyPress  : S");
+            AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(localPos.x, localPos.y-1, localPos.z), speed);
+            Debug.Log("KeyPress  : S " + localPos);
         }
 
-
-
-
-
-        switch (path)
-        {
-
-            case 1:
-                AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(6.0f, -1.0f, -1.0f), speed);
-                break;
-            case 2:
-                AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(6.0f, -5.0f, -1.0f), speed);
-                break;
-            case 3:
-                AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(1.0f, -5.0f, -1.0f), speed);
-                break;
-            case 4:
-                AddTween(PacStudent.transform, PacStudent.transform.localPosition, new Vector3(1.0f, -1.0f, -1.0f), speed);
-                //path = 0;
-                break;
-
-        }
-
-        //PacStudent.transform.position = currentPos;  // moved to fixed update
 
         if (NormPos.x == 0.0f && NormPos.y == 1.0f)
         {
@@ -139,7 +107,6 @@ public class PacStudentController : MonoBehaviour
         {
             anim.SetBool("up", false);
         }
-
 
         if (NormPos.x == 1.0f && NormPos.y == 0.0f)
         {
@@ -159,7 +126,6 @@ public class PacStudentController : MonoBehaviour
             anim.SetBool("down", false);
         }
 
-
         if (NormPos.x == -1.0f && NormPos.y == 0.0f)
         {
             anim.SetBool("left", true);
@@ -173,7 +139,6 @@ public class PacStudentController : MonoBehaviour
         {
             anim.SetBool("die", true);
         }
-
     }
 
 
@@ -181,9 +146,13 @@ public class PacStudentController : MonoBehaviour
     {
 
         if (tween == null)
+       // if (tween != null)
         {
-            //Debug.Log("Add Tween");
+            Debug.Log("Add Tween " +targetObject + " : " +  startPos + " : " + endpos );
             tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
+        } else
+        {
+            Debug.Log("Add Tween NULL " + targetObject + " : " + startPos + " : " + endpos);
         }
 
     }
