@@ -133,9 +133,9 @@ public class LevelGenerator : MonoBehaviour
 
     void DestroyGameObject()
     {
-        Destroy(DestroyWalls);
-        Destroy(DestroyItems);
-        Destroy(DestroyEnemies);
+        //Destroy(DestroyWalls);
+      //  Destroy(DestroyItems);
+       // Destroy(DestroyEnemies);
     }
 
 
