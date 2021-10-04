@@ -21,69 +21,14 @@ public class PacStudentController : MonoBehaviour
     private bool keyPress;
     private float distance;
     List<GameObject> walkableArea;
-    public List<Vector3> isWalkable;
+    public List<Vector3> Walkable;
     [SerializeField]
-    private List<Vector3> isWalkable2;
+   // private List<Vector3> isWalkable2;
+   // private List<Vector3> isWalkable3;
     GameObject[] gameObjects;
-
-
-
-    private void Awake()
-    {
-        
-            KeyCode lastInput = KeyCode.None;
-            anim = GetComponent<Animator>();
-            speed = 0.5f;
-            distance = 0;
-            audio = GetComponent<AudioSource>();
-            currentPos = new Vector3(1f, -1f, 0f);
-            AddTween(transform, currentPos, new Vector3(1f, -1f, 0f), speed);
-            transform.position = currentPos;
-
-        List<Vector3> isWalkable = new List<Vector3>();
-        
-        //List<Vector3> isWalkable2 = new List<Vector3>();
-        List<GameObject> walkableArea = new List<GameObject>();
-
-            gameObjects = GameObject.FindGameObjectsWithTag("Item");
-
-            foreach (GameObject item in gameObjects)
-            {
-                walkableArea.Add(item);
-            }
-
-            Debug.Log("Area :" + walkableArea.Count);
-
-
-
-            foreach (GameObject item in gameObjects)
-            {
-                isWalkable2.Add(item.transform.position);
-            }
-
-            Debug.Log("isWalkable2: Awake" + isWalkable2.Count);
-
-
-
-/*        if (isWalkable.Contains(new Vector3(2, -1, 0)))
-        {
-
-            Debug.Log("YEAHJASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-        }
-        else
-        {
-            Debug.Log("NOOOOOOSSSSSSSSSSSSSSSSSSSSSSSSSS");
-        }*/
-
-
-
-    }
-
-
-
-
-
-
+    private GameObject gameManagement;
+    private GameManagement gameScript;
+    bool iswalkable;
 
     void Start()
     {
@@ -96,48 +41,39 @@ public class PacStudentController : MonoBehaviour
         AddTween(transform, currentPos, new Vector3(1f, -1f, 0f), speed);
         transform.position = currentPos;
 
-        /*        List<Vector3> isWalkable = new List<Vector3>();
-                List<GameObject> walkableArea = new List<GameObject>();
+        List<Vector3> isWalkable = new List<Vector3>();
 
-                gameObjects = GameObject.FindGameObjectsWithTag("Item");
-
-                foreach (GameObject item in gameObjects)
-                {
-                    walkableArea.Add(item);
-                }
-
-                Debug.Log("Area :"+walkableArea.Count);
+       // gameManagement = GameObject.Find("GameManagement");
+       // gameScript = gameManagement.GetComponent<GameManagement>();
+        //isWalkable3 = gameScript.isWalkable3;
+       // Debug.Log("isWalkable #3: START" + isWalkable3.Count);
 
 
+        //List<Vector3> isWalkable3 = new 
+        List<GameObject> walkableArea = new List<GameObject>();
 
-                foreach (GameObject item in gameObjects)
-                {
-                    isWalkable.Add(item.transform.position);
-                }
+        gameObjects = GameObject.FindGameObjectsWithTag("Item");
 
-                Debug.Log("isWalkable :" + isWalkable.Count);*/
+        foreach (GameObject item in gameObjects)
+        {
+            walkableArea.Add(item);
+        }
 
-               foreach (Vector3 pos in isWalkable2)
-                {
-            int i = 1;    
-                    Debug.Log("pos :" + i + " ||" + pos);
-            i++;
-                }
-       
-
-        /*        if (isWalkable.Contains(new Vector3(2, -1, 0)))
-                {
-
-                    Debug.Log("YEAHJASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-                }
-                else
-                {
-                    Debug.Log("NOOOOOOSSSSSSSSSSSSSSSSSSSSSSSSSS");
-                }
-        */
+        Debug.Log("Area :" + walkableArea.Count);
 
 
-        Debug.Log("isWalkable2 Start:" + isWalkable2.Count);
+        foreach (GameObject item in gameObjects)
+        {
+            Walkable.Add(item.transform.position);
+        }
+
+
+
+
+
+
+        Debug.Log("isWalkable2 Start:" + isWalkable.Count);
+        //Debug.Log("isWalkable #3: start" + isWalkable3.Count);
     }
 
     private void FixedUpdate()
@@ -165,7 +101,8 @@ public class PacStudentController : MonoBehaviour
     void Update()
     {
 
-        Debug.Log("isWalkable2 Update:" + isWalkable2.Count);
+      //  Debug.Log("isWalkable2 Update:" + Walkable.Count);
+      //  Debug.Log("isWalkable #3: update" + gameScript.isWalkable3.Count);
 
         if (tween != null)
         {
@@ -202,15 +139,22 @@ public class PacStudentController : MonoBehaviour
 
             Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput);
 
-                if (WallCheck() == false)
-
+                if (iswalkable == true)
                 {
                     Debug.Log("int x " + localPos.x + " : int y " + localPos.y);
                     Direction(lastInput);
                     currentInput = lastInput;
+                } else
+                {
+
+                Direction(lastInput);
+
                 }
+
+
+
                 //else if (WallCheck() == true && lastInput != currentInput)
-                else if (lastInput != currentInput)
+/*                else if (lastInput != currentInput)
                     {
                     Direction(lastInput);
                     currentInput = lastInput;
@@ -222,7 +166,7 @@ public class PacStudentController : MonoBehaviour
                 //Direction(currentInput);
                 Debug.Log("----------------------No Movement-------------------------");
                 //Direction(KeyCode.None);
-                }
+                }*/
 
 
             
@@ -293,59 +237,25 @@ public class PacStudentController : MonoBehaviour
 
 
 
-        if (isWalkable.Contains(localPos))
-        {
-
-            Debug.Log("YEAHJASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-        }
-        else
-        {
-            Debug.Log("NOOOOOOSSSSSSSSSSSSSSSSSSSSSSSSSS");
-        }
-
-
-
     }
 
 
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
     {
 
-        Debug.Log(endpos);
 
-        /*        foreach (Vector3 pos in isWalkable)
-                {
-                    Debug.Log("pos :" +pos);
-                }*/
-        //if (isWalkable.Contains(endpos))
-            if (isWalkable2.Contains(endpos))
-            //if (walkableArea.Contains(endpos))
-            // if (isWalkable.Contains(Vector3(2,-1,0)))
-            //f (isWalkable.Find(endpos))
+            if (Walkable.Contains(endpos))
             {
-            Debug.Log("Walkable Area!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DDDDDDDDDDDDDDDDDDDDDDDDDDDD!!!!!!!!!!!!!!!!!!!ASWDASDASDASDASDASASD!!!!!!!!!!!!");
+                iswalkable = true;
+                
+                if (tween == null)
+                    {
+                    tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
+                    }
 
-
-
-            /*       if (isWalkable2.Contains(endpos))
-                   //if (walkableArea.Contains(endpos))
-                   // if (isWalkable.Contains(Vector3(2,-1,0)))
-                   //f (isWalkable.Find(endpos))
-                   {
-                       Debug.Log("Walkable Area!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!###################################!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                   }
-           */
-
-
-            if (tween == null)
-            {
-                tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
-            }
-            else
-            {
-                // tween = new Tween(targetObject, localPos, localPos, Time.time, duration);
-            }
-
+            } else
+        {
+            iswalkable = false;
         }
 
     }
@@ -360,7 +270,7 @@ public class PacStudentController : MonoBehaviour
         float z = localPos.z;
 
 
-        Debug.Log("Current Input : " + lastInput + " Last Input : " + currentInput);
+        Debug.Log("Current Input : " + currentInput + " Last Input : " + lastInput);
 
         if (key == KeyCode.A)
         {       
@@ -382,9 +292,6 @@ public class PacStudentController : MonoBehaviour
 
         else if (key == KeyCode.None)
         {
-           // Direction(KeyCode.None);
-            //AddTween(transform, localPos, new Vector3(x, y, z), speed);
-            //AddTween(transform, localPos, localPos, speed);
             Debug.Log("wall hit "+ x + ":" + y + ":" + z);
         }
 
@@ -392,132 +299,6 @@ public class PacStudentController : MonoBehaviour
 
 
     }
-
-
-
-
-    // public static bool Raycast Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float maxDistance, int layerMask = DefaultRaycastLayers
-    bool WallCheck() // an invisible ray (line) that is cast (drawn) from one point to another in 3D space
-    {
-        int x = (int)Math.Round(localPos.x);
-        int y = (int)Math.Round(localPos.y);
-        int z = (int)Math.Round(localPos.z);
-
-        RaycastHit hitInfo;
-
-/*        RaycastHit up;
-        RaycastHit down;
-        RaycastHit left;
-        RaycastHit right;
-
-        bool rayup = Physics.Raycast(localPos, new Vector3(0,1,0), out up, 1f);
-        bool raydown = Physics.Raycast(localPos, new Vector3(0,-1, 0), out down, 1f);
-        bool rayleft = Physics.Raycast(localPos, new Vector3(1, 0, 0), out left, 1f);
-        bool rayright = Physics.Raycast(localPos, new Vector3(-1, 0, 0), out right, 1f);
-
-        if (rayup || raydown || rayleft || rayright == true)
-        {
-            if (up.transform.gameObject.CompareTag("Walls"))
-            {
-                Debug.Log("WALL UP FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                return true;
-            }
-            if (down.transform.gameObject.CompareTag("Walls"))
-            {
-                Debug.Log("WALL DOWN FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                return true;
-            }
-            if (left.transform.gameObject.CompareTag("Walls"))
-            {
-                Debug.Log("WALL LEFT FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                return true;
-            }
-            if (right.transform.gameObject.CompareTag("Walls"))
-            {
-                Debug.Log("WALL RIGHT FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                return true;
-
-            }
-            return false;
-        }
-
-        return false;*/
-
-        bool raycastHits = Physics.Raycast(localPos, NormPos, out hitInfo, 1f);
-        Debug.Log("Normal :"+ NormPos);
-
-
-
-        if (raycastHits == true)
-        {
-            //Debug.Log("Raycast Hit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + hitInfo.transform.gameObject.name + " : " +hitInfo.transform.gameObject.tag);
-
-            if (hitInfo.transform.gameObject.CompareTag("Walls"))
-            {
-               // Debug.Log("WALL FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                return true;
-            }
-            else
-            {
-              // Debug.Log("Raycast FALSE !!");
-                return false;
-            }
-        }
-        else
-        {
-           // Debug.Log("Raycast FALSE !!");
-            return false;
-        }
-
-       
-    }
-
-
-    /*    // public static bool Raycast Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float maxDistance, int layerMask = DefaultRaycastLayers
-        public void 4DWallCheck() // an invisible ray (line) that is cast (drawn) from one point to another in 3D space
-        {
-            int x = (int)Math.Round(localPos.x);
-            int y = (int)Math.Round(localPos.y);
-            int z = (int)Math.Round(localPos.z);
-
-            RaycastHit hitInfo;
-
-            bool raycastHits = Physics.Raycast(localPos, NormPos, out hitInfo, 1f);
-            Debug.Log("Normal :" + NormPos);
-
-
-
-            if (raycastHits == true)
-            {
-                //Debug.Log("Raycast Hit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + hitInfo.transform.gameObject.name + " : " +hitInfo.transform.gameObject.tag);
-
-                if (hitInfo.transform.gameObject.CompareTag("Walls"))
-                {
-                    // Debug.Log("WALL FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
-                }
-            }
-
-
-        }
-    */
-
-
-
-/*    public bool Walk(Vector3 walk)
-    {
-
-        if (isWalkable.Contains(walk))
-        {
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }*/
 
 
 }

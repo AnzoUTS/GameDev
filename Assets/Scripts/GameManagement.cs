@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManagement : MonoBehaviour
 {
 
 
@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour
     private bool keyPress;
     private float distance;
     List<GameObject> walkableArea;
-    public List<Vector3> isWalkable;
-    Vector3[] isWalkable2;
+    public List<Vector3> isWalkable3;
+    //Vector3[] isWalkable3;
 
 
 
@@ -46,16 +46,16 @@ public class GameManager : MonoBehaviour
             walkableArea.Add(item);
         }
 
-        Debug.Log("Area :" + walkableArea.Count);
+       // Debug.Log("Area :" + walkableArea.Count);
 
 
 
         foreach (GameObject item in gameObjects)
         {
-            isWalkable.Add(item.transform.position);
+            isWalkable3.Add(item.transform.position);
         }
 
-        Debug.Log("isWalkable :" + isWalkable.Count);
+        //Debug.Log("isWalkable3 GMUP :" + isWalkable3.Count);
         /*
                 foreach (Vector3 pos in isWalkable)
                 {
@@ -63,41 +63,26 @@ public class GameManager : MonoBehaviour
                 }
         */
 
-        /*        if (isWalkable.Contains(new Vector3(2, -1, 0)))
-                {
-
-                    Debug.Log("YEAHJASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-                }
-                else
-                {
-                    Debug.Log("NOOOOOOSSSSSSSSSSSSSSSSSSSSSSSSSS");
-                }
-
-        */
 
 
 
 
 
     }
-}
+
 
     // Update is called once per frame
-/*    void Update()
+    void Update()
     {
-*/
 
 
-/*        if (Walk(new Vector3(2, -1, 0)))
-        {
-            Debug.Log("FUCK YEAH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        }
+      //  Debug.Log("isWalkable GM3 :" + isWalkable3.Count);
+ 
 
 
+    }
 
-    }*/
-
-
+}
 
 /*    public bool Walk(Vector3 walk)
     {
