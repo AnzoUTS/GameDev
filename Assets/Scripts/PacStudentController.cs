@@ -22,8 +22,8 @@ public class PacStudentController : MonoBehaviour
     private float distance;
     List<GameObject> walkableArea;
     public List<Vector3> isWalkable;
+    [SerializeField]
     private List<Vector3> isWalkable2;
-    //Vector3[] isWalkable2;
     GameObject[] gameObjects;
 
 
@@ -40,8 +40,9 @@ public class PacStudentController : MonoBehaviour
             AddTween(transform, currentPos, new Vector3(1f, -1f, 0f), speed);
             transform.position = currentPos;
 
-            List<Vector3> isWalkable = new List<Vector3>();
-        List<Vector3> isWalkable2 = new List<Vector3>();
+        List<Vector3> isWalkable = new List<Vector3>();
+        
+        //List<Vector3> isWalkable2 = new List<Vector3>();
         List<GameObject> walkableArea = new List<GameObject>();
 
             gameObjects = GameObject.FindGameObjectsWithTag("Item");
@@ -60,7 +61,7 @@ public class PacStudentController : MonoBehaviour
                 isWalkable2.Add(item.transform.position);
             }
 
-            Debug.Log("isWalkable :" + isWalkable2.Count);
+            Debug.Log("isWalkable2: Awake" + isWalkable2.Count);
 
 
 
@@ -95,46 +96,48 @@ public class PacStudentController : MonoBehaviour
         AddTween(transform, currentPos, new Vector3(1f, -1f, 0f), speed);
         transform.position = currentPos;
 
-/*        List<Vector3> isWalkable = new List<Vector3>();
-        List<GameObject> walkableArea = new List<GameObject>();
- 
-        gameObjects = GameObject.FindGameObjectsWithTag("Item");
+        /*        List<Vector3> isWalkable = new List<Vector3>();
+                List<GameObject> walkableArea = new List<GameObject>();
 
-        foreach (GameObject item in gameObjects)
-        {
-            walkableArea.Add(item);
-        }
+                gameObjects = GameObject.FindGameObjectsWithTag("Item");
 
-        Debug.Log("Area :"+walkableArea.Count);
+                foreach (GameObject item in gameObjects)
+                {
+                    walkableArea.Add(item);
+                }
 
-
-
-        foreach (GameObject item in gameObjects)
-        {
-            isWalkable.Add(item.transform.position);
-        }
-
-        Debug.Log("isWalkable :" + isWalkable.Count);*/
-
-/*        foreach (Vector3 pos in isWalkable)
-        {
-            Debug.Log("pos :" + pos);
-        }
-*/
-
-/*        if (isWalkable.Contains(new Vector3(2, -1, 0)))
-        {
-
-            Debug.Log("YEAHJASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-        }
-        else
-        {
-            Debug.Log("NOOOOOOSSSSSSSSSSSSSSSSSSSSSSSSSS");
-        }
-*/
+                Debug.Log("Area :"+walkableArea.Count);
 
 
 
+                foreach (GameObject item in gameObjects)
+                {
+                    isWalkable.Add(item.transform.position);
+                }
+
+                Debug.Log("isWalkable :" + isWalkable.Count);*/
+
+               foreach (Vector3 pos in isWalkable2)
+                {
+            int i = 1;    
+                    Debug.Log("pos :" + i + " ||" + pos);
+            i++;
+                }
+       
+
+        /*        if (isWalkable.Contains(new Vector3(2, -1, 0)))
+                {
+
+                    Debug.Log("YEAHJASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+                }
+                else
+                {
+                    Debug.Log("NOOOOOOSSSSSSSSSSSSSSSSSSSSSSSSSS");
+                }
+        */
+
+
+        Debug.Log("isWalkable2 Start:" + isWalkable2.Count);
     }
 
     private void FixedUpdate()
@@ -161,6 +164,9 @@ public class PacStudentController : MonoBehaviour
 
     void Update()
     {
+
+        Debug.Log("isWalkable2 Update:" + isWalkable2.Count);
+
         if (tween != null)
         {
             float distance = Vector3.Distance(tween.Target.position, tween.EndPos);
@@ -284,11 +290,6 @@ public class PacStudentController : MonoBehaviour
 
 
 
-        /*        if (Walk(localPos))
-                {
-                    Debug.Log("FUCK YEAH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                }*/
-
 
 
 
@@ -316,12 +317,13 @@ public class PacStudentController : MonoBehaviour
                 {
                     Debug.Log("pos :" +pos);
                 }*/
-        if (isWalkable.Contains(endpos))
-        //if (walkableArea.Contains(endpos))
-        // if (isWalkable.Contains(Vector3(2,-1,0)))
-        //f (isWalkable.Find(endpos))
-        {
-            Debug.Log("Walkable Area!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DDDDDDDDDDDDDDDDDDDDDDDDDDDD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        //if (isWalkable.Contains(endpos))
+            if (isWalkable2.Contains(endpos))
+            //if (walkableArea.Contains(endpos))
+            // if (isWalkable.Contains(Vector3(2,-1,0)))
+            //f (isWalkable.Find(endpos))
+            {
+            Debug.Log("Walkable Area!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DDDDDDDDDDDDDDDDDDDDDDDDDDDD!!!!!!!!!!!!!!!!!!!ASWDASDASDASDASDASASD!!!!!!!!!!!!");
 
 
 
