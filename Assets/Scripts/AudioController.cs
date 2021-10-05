@@ -10,7 +10,7 @@ public class AudioController : MonoBehaviour
     public AudioClip Movement;
    
 
-    IEnumerator Start()
+/*    IEnumerator Start()
     {
         AudioSource audio = GetComponent<AudioSource>();
 
@@ -19,6 +19,6 @@ public class AudioController : MonoBehaviour
         audio.clip = Main;
         audio.Play();
     }
-
+*/
 
 }

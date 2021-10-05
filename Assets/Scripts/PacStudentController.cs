@@ -13,12 +13,14 @@ public class PacStudentController : MonoBehaviour
     private Vector3 localPos;
     private Vector3 lerpPos;
     private float speed;
+    bool isMoving;
     private Tween tween;
     private Animator anim;
     public AudioClip Movement;
     private AudioSource audio;
     public List<Vector3> Walkable;
     private GameObject[] gameObjects;
+    public ParticleSystem dust;
 
 
     void Start()
@@ -39,7 +41,7 @@ public class PacStudentController : MonoBehaviour
     private void FixedUpdate()
     {
         localPos = transform.localPosition;
-        
+
         if (tween != null)
         {
             float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
@@ -51,37 +53,43 @@ public class PacStudentController : MonoBehaviour
 
     void Update()
     {
+        StartCoroutine(IsMoving());
+
+        if (isMoving)
+        {
+            if (!audio.isPlaying)
+            {
+                audio.clip = Movement;
+                audio.Play();
+
+            }
+        }
+
         if (tween != null)
         {
             float distance = Vector3.Distance(tween.Target.position, tween.EndPos);
             NormPos = (tween.EndPos - tween.StartPos).normalized;
-            //Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
+            Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
 
             if (NormPos.x != 0.0f || NormPos.y != 0.0f)
             {
-                if (!audio.isPlaying)
-                {
-                    audio.clip = Movement;
-                    audio.Play();
-                }
+
             }
 
-           if (distance > 0)
+            if (distance > 0)
             {
                 tween.Target.position = currentPos;
             }
             else
             {
                 tween = null;
+
             }
 
         }
 
         if (currentInput == KeyCode.None || tween == null)
         {
-            int x = (int)Math.Round(localPos.x);
-            int y = (int)Math.Round(localPos.y);
-
             Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput);
 
             if (Direction(lastInput))
@@ -91,7 +99,8 @@ public class PacStudentController : MonoBehaviour
 
             else
             {
-                if (Direction(lastInput)) {
+                if (Direction(lastInput))
+                {
                 }
                 else
                 {
@@ -100,8 +109,8 @@ public class PacStudentController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.A)){
-
+        if (Input.GetKeyDown(KeyCode.A))
+        {
             lastInput = KeyCode.A;
             if (currentInput == KeyCode.None)
             {
@@ -138,7 +147,7 @@ public class PacStudentController : MonoBehaviour
 
         if (NormPos.x == 0.0f && NormPos.y == 1.0f)  // >0 ?
         {
-            anim.SetBool("up", true); 
+            anim.SetBool("up", true);
         }
         else
         {
@@ -171,7 +180,9 @@ public class PacStudentController : MonoBehaviour
         {
             anim.SetBool("left", false);
         }
-    }
+
+
+}
 
 
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
@@ -182,7 +193,6 @@ public class PacStudentController : MonoBehaviour
             }
     }
     
-
     public bool Direction(KeyCode key)
     {
         int x = (int)Math.Round(localPos.x);
@@ -254,10 +264,35 @@ public class PacStudentController : MonoBehaviour
     {
         if (Walkable.Contains(lerp))
         {
+/*            if (transform.parent.gameObject.name == "Pellet")
+                Debug.Log("Pellet");*/
+            // if pellet
             return true;
         } else
         {
             return false;
         }
     }
+
+
+    private IEnumerator IsMoving()
+    {
+        Vector3 startPos = gameObject.transform.position;
+        yield return new WaitForSeconds(0.2f);
+        Vector3 lastPos = transform.position;
+        if (startPos.x != lastPos.x || startPos.y != lastPos.y)
+        {
+            isMoving = true;
+            dust.Play();
+   
+        } else
+        {
+            isMoving = false;
+            dust.Stop();
+            audio.Stop();
+        }
+    }
+
+
+
 }
