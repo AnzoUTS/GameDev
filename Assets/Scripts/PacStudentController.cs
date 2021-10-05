@@ -8,8 +8,7 @@ public class PacStudentController : MonoBehaviour
 {
     KeyCode currentInput;
     KeyCode lastInput;
-    //public GameObject PacStudent;
-    private Vector3 lerpPos;
+    private bool keyInput;
     private Vector3 currentPos;
     private Vector3 NormPos;
     private Vector3 localPos;
@@ -29,6 +28,7 @@ public class PacStudentController : MonoBehaviour
     private GameObject gameManagement;
     private GameManagement gameScript;
     bool iswalkable;
+    Vector3 lerpPos;
 
     void Start()
     {
@@ -48,8 +48,6 @@ public class PacStudentController : MonoBehaviour
         //isWalkable3 = gameScript.isWalkable3;
        // Debug.Log("isWalkable #3: START" + isWalkable3.Count);
 
-
-        //List<Vector3> isWalkable3 = new 
         List<GameObject> walkableArea = new List<GameObject>();
 
         gameObjects = GameObject.FindGameObjectsWithTag("Item");
@@ -78,13 +76,6 @@ public class PacStudentController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-
-
-
-
-
-
 
         //WallCheck();
         localPos = transform.localPosition;
@@ -131,45 +122,54 @@ public class PacStudentController : MonoBehaviour
 
         }
 
-        if (currentInput == KeyCode.None || tween == null || distance == 0 )
+        if (currentInput == KeyCode.None || tween == null)
         {
             int x = (int)Math.Round(localPos.x);
             int y = (int)Math.Round(localPos.y);
 
 
-            Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput);
+            /*       if (currentInput == KeyCode.None)
+                   {
+                       currentInput = lastInput;
+                   }
+        */
 
-                if (iswalkable == true)
-                {
-                    Debug.Log("int x " + localPos.x + " : int y " + localPos.y);
-                    Direction(lastInput);
-                    currentInput = lastInput;
-                } else
-                {
 
+            Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput + " iswalkable :" + iswalkable + " : KeyInput : " + keyInput);
+
+            if (Direction(lastInput))
+            {
                 Direction(lastInput);
+                currentInput = lastInput;
+            }
+/*            else if (iswalkable == true && keyInput == true)
+            {
+                Direction(lastInput);
+                currentInput = lastInput;
+                keyInput = false;
+            }*/
+            else
+            {
 
+                if (Direction(lastInput))
+                {
+                    Direction(lastInput);
+
+                }else
+                {
+                    //Direction(lastInput);
+                    Direction(currentInput);
+                    keyInput = false;
                 }
 
 
 
-                //else if (WallCheck() == true && lastInput != currentInput)
-/*                else if (lastInput != currentInput)
-                    {
-                    Direction(lastInput);
-                    currentInput = lastInput;
-                    Debug.Log("----------------------Input change-------------------------");
-                    Debug.Log("Distance: " + distance + " local pos :" + localPos + " EndPos: " + tween.EndPos);
-                    Debug.Log(" Last Input : " + lastInput + " Current Input : " + currentInput);
-                } else
-                {
-                //Direction(currentInput);
-                Debug.Log("----------------------No Movement-------------------------");
-                //Direction(KeyCode.None);
-                }*/
+            }
+
+          
 
 
-            
+
 
 
 
@@ -177,22 +177,44 @@ public class PacStudentController : MonoBehaviour
 
 
         if (Input.GetKeyDown(KeyCode.A)){
+
+            keyInput = true;
             lastInput = KeyCode.A;
+
+            if (currentInput == KeyCode.None)
+            {
+                currentInput = KeyCode.A;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
+            keyInput = true;
             lastInput = KeyCode.D;
+            if (currentInput == KeyCode.None)
+            {
+                currentInput = KeyCode.D;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.W))
         {
+            keyInput = true;
             lastInput = KeyCode.W;
+            if (currentInput == KeyCode.None)
+            {
+                currentInput = KeyCode.W;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
+            keyInput = true;
             lastInput = KeyCode.S;
+            if (currentInput == KeyCode.None)
+            {
+                currentInput = KeyCode.S;
+            }
         }
 
 
@@ -234,7 +256,7 @@ public class PacStudentController : MonoBehaviour
 
 
 
-
+        
 
 
     }
@@ -242,28 +264,50 @@ public class PacStudentController : MonoBehaviour
 
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
     {
+        validMove();
 
-
-            if (Walkable.Contains(endpos))
+        IEnumerator validMove()
+        {
+            while (Walkable.Contains(endpos))
             {
                 iswalkable = true;
-                
-                if (tween == null)
-                    {
-                    tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
-                    }
+            }
+            yield return null;
+        }
 
-            } else
+
+        if (Walkable.Contains(endpos))
         {
+            if (tween == null)
+            {
+                tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
+            }
+            //iswalkable = true;
             iswalkable = false;
         }
+        else
+        {
+            iswalkable = true;
+            //iswalkable = false;
+            //Direction(currentInput);
+            //currentInput = lastInput;
+        }
+
+
+/*        if (tween == null)
+            {
+                tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
+            }
+*/
+        
+
 
     }
     
 
 
 
-    public void Direction(KeyCode key)
+    public bool Direction(KeyCode key)
     {
         int x = (int)Math.Round(localPos.x);
         int y = (int)Math.Round(localPos.y);
@@ -273,31 +317,84 @@ public class PacStudentController : MonoBehaviour
         Debug.Log("Current Input : " + currentInput + " Last Input : " + lastInput);
 
         if (key == KeyCode.A)
-        {       
-                AddTween(transform, localPos, new Vector3(x-1, y, z), speed);
+        {
+            lerpPos = new Vector3(x - 1, y, z);
+            if (MoveCheck(lerpPos))
+            {
+                AddTween(transform, localPos, new Vector3(x - 1, y, z), speed);
+                return true;
+            }
+            else
+            {
+                return false;
+            }    
         }
+           
+       
         else if (key == KeyCode.D)
         {
+            lerpPos = new Vector3(x + 1, y, z);
+            if (MoveCheck(lerpPos))
+            {
                 AddTween(transform, localPos, new Vector3(x+1, y, z), speed);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         else if (key == KeyCode.W)
         {
+            lerpPos = new Vector3(x, y + 1, z);
+            if (MoveCheck(lerpPos))
+            {
                 AddTween(transform, localPos, new Vector3(x, y+1, z), speed);
+            return true;
         }
+        else
+        {
+            return false;
+        }
+    }
         else if (key == KeyCode.S)
         {
+            lerpPos = new Vector3(x, y -1, z);
+            if (MoveCheck(lerpPos))
+            {
                 AddTween(transform, localPos, new Vector3(x, y-1, z), speed);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         else if (key == KeyCode.None)
         {
-            Debug.Log("wall hit "+ x + ":" + y + ":" + z);
+            Debug.Log("KeyNone "+ x + ": " + y + ": " + z);
+            return false;
         }
+        return false;
 
 
+    }
 
 
+    public bool MoveCheck(Vector3 lerp)
+    {
+
+        if (Walkable.Contains(lerp))
+        {
+            Debug.Log("Lerp True");
+            return true;
+        } else
+        {
+            Debug.Log("Lerp False");
+            return false;
+        }
     }
 
 
