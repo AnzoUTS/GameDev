@@ -11,6 +11,7 @@ TagManager:
   - In-C
   - In-W
   - Junc
+  - Walkable
   layers:
   - Default
   - TransparentFX

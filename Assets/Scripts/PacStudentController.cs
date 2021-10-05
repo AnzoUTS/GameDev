@@ -6,78 +6,38 @@ using System.Linq;
 
 public class PacStudentController : MonoBehaviour
 {
-    KeyCode currentInput;
-    KeyCode lastInput;
-    private bool keyInput;
+    private KeyCode currentInput;
+    private KeyCode lastInput;
     private Vector3 currentPos;
     private Vector3 NormPos;
     private Vector3 localPos;
-    private Tween tween;
+    private Vector3 lerpPos;
     private float speed;
+    private Tween tween;
     private Animator anim;
     public AudioClip Movement;
     private AudioSource audio;
-    private bool keyPress;
-    private float distance;
-    List<GameObject> walkableArea;
     public List<Vector3> Walkable;
-    [SerializeField]
-   // private List<Vector3> isWalkable2;
-   // private List<Vector3> isWalkable3;
-    GameObject[] gameObjects;
-    private GameObject gameManagement;
-    private GameManagement gameScript;
-    bool iswalkable;
-    Vector3 lerpPos;
+    private GameObject[] gameObjects;
+
 
     void Start()
     {
-        KeyCode lastInput = KeyCode.None;
-        anim = GetComponent<Animator>();
         speed = 0.5f;
-        distance = 0;
+        lastInput = KeyCode.None;
+        anim = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
         currentPos = new Vector3(1f, -1f, 0f);
-        AddTween(transform, currentPos, new Vector3(1f, -1f, 0f), speed);
         transform.position = currentPos;
-
-        List<Vector3> isWalkable = new List<Vector3>();
-
-       // gameManagement = GameObject.Find("GameManagement");
-       // gameScript = gameManagement.GetComponent<GameManagement>();
-        //isWalkable3 = gameScript.isWalkable3;
-       // Debug.Log("isWalkable #3: START" + isWalkable3.Count);
-
-        List<GameObject> walkableArea = new List<GameObject>();
-
-        gameObjects = GameObject.FindGameObjectsWithTag("Item");
-
-        foreach (GameObject item in gameObjects)
-        {
-            walkableArea.Add(item);
-        }
-
-        Debug.Log("Area :" + walkableArea.Count);
-
-
+        gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
         foreach (GameObject item in gameObjects)
         {
             Walkable.Add(item.transform.position);
         }
-
-
-
-
-
-
-        Debug.Log("isWalkable2 Start:" + isWalkable.Count);
-        //Debug.Log("isWalkable #3: start" + isWalkable3.Count);
     }
 
     private void FixedUpdate()
     {
-
-        //WallCheck();
         localPos = transform.localPosition;
         
         if (tween != null)
@@ -91,10 +51,6 @@ public class PacStudentController : MonoBehaviour
 
     void Update()
     {
-
-      //  Debug.Log("isWalkable2 Update:" + Walkable.Count);
-      //  Debug.Log("isWalkable #3: update" + gameScript.isWalkable3.Count);
-
         if (tween != null)
         {
             float distance = Vector3.Distance(tween.Target.position, tween.EndPos);
@@ -116,7 +72,6 @@ public class PacStudentController : MonoBehaviour
             }
             else
             {
-                //tween.Target.position = tween.EndPos;
                 tween = null;
             }
 
@@ -127,60 +82,27 @@ public class PacStudentController : MonoBehaviour
             int x = (int)Math.Round(localPos.x);
             int y = (int)Math.Round(localPos.y);
 
-
-            /*       if (currentInput == KeyCode.None)
-                   {
-                       currentInput = lastInput;
-                   }
-        */
-
-
-            Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput + " iswalkable :" + iswalkable + " : KeyInput : " + keyInput);
+            Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput);
 
             if (Direction(lastInput))
             {
-                Direction(lastInput);
                 currentInput = lastInput;
             }
-/*            else if (iswalkable == true && keyInput == true)
-            {
-                Direction(lastInput);
-                currentInput = lastInput;
-                keyInput = false;
-            }*/
+
             else
             {
-
-                if (Direction(lastInput))
-                {
-                    Direction(lastInput);
-
-                }else
-                {
-                    //Direction(lastInput);
-                    Direction(currentInput);
-                    keyInput = false;
+                if (Direction(lastInput)) {
                 }
-
-
-
+                else
+                {
+                    Direction(currentInput);
+                }
             }
-
-          
-
-
-
-
-
-
         }
-
 
         if (Input.GetKeyDown(KeyCode.A)){
 
-            keyInput = true;
             lastInput = KeyCode.A;
-
             if (currentInput == KeyCode.None)
             {
                 currentInput = KeyCode.A;
@@ -189,7 +111,6 @@ public class PacStudentController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            keyInput = true;
             lastInput = KeyCode.D;
             if (currentInput == KeyCode.None)
             {
@@ -199,7 +120,6 @@ public class PacStudentController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            keyInput = true;
             lastInput = KeyCode.W;
             if (currentInput == KeyCode.None)
             {
@@ -209,14 +129,12 @@ public class PacStudentController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            keyInput = true;
             lastInput = KeyCode.S;
             if (currentInput == KeyCode.None)
             {
                 currentInput = KeyCode.S;
             }
         }
-
 
         if (NormPos.x == 0.0f && NormPos.y == 1.0f)  // >0 ?
         {
@@ -253,68 +171,23 @@ public class PacStudentController : MonoBehaviour
         {
             anim.SetBool("left", false);
         }
-
-
-
-        
-
-
     }
 
 
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
     {
-        validMove();
-
-        IEnumerator validMove()
-        {
-            while (Walkable.Contains(endpos))
-            {
-                iswalkable = true;
-            }
-            yield return null;
-        }
-
-
-        if (Walkable.Contains(endpos))
-        {
             if (tween == null)
             {
                 tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
             }
-            //iswalkable = true;
-            iswalkable = false;
-        }
-        else
-        {
-            iswalkable = true;
-            //iswalkable = false;
-            //Direction(currentInput);
-            //currentInput = lastInput;
-        }
-
-
-/*        if (tween == null)
-            {
-                tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
-            }
-*/
-        
-
-
     }
     
-
-
 
     public bool Direction(KeyCode key)
     {
         int x = (int)Math.Round(localPos.x);
         int y = (int)Math.Round(localPos.y);
         float z = localPos.z;
-
-
-        Debug.Log("Current Input : " + currentInput + " Last Input : " + lastInput);
 
         if (key == KeyCode.A)
         {
@@ -329,8 +202,6 @@ public class PacStudentController : MonoBehaviour
                 return false;
             }    
         }
-           
-       
         else if (key == KeyCode.D)
         {
             lerpPos = new Vector3(x + 1, y, z);
@@ -344,7 +215,6 @@ public class PacStudentController : MonoBehaviour
                 return false;
             }
         }
-
         else if (key == KeyCode.W)
         {
             lerpPos = new Vector3(x, y + 1, z);
@@ -371,31 +241,23 @@ public class PacStudentController : MonoBehaviour
                 return false;
             }
         }
-
         else if (key == KeyCode.None)
         {
             Debug.Log("KeyNone "+ x + ": " + y + ": " + z);
             return false;
         }
         return false;
-
-
     }
 
 
     public bool MoveCheck(Vector3 lerp)
     {
-
         if (Walkable.Contains(lerp))
         {
-            Debug.Log("Lerp True");
             return true;
         } else
         {
-            Debug.Log("Lerp False");
             return false;
         }
     }
-
-
 }
