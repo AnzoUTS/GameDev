@@ -19,7 +19,7 @@ public class PacStudentController : MonoBehaviour
     public AudioClip movement_FX;
     public AudioClip pellet_FX;
     public AudioClip wallt_FX;
-    private AudioSource audio;
+    private new AudioSource audio;
     public List<Vector3> Walkable;
     private GameObject[] gameObjects;
     public ParticleSystem dust;
@@ -106,7 +106,7 @@ public class PacStudentController : MonoBehaviour
 
         if (currentInput == KeyCode.None || tween == null)
         {
-            Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput);
+           // Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput);
 
             if (Direction(lastInput))
             {
@@ -269,7 +269,7 @@ public class PacStudentController : MonoBehaviour
         }
         else if (key == KeyCode.None)
         {
-            Debug.Log("KeyNone "+ x + ": " + y + ": " + z);
+         //   Debug.Log("KeyNone "+ x + ": " + y + ": " + z);
             return false;
         }
         return false;
@@ -310,7 +310,7 @@ public class PacStudentController : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider trigger)  // added both OnEnter and OnExit as instructions slightly confusing.
+    private void OnTriggerEnter(Collider trigger) 
     {
 
         Debug.Log("Trigger Enter: " + trigger.gameObject.name + " : " + trigger.gameObject.transform.position + " : Parent" + trigger.gameObject.transform.parent.name);
@@ -318,9 +318,7 @@ public class PacStudentController : MonoBehaviour
         audio.clip = pellet_FX;
         audio.Play();
 
-        // First attempt
-        //GameObject x = GameObject.Find("TriggerBox");
-        //Debug.Log("Trigger Exit: " + x.name + " : " + x.transform.position);
+    
     }
 
 

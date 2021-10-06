@@ -6,23 +6,23 @@ public class GameManagement : MonoBehaviour
 {
 
 
-    KeyCode currentInput;
-    KeyCode lastInput;
-    //public GameObject PacStudent;
-    private Vector3 lerpPos;
-    private Vector3 currentPos;
-    private Vector3 NormPos;
-    private Vector3 localPos;
-    private Tween tween;
-    private float speed;
-    private Animator anim;
-    public AudioClip Movement;
-    private AudioSource audio;
-    private bool keyPress;
-    private float distance;
-    List<GameObject> walkableArea;
-    public List<Vector3> isWalkable3;
-    //Vector3[] isWalkable3;
+    /*    KeyCode currentInput;
+        KeyCode lastInput;
+        //public GameObject PacStudent;
+        private Vector3 lerpPos;
+        private Vector3 currentPos;
+        private Vector3 NormPos;
+        private Vector3 localPos;
+        private Tween tween;
+        private float speed;
+        private Animator anim;
+        public AudioClip Movement;
+        private AudioSource audio;
+        private bool keyPress;
+        private float distance;
+        List<GameObject> walkableArea;
+        public List<Vector3> isWalkable3;
+        //Vector3[] isWalkable3;
 
 
 
@@ -31,72 +31,73 @@ public class GameManagement : MonoBehaviour
 
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        List<Vector3> isWalkable = new List<Vector3>();
-        List<GameObject> walkableArea = new List<GameObject>();
-        Vector3[] isWalkable2;
-
-        GameObject[] gameObjects;
-        gameObjects = GameObject.FindGameObjectsWithTag("Item");
-
-        foreach (GameObject item in gameObjects)
+        // Start is called before the first frame update
+        void Start()
         {
-            walkableArea.Add(item);
+            List<Vector3> isWalkable = new List<Vector3>();
+            List<GameObject> walkableArea = new List<GameObject>();
+
+
+            GameObject[] gameObjects;
+            gameObjects = GameObject.FindGameObjectsWithTag("Item");
+
+            foreach (GameObject item in gameObjects)
+            {
+                walkableArea.Add(item);
+            }
+
+           // Debug.Log("Area :" + walkableArea.Count);
+
+
+
+            foreach (GameObject item in gameObjects)
+            {
+                isWalkable3.Add(item.transform.position);
+            }*/
+
+    //Debug.Log("isWalkable3 GMUP :" + isWalkable3.Count);
+    /*
+            foreach (Vector3 pos in isWalkable)
+            {
+                Debug.Log("pos :" + pos);
+            }
+    */
+
+
+
+
+
+    /*
         }
 
-       // Debug.Log("Area :" + walkableArea.Count);
 
-
-
-        foreach (GameObject item in gameObjects)
+        // Update is called once per frame
+        void Update()
         {
-            isWalkable3.Add(item.transform.position);
+
+
+          //  Debug.Log("isWalkable GM3 :" + isWalkable3.Count);
+
+
+
         }
 
-        //Debug.Log("isWalkable3 GMUP :" + isWalkable3.Count);
-        /*
-                foreach (Vector3 pos in isWalkable)
-                {
-                    Debug.Log("pos :" + pos);
-                }
-        */
+    }*/
 
+    /*    public bool Walk(Vector3 walk)
+        {
+    y
+            if (isWalkable.Contains(walk))
+            {
 
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 
+        }
 
-
-
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
-
-      //  Debug.Log("isWalkable GM3 :" + isWalkable3.Count);
- 
-
-
-    }
-
+    }*/
 }
-
-/*    public bool Walk(Vector3 walk)
-    {
-
-        if (isWalkable.Contains(walk))
-        {
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }
-
-}*/

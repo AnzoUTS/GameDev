@@ -12,7 +12,7 @@ public class Mover : MonoBehaviour
     private float speed;
     private Animator anim;
     public AudioClip Movement;
-    private AudioSource audio;
+    private new AudioSource audio;
     int path;
 
 
