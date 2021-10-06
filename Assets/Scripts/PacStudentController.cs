@@ -16,7 +16,9 @@ public class PacStudentController : MonoBehaviour
     bool isMoving;
     private Tween tween;
     private Animator anim;
-    public AudioClip Movement;
+    public AudioClip movement_FX;
+    public AudioClip pellet_FX;
+    public AudioClip wallt_FX;
     private AudioSource audio;
     public List<Vector3> Walkable;
     private GameObject[] gameObjects;
@@ -53,13 +55,27 @@ public class PacStudentController : MonoBehaviour
 
     void Update()
     {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         StartCoroutine(IsMoving());
 
         if (isMoving)
         {
             if (!audio.isPlaying)
             {
-                audio.clip = Movement;
+                audio.clip = movement_FX;
                 audio.Play();
 
             }
@@ -69,7 +85,7 @@ public class PacStudentController : MonoBehaviour
         {
             float distance = Vector3.Distance(tween.Target.position, tween.EndPos);
             NormPos = (tween.EndPos - tween.StartPos).normalized;
-            Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
+           // Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
 
             if (NormPos.x != 0.0f || NormPos.y != 0.0f)
             {
@@ -291,6 +307,20 @@ public class PacStudentController : MonoBehaviour
             dust.Stop();
             audio.Stop();
         }
+    }
+
+
+    private void OnTriggerEnter(Collider trigger)  // added both OnEnter and OnExit as instructions slightly confusing.
+    {
+
+        Debug.Log("Trigger Enter: " + trigger.gameObject.name + " : " + trigger.gameObject.transform.position + " : Parent" + trigger.gameObject.transform.parent.name);
+
+        audio.clip = pellet_FX;
+        audio.Play();
+
+        // First attempt
+        //GameObject x = GameObject.Find("TriggerBox");
+        //Debug.Log("Trigger Exit: " + x.name + " : " + x.transform.position);
     }
 
 
