@@ -4,28 +4,23 @@ using UnityEngine;
 
 public class CherryController : MonoBehaviour
 {
-    public List<GameObject> Burgers;
-    public GameObject[] cherry;
     private bool isBurger;
-    //rivate GameObject cherry;
-    private Tween tween;
-    private Vector3 localPos;
-    private Vector3 currentPos;
-
-
-
-    void Start()
-    {
-        //Burgers.Add(transform.gameObject, transform.position, new Vector3(-35, -14, 0), 2);
-        //Burgers.Add(Instantiate(cherry[0], new Vector3(35, -14, 0), Quaternion.Euler(0, 0, 0)));
-        AddTween(cherry[0].transform, transform.localPosition, new Vector3(-35, -14, 0), 2);
-        isBurger = false;
-    }
+    public GameObject cherry;
+    public static float x;
+    private float randX;
+    public float y;
+    private const float centerX = 13.5f;
+    private const float centerY = 14.0f;
 
 
     void Update()
     {
-  
+
+
+
+
+
+
         if (!isBurger)
         {
             isBurger = true;
@@ -35,42 +30,35 @@ public class CherryController : MonoBehaviour
 
 
 
-    private void FixedUpdate()
-    {
-        localPos = transform.localPosition;
-
-        if (tween != null)
-        {
-            float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
-            currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
-            transform.position = currentPos;
-        }
-    }
-
-
-
-
 
     private IEnumerator CherryBurger()
     {
+        //x = Random.Range(-30.0f, 30.0f)+ centerX;
+        x = Random.Range(-30.0f, 30.0f);
 
-        Debug.Log("CHERRY " + Burgers.Count);
-        yield return new WaitForSeconds(3f);
-        Burgers.Add(Instantiate(cherry[0], new Vector3(35, -14, 0), Quaternion.Euler(0, 0, 0)));
-        AddTween(cherry[0].transform, localPos, new Vector3(-35, -14,  0), 2);
-        yield return new WaitForSeconds(3f);
-        Destroy(Burgers[0]);
+
+        //x = (centerX - randX)+centerX;
+
+
+        Debug.Log("x Start "+ x);
+
+
+
+
+
+
+        Instantiate(cherry, new Vector3(x+centerX, 5, 0), Quaternion.Euler(0, 0, 0));
+        yield return new WaitForSeconds(10f);
         isBurger = false;
 
     }
 
 
-
-    public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
+    public static float Xvalue
     {
-        if (tween == null)
+        get
         {
-            tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
+            return x;
         }
     }
 

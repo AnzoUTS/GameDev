@@ -313,7 +313,7 @@ public class PacStudentController : MonoBehaviour
     private void OnTriggerEnter(Collider trigger) 
     {
 
-        Debug.Log("Trigger Enter: " + trigger.gameObject.name + " : " + trigger.gameObject.transform.position + " : Parent" + trigger.gameObject.transform.parent.name);
+       // Debug.Log("Trigger Enter: " + trigger.gameObject.name + " : " + trigger.gameObject.transform.position + " : Parent" + trigger.gameObject.transform.parent.name);
 
         audio.clip = pellet_FX;
         audio.Play();
