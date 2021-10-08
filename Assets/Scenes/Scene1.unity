@@ -6482,8 +6482,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 481872935
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -4858603712372253401, guid: 7fed2da6cf6232e48941bc3fbf8f411a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -11697,8 +11697,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 481872935
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 8285855911751984815, guid: 881c5593daa3392468ce48921cea8088, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -30544,7 +30544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28932549dea653644a8d78345f6e3714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Burgers: []
   cherry: {fileID: 5497434037571098391, guid: 8c170f80a527d084c9273f89f6eace7d, type: 3}
 --- !u!1 &811682823
 GameObject:
@@ -40173,8 +40172,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 481872935
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -4963962804702169422, guid: 3863e1809abca3d4dad5e2c1dcc05b40, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -72957,8 +72956,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 481872935
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -4121182384816020755, guid: 900a637b044f7974584d8fa320de4915, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

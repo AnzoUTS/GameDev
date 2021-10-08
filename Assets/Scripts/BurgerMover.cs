@@ -9,18 +9,22 @@ public class BurgerMover : MonoBehaviour
     private Vector3 localPos;
     private Vector3 currentPos;
     private const float centerX = 13.5f;
-    private const float centerY = 14.0f;
-    private const int MaxX = 30;
-    private const int MaxY = -40;
-    private float x;
-    private float y;
+    private const float centerY = -14.0f;
+    private int x;
+    private int y;
+    private int axis;
+    private int destroyX;
+    private int destroyY;
 
 
 
 
     void Start()
     {
+        Debug.Log("Burger Created");
         x = CherryController.Xvalue;
+        y = CherryController.Yvalue;
+        axis = CherryController.Axis;
 
     }
 
@@ -31,12 +35,12 @@ public class BurgerMover : MonoBehaviour
 
         localPos = transform.localPosition;
 
-        if (localPos.x < -45 || localPos.x > 45 || localPos.y < -32 || localPos.y > 15)
+        if (localPos.x == destroyX || localPos.y == destroyY)
         {
             Debug.Log("Burger Destroyed");
             Destroy(transform.gameObject);
 
-            
+
         }
 
 
@@ -52,8 +56,46 @@ public class BurgerMover : MonoBehaviour
     void Update()
     {
         x = CherryController.Xvalue;
+        y = CherryController.Yvalue;
+        axis = CherryController.Axis;
+
+        switch (axis)
+        {
+            case 1:
+                {
+                    AddTween(transform, transform.localPosition, new Vector3((-x) + centerX, -33, 0), 10);
+                    destroyX = -x + 13;
+                    destroyY = -32;
+                    break;
+                }
+
+            case 2:
+                {
+                    AddTween(transform, transform.localPosition, new Vector3(-15, (-y) + centerY, 0), 8);
+                    destroyX = -14;
+                    destroyY = -y - 13;
+                    break;
+                }
+            case 3:
+                {
+                    AddTween(transform, transform.localPosition, new Vector3((x) + centerX, 5, 0), 10);
+                    destroyX = x + 13 - 1;
+                    destroyY =  4;
+                    break;
+                }
+
+            case 4:
+                {
+                    AddTween(transform, transform.localPosition, new Vector3(40, (y) + centerY, 0), 8);
+                    destroyX = 39;
+                    destroyY = y-13;
+                    break;
+                }
+
+        }
+
+
         
-        AddTween(transform, transform.localPosition, new Vector3((-x)+centerX, -33, 0), 10);
     }
 
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
@@ -61,7 +103,7 @@ public class BurgerMover : MonoBehaviour
         
         if (tween == null)
         {
-            Debug.Log("x Target " + endpos.x);
+            Debug.Log("x Target " + endpos.x + "|| y Target " + endpos.y);
             tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
         }
     }
