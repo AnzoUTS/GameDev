@@ -11,17 +11,16 @@ public class CherryController : MonoBehaviour
     private static int axis;
     private const float centerX = 13.5f;
     private const float centerY = -14.0f;
-    private Object burgerMaker; 
 
 
 
     void Start()
     {
-        x = Random.Range(-30, 30);
+/*        x = Random.Range(-30, 30);
         y = Random.Range(-30, 30);
-        axis = Random.Range(1, 4);
+        axis = Random.Range(1, 5);
 
-
+*/
 
     }
 
@@ -52,29 +51,33 @@ public class CherryController : MonoBehaviour
             case 1: 
                 {
                     Instantiate(cherry, new Vector3(x + centerX, 5, 0), Quaternion.Euler(0, 0, 0));
+                    Debug.Log("x Start " + (x + centerX) + "|| y Start " + 5 + "|| axis :" + axis);
                     break;
                 }
 
             case 2:
                 {
                     Instantiate(cherry, new Vector3(40, y + centerY, 0), Quaternion.Euler(0, 0, 0));
+                    Debug.Log("x Start " + 40 + "|| y Start " + (y + centerY) + "|| axis :" + axis);
                     break;
                 }
 
             case 3:
                 {
                     Instantiate(cherry, new Vector3(-x + centerX, -33, 0), Quaternion.Euler(0, 0, 0));
+                    Debug.Log("x Start " + (-x + centerX) + "|| y Start " + -33 + "|| axis :" + axis);
                     break;
                 }
 
             case 4:
                 {
                     Instantiate(cherry, new Vector3(-15, -y + centerY, 0), Quaternion.Euler(0, 0, 0));
+                    Debug.Log("x Start " + -15 + "|| y Start " +  (-y + centerY) + "|| axis :" + axis);
                     break;
                 }
 
 
-
+                //Debug.Log("x Start " + x + "|| y Start " + y + "|| axis :" + axis);
 
 
 
@@ -84,14 +87,14 @@ public class CherryController : MonoBehaviour
         }
 
 
-        Debug.Log("x Start "+ x + "|| y Start " + y + "|| axis :" + axis);
+        //Debug.Log("x Start "+ x + "|| y Start " + y + "|| axis :" + axis);
 
 
    
 
 
 
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(3f);
         isBurger = false;
 
     }
