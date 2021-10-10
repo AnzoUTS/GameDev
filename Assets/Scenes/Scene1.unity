@@ -9468,6 +9468,7 @@ GameObject:
   - component: {fileID: 268187952}
   - component: {fileID: 268187954}
   - component: {fileID: 268187953}
+  - component: {fileID: 268187955}
   m_Layer: 0
   m_Name: PowerFlash_0 (1)
   m_TagString: Walkable
@@ -9559,6 +9560,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &268187955
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268187951}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9, y: 0.9, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &273243987
 GameObject:
   m_ObjectHideFlags: 0
@@ -14654,7 +14668,6 @@ GameObject:
   - component: {fileID: 392165579}
   - component: {fileID: 392165580}
   - component: {fileID: 392165581}
-  - component: {fileID: 392165582}
   m_Layer: 0
   m_Name: Pellet (17)
   m_TagString: Walkable
@@ -14739,19 +14752,6 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.9, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &392165582
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392165578}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &399717421
 GameObject:
@@ -15017,7 +15017,6 @@ GameObject:
   - component: {fileID: 406144791}
   - component: {fileID: 406144792}
   - component: {fileID: 406144793}
-  - component: {fileID: 406144794}
   m_Layer: 0
   m_Name: Pellet (14)
   m_TagString: Walkable
@@ -15102,19 +15101,6 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.9, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &406144794
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 406144790}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &407264351
 GameObject:
@@ -20262,7 +20248,6 @@ GameObject:
   - component: {fileID: 520868954}
   - component: {fileID: 520868955}
   - component: {fileID: 520868956}
-  - component: {fileID: 520868957}
   m_Layer: 0
   m_Name: Pellet (2)
   m_TagString: Walkable
@@ -20347,19 +20332,6 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.9, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &520868957
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 520868953}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &533136651
 GameObject:
@@ -31070,8 +31042,9 @@ GameObject:
   m_Component:
   - component: {fileID: 819628226}
   - component: {fileID: 819628227}
+  - component: {fileID: 819628228}
   m_Layer: 0
-  m_Name: Empty
+  m_Name: TeleportR
   m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31142,6 +31115,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &819628228
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819628225}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.01, y: 1, z: 0.2}
+  m_Center: {x: 0.45, y: 0, z: 0}
 --- !u!1 &821134942
 GameObject:
   m_ObjectHideFlags: 0
@@ -44894,8 +44880,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1179811618}
   - component: {fileID: 1179811619}
+  - component: {fileID: 1179811620}
   m_Layer: 0
-  m_Name: Empty (47)
+  m_Name: TeleportL
   m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44966,6 +44953,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &1179811620
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179811617}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.01, y: 1, z: 0.2}
+  m_Center: {x: -0.45, y: 0, z: 0}
 --- !u!1 &1181339723
 GameObject:
   m_ObjectHideFlags: 0
@@ -45361,7 +45361,6 @@ GameObject:
   - component: {fileID: 1188393074}
   - component: {fileID: 1188393075}
   - component: {fileID: 1188393076}
-  - component: {fileID: 1188393077}
   m_Layer: 0
   m_Name: Pellet (15)
   m_TagString: Walkable
@@ -45446,19 +45445,6 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.9, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &1188393077
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1188393073}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1190266489
 GameObject:
@@ -59747,6 +59733,7 @@ GameObject:
   - component: {fileID: 1575646175}
   - component: {fileID: 1575646177}
   - component: {fileID: 1575646176}
+  - component: {fileID: 1575646178}
   m_Layer: 0
   m_Name: PowerFlash_0 (3)
   m_TagString: Walkable
@@ -59838,6 +59825,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &1575646178
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575646174}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9, y: 0.9, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1575782118
 GameObject:
   m_ObjectHideFlags: 0
@@ -60137,6 +60137,7 @@ GameObject:
   - component: {fileID: 1577387346}
   - component: {fileID: 1577387348}
   - component: {fileID: 1577387347}
+  - component: {fileID: 1577387349}
   m_Layer: 0
   m_Name: PowerFlash_0
   m_TagString: Walkable
@@ -60228,6 +60229,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &1577387349
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577387345}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9, y: 0.9, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1577599473
 GameObject:
   m_ObjectHideFlags: 0
@@ -62966,7 +62980,6 @@ GameObject:
   - component: {fileID: 1684814973}
   - component: {fileID: 1684814974}
   - component: {fileID: 1684814975}
-  - component: {fileID: 1684814976}
   m_Layer: 0
   m_Name: Pellet (16)
   m_TagString: Walkable
@@ -63051,19 +63064,6 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.9, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &1684814976
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1684814972}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1698007813
 GameObject:
@@ -64052,11 +64052,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3416444252529206297, guid: d2aadd1338342c044b500935079dba36, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 2.06
       objectReference: {fileID: 0}
     - target: {fileID: 3416444252529206297, guid: d2aadd1338342c044b500935079dba36, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -14.01
       objectReference: {fileID: 0}
     - target: {fileID: 3416444252529206297, guid: d2aadd1338342c044b500935079dba36, type: 3}
       propertyPath: m_LocalPosition.z
@@ -75711,6 +75711,7 @@ GameObject:
   - component: {fileID: 2017992588}
   - component: {fileID: 2017992590}
   - component: {fileID: 2017992589}
+  - component: {fileID: 2017992591}
   m_Layer: 0
   m_Name: PowerFlash_0 (2)
   m_TagString: Walkable
@@ -75802,6 +75803,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &2017992591
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017992587}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9, y: 0.9, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2019785028
 GameObject:
   m_ObjectHideFlags: 0

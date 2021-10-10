@@ -23,15 +23,20 @@ public class PacStudentController : MonoBehaviour
     public List<Vector3> Walkable;
     private GameObject[] gameObjects;
     public ParticleSystem dust;
+    private bool teleportL;
+    private bool teleportR;
 
 
     void Start()
     {
+        teleportL = false;
+        teleportR = false;
         speed = 0.5f;
         lastInput = KeyCode.None;
         anim = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
         currentPos = new Vector3(1f, -1f, 0f);
+        //currentPos = new Vector3(2f, -14f, 0f);
         transform.position = currentPos;
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
         foreach (GameObject item in gameObjects)
@@ -85,7 +90,7 @@ public class PacStudentController : MonoBehaviour
         {
             float distance = Vector3.Distance(tween.Target.position, tween.EndPos);
             NormPos = (tween.EndPos - tween.StartPos).normalized;
-           // Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
+            // Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
 
             if (NormPos.x != 0.0f || NormPos.y != 0.0f)
             {
@@ -106,7 +111,7 @@ public class PacStudentController : MonoBehaviour
 
         if (currentInput == KeyCode.None || tween == null)
         {
-           // Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput);
+            // Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput);
 
             if (Direction(lastInput))
             {
@@ -198,19 +203,40 @@ public class PacStudentController : MonoBehaviour
         }
 
 
-}
+    }
 
 
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
     {
-            if (tween == null)
-            {
-                tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
-            }
+        if (tween == null)
+        {
+            tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
+        }
     }
-    
+
     public bool Direction(KeyCode key)
     {
+        //Debug.Log("triggerL" + teleportL + "triggerR" + teleportR);
+
+        if (teleportL == true && NormPos.x == -1)
+        {
+            teleportL = false;
+            AddTween(transform, new Vector3(27f, -14, 0), new Vector3(26f, -14, 0), speed);
+            return true;
+        }
+
+        else if (teleportR == true && NormPos.x == +1)
+        {
+            teleportR = false;
+            AddTween(transform, new Vector3(0, -14, 0), new Vector3(1f, -14, 0), speed);
+            return true;
+        } else
+        {
+            teleportL = false;
+            teleportR = false;
+
+      
+
         int x = (int)Math.Round(localPos.x);
         int y = (int)Math.Round(localPos.y);
         float z = localPos.z;
@@ -226,14 +252,14 @@ public class PacStudentController : MonoBehaviour
             else
             {
                 return false;
-            }    
+            }
         }
         else if (key == KeyCode.D)
         {
             lerpPos = new Vector3(x + 1, y, z);
             if (MoveCheck(lerpPos))
             {
-                AddTween(transform, localPos, new Vector3(x+1, y, z), speed);
+                AddTween(transform, localPos, new Vector3(x + 1, y, z), speed);
                 return true;
             }
             else
@@ -246,20 +272,20 @@ public class PacStudentController : MonoBehaviour
             lerpPos = new Vector3(x, y + 1, z);
             if (MoveCheck(lerpPos))
             {
-                AddTween(transform, localPos, new Vector3(x, y+1, z), speed);
-            return true;
+                AddTween(transform, localPos, new Vector3(x, y + 1, z), speed);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        else
-        {
-            return false;
-        }
-    }
         else if (key == KeyCode.S)
         {
-            lerpPos = new Vector3(x, y -1, z);
+            lerpPos = new Vector3(x, y - 1, z);
             if (MoveCheck(lerpPos))
             {
-                AddTween(transform, localPos, new Vector3(x, y-1, z), speed);
+                AddTween(transform, localPos, new Vector3(x, y - 1, z), speed);
                 return true;
             }
             else
@@ -269,9 +295,13 @@ public class PacStudentController : MonoBehaviour
         }
         else if (key == KeyCode.None)
         {
-         //   Debug.Log("KeyNone "+ x + ": " + y + ": " + z);
+            //   Debug.Log("KeyNone "+ x + ": " + y + ": " + z);
             return false;
         }
+
+
+        }
+
         return false;
     }
 
@@ -280,11 +310,12 @@ public class PacStudentController : MonoBehaviour
     {
         if (Walkable.Contains(lerp))
         {
-/*            if (transform.parent.gameObject.name == "Pellet")
-                Debug.Log("Pellet");*/
+            /*            if (transform.parent.gameObject.name == "Pellet")
+                            Debug.Log("Pellet");*/
             // if pellet
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
@@ -300,8 +331,9 @@ public class PacStudentController : MonoBehaviour
         {
             isMoving = true;
             dust.Play();
-   
-        } else
+
+        }
+        else
         {
             isMoving = false;
             dust.Stop();
@@ -310,16 +342,35 @@ public class PacStudentController : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider trigger) 
+    private void OnTriggerEnter(Collider trigger)
     {
 
-       // Debug.Log("Trigger Enter: " + trigger.gameObject.name + " : " + trigger.gameObject.transform.position + " : Parent" + trigger.gameObject.transform.parent.name);
+        if (trigger.name == "TeleportL")
+        {
+            teleportL = true;
+        }
 
-        audio.clip = pellet_FX;
-        audio.Play();
+        if (trigger.name == "TeleportR")
+        {
+            teleportR = true;
+        }
 
-    
+
+        // Debug.Log("Trigger Enter: " + trigger.gameObject.name + " : " + trigger.gameObject.transform.position + " : Parent" + trigger.gameObject.transform.parent.name);
+
+
+        if (trigger.gameObject.name.Contains("Pellet"))
+              //  Debug.Log("Pellet");
+        //if (trigger.name != "TeleportR" || trigger.name != "TeleportRL")
+        {
+
+            audio.clip = pellet_FX;
+            audio.Play();
+        }
+
+
     }
+
 
 
 
