@@ -5,29 +5,54 @@ using UnityEngine.UI;
 
 public class GameManagement : MonoBehaviour
 {
-    private GameObject HUD;
+    private GameObject ghostTime;
     private static int score;
-
-    public static int Score
-    {
-        set { score = value; } 
-        get { return score; }
-    }
-
-
+    private static float scaredTime;
+    private static bool scared;
 
     private void Start()
     {
+        ghostTime = GameObject.Find("GhostTime");
+        ghostTime.SetActive(false);
         score = 0;
+        scaredTime = 0;
     }
 
     private void Update()
     {
-
+        if(scared == true)
+        {
+            ghostTime.SetActive(true);
+            ScaredTime -= Time.deltaTime;
+            // Debug.Log(ScaredTime);
+            if (ScaredTime <= 0)
+            {
+                ghostTime.SetActive(false);
+                scared = false;
+            }
+        }
     }
 
 
+    public static int Score
+    {
+        set { score = value; }
+        get { return score; }
+    }
 
+    public static float ScaredTime
+    {
+        set { scaredTime = value; }
+        get { return scaredTime; }
+    }
+
+    public static bool Scared
+    {
+        set { scared = value; }
+        get { return scared; }
+    }
+
+}
 
 /*    int PlayerPrefs.GetInt(string key);
     float PlayerPrefs.GetFloat(string key);
@@ -40,16 +65,4 @@ public class GameManagement : MonoBehaviour
     void PlayerPrefs.DeleteAll();
   */
 
-
-
-
-
-
-
-
-
-
-
-
-
-}
+//}

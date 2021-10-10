@@ -19,7 +19,9 @@ public class PacStudentController : MonoBehaviour
     public AudioClip movement_FX;
     public AudioClip pellet_FX;
     public AudioClip wall_FX;
-    private new AudioSource audio;
+    private AudioSource pacaudio;
+    public Animator OrcA;
+    public AudioSource music;
     public List<Vector3> Walkable;
     private GameObject[] gameObjects;
     public ParticleSystem dust;
@@ -35,16 +37,16 @@ public class PacStudentController : MonoBehaviour
         teleportL = false;
         teleportR = false;
         boxCollider = GetComponent<BoxCollider>();
-        //wallHit = GetComponent<ParticleSystem>();
         hitDirection = 5;
         speed = 0.5f;
         lastInput = KeyCode.None;
         anim = GetComponent<Animator>();
-        audio = GetComponent<AudioSource>();
+        pacaudio = GetComponent<AudioSource>();
+        OrcA = GameObject.Find("OrcA").GetComponent<Animator>();
         currentPos = new Vector3(1f, -1f, 0f);
-        //currentPos = new Vector3(2f, -14f, 0f);
         transform.position = currentPos;
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
+
         foreach (GameObject item in gameObjects)
         {
             Walkable.Add(item.transform.position);
@@ -66,28 +68,17 @@ public class PacStudentController : MonoBehaviour
 
     void Update()
     {
-
-
-
-
-
-
-
-
-
-
-
-
+   
 
 
         StartCoroutine(IsMoving());
 
         if (isMoving)
         {
-            if (!audio.isPlaying)
+            if (!pacaudio.isPlaying)
             {
-                audio.clip = movement_FX;
-                audio.Play();
+                pacaudio.clip = movement_FX;
+                pacaudio.Play();
 
             }
         }
@@ -98,10 +89,10 @@ public class PacStudentController : MonoBehaviour
             NormPos = (tween.EndPos - tween.StartPos).normalized;
             // Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
 
-            if (NormPos.x != 0.0f || NormPos.y != 0.0f)
+/*            if (NormPos.x != 0.0f || NormPos.y != 0.0f) // what is this for????
             {
 
-            }
+            }*/
 
             if (distance > 0)
             {
@@ -207,8 +198,6 @@ public class PacStudentController : MonoBehaviour
         {
             anim.SetBool("left", false);
         }
-
-
     }
 
 
@@ -222,8 +211,6 @@ public class PacStudentController : MonoBehaviour
 
     public bool Direction(KeyCode key)
     {
-        //Debug.Log("triggerL" + teleportL + "triggerR" + teleportR);
-
         if (teleportL == true && NormPos.x == -1)
         {
             teleportL = false;
@@ -241,8 +228,6 @@ public class PacStudentController : MonoBehaviour
         {
             teleportL = false;
             teleportR = false;
-
-
 
             int x = (int)Math.Round(localPos.x);
             int y = (int)Math.Round(localPos.y);
@@ -310,7 +295,6 @@ public class PacStudentController : MonoBehaviour
             }
             else if (key == KeyCode.None)
             {
-                //   Debug.Log("KeyNone "+ x + ": " + y + ": " + z);
                 return false;
             }
 
@@ -346,13 +330,11 @@ public class PacStudentController : MonoBehaviour
         {
             isMoving = true;
             dust.Play();
-
         }
         else
         {
             isMoving = false;
             dust.Stop();
-
         }
     }
 
@@ -376,9 +358,8 @@ public class PacStudentController : MonoBehaviour
         {
             Destroy(trigger.gameObject);
             GameManagement.Score += 10;
-            // Debug.Log(GameManagement.Score);
-            audio.clip = pellet_FX;
-            audio.Play();
+            pacaudio.clip = pellet_FX;
+            pacaudio.Play();
         }
 
         if (trigger.gameObject.name.Contains("CherryBurger"))
@@ -387,23 +368,28 @@ public class PacStudentController : MonoBehaviour
             GameManagement.Score += 100;
         }
 
-
         if (trigger.gameObject.CompareTag("Walls"))
         {
-            audio.clip = wall_FX;
-            audio.Play();
+            pacaudio.clip = wall_FX;
+            pacaudio.Play();
             WallHit();
-
-
-
         }
 
+        if (trigger.gameObject.name.Contains("PowerFlash"))
+        {
+            Destroy(trigger.gameObject);
+            AudioController.Music = true;
+            GameManagement.ScaredTime = 10f;
+            StartCoroutine(ScareGhosts());
+        }
+    }
 
-
-
-
-
-
+    IEnumerator ScareGhosts()
+    {
+        GameManagement.Scared = true;
+        OrcA.SetBool("isScared", true);
+        yield return new WaitForSeconds(7f);
+        OrcA.SetBool("isScared", false);
     }
 
     private void WallHit()
@@ -440,6 +426,5 @@ public class PacStudentController : MonoBehaviour
                     break;
                 }
         }
-       
     }
 }
