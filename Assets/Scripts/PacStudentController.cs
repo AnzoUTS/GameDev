@@ -25,12 +25,14 @@ public class PacStudentController : MonoBehaviour
     public ParticleSystem dust;
     private bool teleportL;
     private bool teleportR;
+    private BoxCollider boxCollider;
 
 
     void Start()
     {
         teleportL = false;
         teleportR = false;
+        boxCollider = GetComponent<BoxCollider>();
         speed = 0.5f;
         lastInput = KeyCode.None;
         anim = GetComponent<Animator>();
@@ -106,7 +108,7 @@ public class PacStudentController : MonoBehaviour
                 tween = null;
 
             }
-
+            
         }
 
         if (currentInput == KeyCode.None || tween == null)
@@ -246,6 +248,7 @@ public class PacStudentController : MonoBehaviour
             lerpPos = new Vector3(x - 1, y, z);
             if (MoveCheck(lerpPos))
             {
+                boxCollider.center = new Vector3(-0.1f, 0, 0); // adjust box
                 AddTween(transform, localPos, new Vector3(x - 1, y, z), speed);
                 return true;
             }
@@ -259,6 +262,7 @@ public class PacStudentController : MonoBehaviour
             lerpPos = new Vector3(x + 1, y, z);
             if (MoveCheck(lerpPos))
             {
+                boxCollider.center = new Vector3(0.1f, 0, 0); // adjust box
                 AddTween(transform, localPos, new Vector3(x + 1, y, z), speed);
                 return true;
             }
@@ -272,6 +276,7 @@ public class PacStudentController : MonoBehaviour
             lerpPos = new Vector3(x, y + 1, z);
             if (MoveCheck(lerpPos))
             {
+                boxCollider.center = new Vector3(0, 0.1f, 0); // adjust box
                 AddTween(transform, localPos, new Vector3(x, y + 1, z), speed);
                 return true;
             }
@@ -285,6 +290,7 @@ public class PacStudentController : MonoBehaviour
             lerpPos = new Vector3(x, y - 1, z);
             if (MoveCheck(lerpPos))
             {
+                boxCollider.center = new Vector3(0, -0.1f, 0); // adjust box
                 AddTween(transform, localPos, new Vector3(x, y - 1, z), speed);
                 return true;
             }
@@ -310,7 +316,7 @@ public class PacStudentController : MonoBehaviour
     {
         if (Walkable.Contains(lerp))
         {
-            /*            if (transform.parent.gameObject.name == "Pellet")
+            /*          if (transform.parent.gameObject.name == "Pellet")
                             Debug.Log("Pellet");*/
             // if pellet
             return true;
@@ -363,7 +369,10 @@ public class PacStudentController : MonoBehaviour
               //  Debug.Log("Pellet");
         //if (trigger.name != "TeleportR" || trigger.name != "TeleportRL")
         {
-
+            //trigger.gameObject.SetActive(false);
+            Destroy(trigger.gameObject);
+            GameManagement.Score += 10;
+            Debug.Log(GameManagement.Score);
             audio.clip = pellet_FX;
             audio.Play();
         }
@@ -374,4 +383,6 @@ public class PacStudentController : MonoBehaviour
 
 
 
-}
+
+
+    }
