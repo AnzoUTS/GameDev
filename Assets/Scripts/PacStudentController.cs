@@ -18,14 +18,16 @@ public class PacStudentController : MonoBehaviour
     private Animator anim;
     public AudioClip movement_FX;
     public AudioClip pellet_FX;
-    public AudioClip wallt_FX;
+    public AudioClip wall_FX;
     private new AudioSource audio;
     public List<Vector3> Walkable;
     private GameObject[] gameObjects;
     public ParticleSystem dust;
+    public ParticleSystem wallHit;
     private bool teleportL;
     private bool teleportR;
     private BoxCollider boxCollider;
+    private int hitDirection;
 
 
     void Start()
@@ -33,6 +35,8 @@ public class PacStudentController : MonoBehaviour
         teleportL = false;
         teleportR = false;
         boxCollider = GetComponent<BoxCollider>();
+        //wallHit = GetComponent<ParticleSystem>();
+        hitDirection = 5;
         speed = 0.5f;
         lastInput = KeyCode.None;
         anim = GetComponent<Animator>();
@@ -108,7 +112,7 @@ public class PacStudentController : MonoBehaviour
                 tween = null;
 
             }
-            
+
         }
 
         if (currentInput == KeyCode.None || tween == null)
@@ -232,78 +236,83 @@ public class PacStudentController : MonoBehaviour
             teleportR = false;
             AddTween(transform, new Vector3(0, -14, 0), new Vector3(1f, -14, 0), speed);
             return true;
-        } else
+        }
+        else
         {
             teleportL = false;
             teleportR = false;
 
-      
 
-        int x = (int)Math.Round(localPos.x);
-        int y = (int)Math.Round(localPos.y);
-        float z = localPos.z;
 
-        if (key == KeyCode.A)
-        {
-            lerpPos = new Vector3(x - 1, y, z);
-            if (MoveCheck(lerpPos))
+            int x = (int)Math.Round(localPos.x);
+            int y = (int)Math.Round(localPos.y);
+            float z = localPos.z;
+
+            if (key == KeyCode.A)
             {
-                boxCollider.center = new Vector3(-0.1f, 0, 0); // adjust box
-                AddTween(transform, localPos, new Vector3(x - 1, y, z), speed);
-                return true;
+                lerpPos = new Vector3(x - 1, y, z);
+                if (MoveCheck(lerpPos))
+                {
+                    hitDirection = 1;
+                    boxCollider.center = new Vector3(-0.1f, 0, 0); // adjust box
+                    AddTween(transform, localPos, new Vector3(x - 1, y, z), speed);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            else if (key == KeyCode.D)
             {
+                lerpPos = new Vector3(x + 1, y, z);
+                if (MoveCheck(lerpPos))
+                {
+                    hitDirection = 2;
+                    boxCollider.center = new Vector3(0.1f, 0, 0); // adjust box
+                    AddTween(transform, localPos, new Vector3(x + 1, y, z), speed);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (key == KeyCode.W)
+            {
+                lerpPos = new Vector3(x, y + 1, z);
+                if (MoveCheck(lerpPos))
+                {
+                    hitDirection = 3;
+                    boxCollider.center = new Vector3(0, 0.1f, 0); // adjust box
+                    AddTween(transform, localPos, new Vector3(x, y + 1, z), speed);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (key == KeyCode.S)
+            {
+                lerpPos = new Vector3(x, y - 1, z);
+                if (MoveCheck(lerpPos))
+                {
+                    hitDirection = 4;
+                    boxCollider.center = new Vector3(0, -0.1f, 0); // adjust box
+                    AddTween(transform, localPos, new Vector3(x, y - 1, z), speed);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (key == KeyCode.None)
+            {
+                //   Debug.Log("KeyNone "+ x + ": " + y + ": " + z);
                 return false;
             }
-        }
-        else if (key == KeyCode.D)
-        {
-            lerpPos = new Vector3(x + 1, y, z);
-            if (MoveCheck(lerpPos))
-            {
-                boxCollider.center = new Vector3(0.1f, 0, 0); // adjust box
-                AddTween(transform, localPos, new Vector3(x + 1, y, z), speed);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else if (key == KeyCode.W)
-        {
-            lerpPos = new Vector3(x, y + 1, z);
-            if (MoveCheck(lerpPos))
-            {
-                boxCollider.center = new Vector3(0, 0.1f, 0); // adjust box
-                AddTween(transform, localPos, new Vector3(x, y + 1, z), speed);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else if (key == KeyCode.S)
-        {
-            lerpPos = new Vector3(x, y - 1, z);
-            if (MoveCheck(lerpPos))
-            {
-                boxCollider.center = new Vector3(0, -0.1f, 0); // adjust box
-                AddTween(transform, localPos, new Vector3(x, y - 1, z), speed);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else if (key == KeyCode.None)
-        {
-            //   Debug.Log("KeyNone "+ x + ": " + y + ": " + z);
-            return false;
-        }
 
 
         }
@@ -343,7 +352,7 @@ public class PacStudentController : MonoBehaviour
         {
             isMoving = false;
             dust.Stop();
-            audio.Stop();
+
         }
     }
 
@@ -361,28 +370,76 @@ public class PacStudentController : MonoBehaviour
             teleportR = true;
         }
 
-
         // Debug.Log("Trigger Enter: " + trigger.gameObject.name + " : " + trigger.gameObject.transform.position + " : Parent" + trigger.gameObject.transform.parent.name);
 
-
         if (trigger.gameObject.name.Contains("Pellet"))
-              //  Debug.Log("Pellet");
-        //if (trigger.name != "TeleportR" || trigger.name != "TeleportRL")
         {
-            //trigger.gameObject.SetActive(false);
             Destroy(trigger.gameObject);
             GameManagement.Score += 10;
-            Debug.Log(GameManagement.Score);
+            // Debug.Log(GameManagement.Score);
             audio.clip = pellet_FX;
             audio.Play();
         }
 
+        if (trigger.gameObject.name.Contains("CherryBurger"))
+        {
+            Destroy(trigger.gameObject);
+            GameManagement.Score += 100;
+        }
+
+
+        if (trigger.gameObject.CompareTag("Walls"))
+        {
+            audio.clip = wall_FX;
+            audio.Play();
+            WallHit();
+
+
+
+        }
+
+
+
+
+
+
 
     }
 
-
-
-
-
-
+    private void WallHit()
+    {
+        switch (hitDirection)
+        {
+            case 1:
+                {
+                    wallHit.transform.position = new Vector3(localPos.x - 0.5f, localPos.y, 0f);
+                    wallHit.Play();
+                    break;
+                }
+            case 2:
+                {
+                    wallHit.transform.position = new Vector3(localPos.x + 0.5f, localPos.y, 0f);
+                    wallHit.Play();
+                    break;
+                }
+            case 3:
+                {
+                    wallHit.transform.position = new Vector3(localPos.x, localPos.y + 0.5f, 0f);
+                    wallHit.Play();
+                    break;
+                }
+            case 4:
+                {
+                    wallHit.transform.position = new Vector3(localPos.x, localPos.y - 0.5f, 0f);
+                    wallHit.Play();
+                    break;
+                }
+            case 5:
+                {
+                    wallHit.Stop();
+                    break;
+                }
+        }
+       
     }
+}
