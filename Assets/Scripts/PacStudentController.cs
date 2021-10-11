@@ -19,12 +19,13 @@ public class PacStudentController : MonoBehaviour
     public AudioClip movement_FX;
     public AudioClip pellet_FX;
     public AudioClip wall_FX;
+    public AudioClip die_FX;
     private AudioSource pacaudio;
-    public Animator OrcA;
-    public Animator OrcB;
-    public Animator OrcC;
-    public Animator OrcD;
-    public AudioSource music;
+    private Animator OrcA;
+    private Animator OrcB;
+    private Animator OrcC;
+    private Animator OrcD;
+    private AudioSource music;
     public List<Vector3> Walkable;
     private GameObject[] gameObjects;
     public ParticleSystem dust;
@@ -49,7 +50,7 @@ public class PacStudentController : MonoBehaviour
         OrcB = GameObject.Find("OrcB").GetComponent<Animator>();
         OrcC = GameObject.Find("OrcC").GetComponent<Animator>();
         OrcD = GameObject.Find("OrcD").GetComponent<Animator>();
-        currentPos = new Vector3(1f, -1f, 0f);
+        currentPos = new Vector3(12f, -11f, 0f);
         transform.position = currentPos;
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
 
@@ -93,7 +94,7 @@ public class PacStudentController : MonoBehaviour
         {
             float distance = Vector3.Distance(tween.Target.position, tween.EndPos);
             NormPos = (tween.EndPos - tween.StartPos).normalized;
-            Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
+          //  Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
 
 /*            if (NormPos.x != 0.0f || NormPos.y != 0.0f) // what is this for????
             {
@@ -405,6 +406,27 @@ public class PacStudentController : MonoBehaviour
             GameManagement.ScaredTime = 10f;
             StartCoroutine(ScareGhosts());
         }
+
+
+        if (trigger.gameObject.CompareTag("Enemy"))
+        {
+            pacaudio.clip = die_FX;
+            pacaudio.Play();
+            anim.SetBool("isDead", true);
+            anim.SetBool("down", false);
+            anim.SetBool("up", false);
+            anim.SetBool("left", false);
+            anim.SetBool("right", false);
+            Debug.Log("DIE");
+           // anim.SetBool("isDead", false);
+            currentInput = KeyCode.None;
+            lastInput = KeyCode.None;
+
+
+
+        }
+
+
     }
 
     IEnumerator ScareGhosts()
