@@ -12,6 +12,7 @@ TagManager:
   - In-W
   - Junc
   - Walkable
+  - Enemy
   layers:
   - Default
   - TransparentFX

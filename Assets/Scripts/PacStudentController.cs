@@ -21,6 +21,9 @@ public class PacStudentController : MonoBehaviour
     public AudioClip wall_FX;
     private AudioSource pacaudio;
     public Animator OrcA;
+    public Animator OrcB;
+    public Animator OrcC;
+    public Animator OrcD;
     public AudioSource music;
     public List<Vector3> Walkable;
     private GameObject[] gameObjects;
@@ -43,6 +46,9 @@ public class PacStudentController : MonoBehaviour
         anim = GetComponent<Animator>();
         pacaudio = GetComponent<AudioSource>();
         OrcA = GameObject.Find("OrcA").GetComponent<Animator>();
+        OrcB = GameObject.Find("OrcB").GetComponent<Animator>();
+        OrcC = GameObject.Find("OrcC").GetComponent<Animator>();
+        OrcD = GameObject.Find("OrcD").GetComponent<Animator>();
         currentPos = new Vector3(1f, -1f, 0f);
         transform.position = currentPos;
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
@@ -87,7 +93,7 @@ public class PacStudentController : MonoBehaviour
         {
             float distance = Vector3.Distance(tween.Target.position, tween.EndPos);
             NormPos = (tween.EndPos - tween.StartPos).normalized;
-            // Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
+            Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
 
 /*            if (NormPos.x != 0.0f || NormPos.y != 0.0f) // what is this for????
             {
@@ -163,7 +169,7 @@ public class PacStudentController : MonoBehaviour
             }
         }
 
-        if (NormPos.x == 0.0f && NormPos.y == 1.0f)  // >0 ?
+/*        if (NormPos.x == 0.0f && NormPos.y == 1.0f)  // >0 ?
         {
             anim.SetBool("up", true);
         }
@@ -197,7 +203,7 @@ public class PacStudentController : MonoBehaviour
         else
         {
             anim.SetBool("left", false);
-        }
+        }*/
     }
 
 
@@ -237,7 +243,11 @@ public class PacStudentController : MonoBehaviour
             {
                 lerpPos = new Vector3(x - 1, y, z);
                 if (MoveCheck(lerpPos))
-                {
+                { 
+                    anim.SetBool("left", true);
+                    anim.SetBool("down", false);
+                    anim.SetBool("up", false);
+                    anim.SetBool("right", false);
                     hitDirection = 1;
                     boxCollider.center = new Vector3(-0.1f, 0, 0); // adjust box
                     AddTween(transform, localPos, new Vector3(x - 1, y, z), speed);
@@ -253,6 +263,10 @@ public class PacStudentController : MonoBehaviour
                 lerpPos = new Vector3(x + 1, y, z);
                 if (MoveCheck(lerpPos))
                 {
+                    anim.SetBool("right", true);
+                    anim.SetBool("down", false);
+                    anim.SetBool("left", false);
+                    anim.SetBool("up", false);
                     hitDirection = 2;
                     boxCollider.center = new Vector3(0.1f, 0, 0); // adjust box
                     AddTween(transform, localPos, new Vector3(x + 1, y, z), speed);
@@ -268,6 +282,10 @@ public class PacStudentController : MonoBehaviour
                 lerpPos = new Vector3(x, y + 1, z);
                 if (MoveCheck(lerpPos))
                 {
+                    anim.SetBool("up", true);
+                    anim.SetBool("down", false);
+                    anim.SetBool("left", false);
+                    anim.SetBool("right", false);
                     hitDirection = 3;
                     boxCollider.center = new Vector3(0, 0.1f, 0); // adjust box
                     AddTween(transform, localPos, new Vector3(x, y + 1, z), speed);
@@ -283,6 +301,11 @@ public class PacStudentController : MonoBehaviour
                 lerpPos = new Vector3(x, y - 1, z);
                 if (MoveCheck(lerpPos))
                 {
+                    anim.SetBool("down", true);
+                    anim.SetBool("up", false);
+                    anim.SetBool("left", false);
+                    anim.SetBool("right", false);
+
                     hitDirection = 4;
                     boxCollider.center = new Vector3(0, -0.1f, 0); // adjust box
                     AddTween(transform, localPos, new Vector3(x, y - 1, z), speed);
@@ -388,8 +411,14 @@ public class PacStudentController : MonoBehaviour
     {
         GameManagement.Scared = true;
         OrcA.SetBool("isScared", true);
+        OrcB.SetBool("isScared", true);
+        OrcC.SetBool("isScared", true);
+        OrcD.SetBool("isScared", true);
         yield return new WaitForSeconds(7f);
         OrcA.SetBool("isScared", false);
+        OrcB.SetBool("isScared", false);
+        OrcC.SetBool("isScared", false);
+        OrcD.SetBool("isScared", false);
     }
 
     private void WallHit()
