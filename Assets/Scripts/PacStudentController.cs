@@ -449,25 +449,25 @@ public class PacStudentController : MonoBehaviour
         {
             case 1:
                 {
-                    wallHit.transform.position = new Vector3(localPos.x - 0.5f, localPos.y, 0f);
+                    wallHit.transform.position = new Vector3(localPos.x - 0.7f, localPos.y, 0f);
                     wallHit.Play();
                     break;
                 }
             case 2:
                 {
-                    wallHit.transform.position = new Vector3(localPos.x + 0.5f, localPos.y, 0f);
+                    wallHit.transform.position = new Vector3(localPos.x + 0.7f, localPos.y, 0f);
                     wallHit.Play();
                     break;
                 }
             case 3:
                 {
-                    wallHit.transform.position = new Vector3(localPos.x, localPos.y + 0.5f, 0f);
+                    wallHit.transform.position = new Vector3(localPos.x, localPos.y + 0.7f, 0f);
                     wallHit.Play();
                     break;
                 }
             case 4:
                 {
-                    wallHit.transform.position = new Vector3(localPos.x, localPos.y - 0.5f, 0f);
+                    wallHit.transform.position = new Vector3(localPos.x, localPos.y - 0.7f, 0f);
                     wallHit.Play();
                     break;
                 }
