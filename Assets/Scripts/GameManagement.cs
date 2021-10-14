@@ -9,6 +9,7 @@ public class GameManagement : MonoBehaviour
     private static int score;
     private static float scaredTime;
     private static bool scared;
+    public static int lives;
 
     private void Start()
     {
@@ -16,7 +17,9 @@ public class GameManagement : MonoBehaviour
         ghostTime.SetActive(false);
         score = 0;
         scaredTime = 0;
+        lives = 3;
     }
+
 
     private void Update()
     {
@@ -32,6 +35,26 @@ public class GameManagement : MonoBehaviour
             }
         }
     }
+
+
+
+/*    public void PacLife()
+    {
+        lives--;
+        Debug.Log("PacLife :" +lives);
+        if (lives == 0)
+        {
+            Debug.Log("GameOver");
+        }
+
+    }*/
+
+    public static int Life
+    {
+        set { lives = value; }
+        get { return lives; }
+    }
+
 
 
     public static int Score
@@ -51,6 +74,10 @@ public class GameManagement : MonoBehaviour
         set { scared = value; }
         get { return scared; }
     }
+
+
+
+
 
 }
 

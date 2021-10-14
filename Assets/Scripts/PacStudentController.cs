@@ -39,6 +39,7 @@ public class PacStudentController : MonoBehaviour
     private bool teleportR;
     private BoxCollider boxCollider;
     private int hitDirection;
+    private GameManagement gameManagment;
 
 
     void Start()
@@ -300,8 +301,6 @@ public class PacStudentController : MonoBehaviour
             {
                 return false;
             }
-
-
         }
 
         return false;
@@ -352,7 +351,6 @@ public class PacStudentController : MonoBehaviour
 
         private void OnTriggerEnter(Collider trigger)
     {
-
         if (trigger.name == "TeleportL")
         {
             teleportL = true;
@@ -405,16 +403,35 @@ public class PacStudentController : MonoBehaviour
             anim.SetBool("left", false);
             anim.SetBool("right", false);
             Debug.Log("DIE");
-           // anim.SetBool("isDead", false);
+            GameManagement.Life-=1;
+            Debug.Log("GameLives :" + GameManagement.Life);
+            // anim.SetBool("isDead", false);
+            tween = null;
+            //currentPos = new Vector3(1, -1, 0);
+            StartCoroutine(PacDie());
+            //gameObject.transform.position = new Vector3(1, -1, 0);
+            //AddTween(transform, transform.localPosition, new Vector3(1, -1, 0), 1);
             currentInput = KeyCode.None;
             lastInput = KeyCode.None;
-
-
-
+            
+            
         }
-
-
     }
+
+
+
+    IEnumerator PacDie()
+    {
+        yield return new WaitForSeconds(1.8f);
+        anim.SetBool("isDead", false);
+        //gameObject.SetActive(false);
+        //yield return new WaitForSeconds(2f);
+        gameObject.transform.position = new Vector3(1, -1, 0);
+        anim.SetBool("up", true);
+       
+        //gameObject.SetActive(true);
+    }
+
 
     IEnumerator ScareGhosts()
     {
