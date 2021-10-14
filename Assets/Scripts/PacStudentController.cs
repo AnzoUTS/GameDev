@@ -6,13 +6,18 @@ using System.Linq;
 
 public class PacStudentController : MonoBehaviour
 {
+    private int lastTime;
+    private float timer = -0.0f;
+    private float speed;
+    private float movement;
+    private float duration;
+
     private KeyCode currentInput;
     private KeyCode lastInput;
     private Vector3 currentPos;
     private Vector3 NormPos;
     private Vector3 localPos;
     private Vector3 lerpPos;
-    private float speed;
     bool isMoving;
     private Tween tween;
     private Animator anim;
@@ -42,7 +47,7 @@ public class PacStudentController : MonoBehaviour
         teleportR = false;
         boxCollider = GetComponent<BoxCollider>();
         hitDirection = 5;
-        speed = 0.5f;
+        speed = 2.5f;
         lastInput = KeyCode.None;
         anim = GetComponent<Animator>();
         pacaudio = GetComponent<AudioSource>();
@@ -62,6 +67,7 @@ public class PacStudentController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        duration = 1 / speed;
         localPos = transform.localPosition;
 
         if (tween != null)
@@ -75,18 +81,27 @@ public class PacStudentController : MonoBehaviour
 
     void Update()
     {
-   
+        movement = speed * Time.deltaTime;
 
+        timer += Time.deltaTime;
 
-        StartCoroutine(IsMoving());
+        if ((int)timer > lastTime)
+        {
+            if (lastTime >= 0)
+            {
+                Debug.Log("last time " + lastTime + " movement " + movement + "duration "+ duration);
+            }
+            lastTime = (int)timer;
+        }
+  
+
+            StartCoroutine(IsMoving());
 
         if (isMoving)
         {
             if (!pacaudio.isPlaying)
             {
-                pacaudio.clip = movement_FX;
-                pacaudio.Play();
-
+                StartCoroutine(MoveSound());
             }
         }
 
@@ -169,42 +184,6 @@ public class PacStudentController : MonoBehaviour
                 currentInput = KeyCode.S;
             }
         }
-
-/*        if (NormPos.x == 0.0f && NormPos.y == 1.0f)  // >0 ?
-        {
-            anim.SetBool("up", true);
-        }
-        else
-        {
-            anim.SetBool("up", false);
-        }
-
-        if (NormPos.x == 1.0f && NormPos.y == 0.0f)
-        {
-            anim.SetBool("right", true);
-        }
-        else
-        {
-            anim.SetBool("right", false);
-        }
-
-        if (NormPos.x == 0.0f && NormPos.y == -1.0f)
-        {
-            anim.SetBool("down", true);
-        }
-        else
-        {
-            anim.SetBool("down", false);
-        }
-
-        if (NormPos.x == -1.0f && NormPos.y == 0.0f)
-        {
-            anim.SetBool("left", true);
-        }
-        else
-        {
-            anim.SetBool("left", false);
-        }*/
     }
 
 
@@ -221,14 +200,14 @@ public class PacStudentController : MonoBehaviour
         if (teleportL == true && NormPos.x == -1)
         {
             teleportL = false;
-            AddTween(transform, new Vector3(27f, -14, 0), new Vector3(26f, -14, 0), speed);
+            AddTween(transform, new Vector3(27f, -14, 0), new Vector3(26f, -14, 0), duration);
             return true;
         }
 
         else if (teleportR == true && NormPos.x == +1)
         {
             teleportR = false;
-            AddTween(transform, new Vector3(0, -14, 0), new Vector3(1f, -14, 0), speed);
+            AddTween(transform, new Vector3(0, -14, 0), new Vector3(1f, -14, 0), duration);
             return true;
         }
         else
@@ -251,7 +230,7 @@ public class PacStudentController : MonoBehaviour
                     anim.SetBool("right", false);
                     hitDirection = 1;
                     boxCollider.center = new Vector3(-0.1f, 0, 0); // adjust box
-                    AddTween(transform, localPos, new Vector3(x - 1, y, z), speed);
+                    AddTween(transform, localPos, new Vector3(x - 1, y, z), duration);
                     return true;
                 }
                 else
@@ -270,7 +249,7 @@ public class PacStudentController : MonoBehaviour
                     anim.SetBool("up", false);
                     hitDirection = 2;
                     boxCollider.center = new Vector3(0.1f, 0, 0); // adjust box
-                    AddTween(transform, localPos, new Vector3(x + 1, y, z), speed);
+                    AddTween(transform, localPos, new Vector3(x + 1, y, z), duration);
                     return true;
                 }
                 else
@@ -289,7 +268,7 @@ public class PacStudentController : MonoBehaviour
                     anim.SetBool("right", false);
                     hitDirection = 3;
                     boxCollider.center = new Vector3(0, 0.1f, 0); // adjust box
-                    AddTween(transform, localPos, new Vector3(x, y + 1, z), speed);
+                    AddTween(transform, localPos, new Vector3(x, y + 1, z), duration);
                     return true;
                 }
                 else
@@ -309,7 +288,7 @@ public class PacStudentController : MonoBehaviour
 
                     hitDirection = 4;
                     boxCollider.center = new Vector3(0, -0.1f, 0); // adjust box
-                    AddTween(transform, localPos, new Vector3(x, y - 1, z), speed);
+                    AddTween(transform, localPos, new Vector3(x, y - 1, z), duration);
                     return true;
                 }
                 else
@@ -333,9 +312,6 @@ public class PacStudentController : MonoBehaviour
     {
         if (Walkable.Contains(lerp))
         {
-            /*          if (transform.parent.gameObject.name == "Pellet")
-                            Debug.Log("Pellet");*/
-            // if pellet
             return true;
         }
         else
@@ -362,8 +338,19 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
+    private IEnumerator MoveSound()
+    {
+        yield return new WaitForSeconds(0.000001f);
+     
+        if (!pacaudio.isPlaying)
+        {
+            pacaudio.clip = movement_FX;
+            pacaudio.Play();
+        }
+    }
 
-    private void OnTriggerEnter(Collider trigger)
+
+        private void OnTriggerEnter(Collider trigger)
     {
 
         if (trigger.name == "TeleportL")
