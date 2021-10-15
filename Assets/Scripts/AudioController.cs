@@ -3,52 +3,116 @@ using UnityEngine;
 
 public class AudioController : MonoBehaviour
 {
-    public AudioSource audio;
+    public AudioSource backgroundMusic;
     public AudioClip Intro;
     public AudioClip Normal;
     public AudioClip OrcScared;
     public AudioClip OrcDead;
     public static AudioClip musicClip;
-    public static Coroutine MusicStart;
-    private static bool ghostScared; 
+    private static bool ghostScared;
+    private static bool ghostDead;
 
-    public IEnumerator Start()
+
+    void Start ()
     {
-        audio = GetComponent<AudioSource>();
-        audio.clip = Normal;
-        audio.loop = true;
-        audio.volume = 0.5f;
-        audio.Play();
-        yield return new WaitForSeconds(audio.clip.length);
-/*        audio.clip = Normal;
-        audio.Play();*/
+      backgroundMusic = GetComponent<AudioSource>();
+      StartCoroutine(Main());
     }
 
 
-    public static bool Music
+    public static bool GhostScared
     {
         set { ghostScared = value; }
-        get { return false; }
     }
+
+
+    public static bool GhostDead
+    {
+        set { ghostDead = value; }
+    }
+
 
     private void Update()
     {
-        if (ghostScared == true)
+
+        if (!backgroundMusic.isPlaying)
         {
-            ghostScared = false;
-            StartCoroutine(Scared());
+            StartCoroutine(Main());
         }
+
+
+            if (ghostScared == true)
+        {
+            //backgroundMusic.Stop();
+            StopCoroutine(Main());
+
+            if (backgroundMusic.clip == Normal)
+            {
+                backgroundMusic.Stop();
+            }
+
+
+            if (!backgroundMusic.isPlaying)
+            {
+                StartCoroutine(Scared());
+            }
+        }
+
+
+
+        if (ghostDead == true)
+        {
+            StopCoroutine(Main());
+            StopCoroutine(Scared());
+          
+            ghostScared = false;
+
+            if (backgroundMusic.clip != OrcDead)
+            {
+                backgroundMusic.Stop();
+            }
+            if (!backgroundMusic.isPlaying)
+            {
+                StartCoroutine(Dead());
+            }
+        }
+
+       // Debug.Log("background" + " scard " + ghostScared + " dead " + ghostDead);
+
     }
 
-    public IEnumerator Scared()
+
+    public IEnumerator Main()
     {
-        audio.Stop();
-        audio.clip = OrcScared;
-        audio.volume =1;
-        audio.Play();
+        backgroundMusic.clip = Normal;
+        backgroundMusic.loop = true;
+        backgroundMusic.volume = 0.5f;
+        backgroundMusic.Play();
+        yield return new WaitForSeconds(backgroundMusic.clip.length);
+
+    }
+
+
+
+
+
+    public IEnumerator Dead()
+    {
+        backgroundMusic.clip = OrcDead;
+        backgroundMusic.volume = 1;
+        backgroundMusic.Play();
+        yield return new WaitForSeconds(backgroundMusic.clip.length); ;
+    }
+
+
+        public IEnumerator Scared()
+    {
+        backgroundMusic.clip = OrcScared;
+        backgroundMusic.volume =1;
+        backgroundMusic.Play();
         yield return new WaitForSeconds(10);
-        audio.clip = Normal;
-        audio.Play();
+        ghostScared = false;
+
     }
 
 

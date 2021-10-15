@@ -41,10 +41,12 @@ public class PacStudentController : MonoBehaviour
     private BoxCollider boxCollider;
     private int hitDirection;
     private GameManagement gameManagment;
+    private bool powerUp;
 
 
     void Start()
     {
+        powerUp = false;
         teleportL = false;
         teleportR = false;
         boxCollider = GetComponent<BoxCollider>();
@@ -91,7 +93,7 @@ public class PacStudentController : MonoBehaviour
         {
             if (lastTime >= 0)
             {
-                Debug.Log("last time " + lastTime + " movement " + movement + "duration "+ duration);
+               // Debug.Log("last time " + lastTime + " movement " + movement + "duration "+ duration);
             }
             lastTime = (int)timer;
         }
@@ -387,14 +389,17 @@ public class PacStudentController : MonoBehaviour
 
         if (trigger.gameObject.name.Contains("PowerFlash"))
         {
+            powerUp = true;
+            Invoke("PowerUp", 10.0f);
+            Debug.Log("powerUp - True");
             Destroy(trigger.gameObject);
-            AudioController.Music = true;
+            AudioController.GhostScared = true;
             GameManagement.ScaredTime = 10f;
             StartCoroutine(ScareGhosts());
         }
 
 
-        if (trigger.gameObject.CompareTag("Enemy"))
+        if (trigger.gameObject.CompareTag("Enemy") && powerUp ==false)
         {
             pacaudio.clip = die_FX;
             pacaudio.Play();
@@ -403,22 +408,31 @@ public class PacStudentController : MonoBehaviour
             anim.SetBool("up", false);
             anim.SetBool("left", false);
             anim.SetBool("right", false);
-            Debug.Log("DIE");
             GameManagement.Life-=1;
             Debug.Log("GameLives :" + GameManagement.Life);
-            // anim.SetBool("isDead", false);
             tween = null;
-            //currentPos = new Vector3(1, -1, 0);
             StartCoroutine(PacDie());
-            //gameObject.transform.position = new Vector3(1, -1, 0);
-            //AddTween(transform, transform.localPosition, new Vector3(1, -1, 0), 1);
             currentInput = KeyCode.None;
             lastInput = KeyCode.None;
-            
-            
         }
+
+
+        if (trigger.gameObject.CompareTag("Enemy") && powerUp == true)
+        {
+            Debug.Log("Kill Ghost");
+        }
+
+
+
+
     }
 
+
+    void PowerUp()
+    {
+        powerUp = false;
+        Debug.Log("powerUp - False");
+    }
 
 
     IEnumerator PacDie()
