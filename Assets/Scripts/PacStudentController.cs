@@ -35,6 +35,7 @@ public class PacStudentController : MonoBehaviour
     private GameObject[] gameObjects;
     public ParticleSystem dust;
     public ParticleSystem wallHit;
+    public ParticleSystem die;
     private bool teleportL;
     private bool teleportR;
     private BoxCollider boxCollider;
@@ -422,14 +423,16 @@ public class PacStudentController : MonoBehaviour
 
     IEnumerator PacDie()
     {
-        yield return new WaitForSeconds(1.8f);
+        die.Play();
+        yield return new WaitForSeconds(1.65f);
         anim.SetBool("isDead", false);
-        //gameObject.SetActive(false);
+        gameObject.SetActive(false);
         //yield return new WaitForSeconds(2f);
         gameObject.transform.position = new Vector3(1, -1, 0);
         anim.SetBool("up", true);
-       
-        //gameObject.SetActive(true);
+        
+       // yield return new WaitForSeconds(1f);
+        gameObject.SetActive(true);
     }
 
 
