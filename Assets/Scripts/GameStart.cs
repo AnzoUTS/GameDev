@@ -8,21 +8,12 @@ public class GameStart : MonoBehaviour
     private Text start;
     private string[] countDown = { "3", "2", "1", "GO!" , ""};
 
-
     void Start()
     {
 
         start = GetComponent<Text>();
         StartCoroutine(Go());
         StartCoroutine(StopTime());
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private IEnumerator Go()
@@ -40,15 +31,12 @@ public class GameStart : MonoBehaviour
         Time.timeScale = 1;
     }
 
-
     private IEnumerator StopTime()
     {
-        //yield return new WaitForSeconds(0f);
         Time.timeScale = 0;
         yield return new WaitForSeconds(4f);
         Time.timeScale = 1;
     }
-
 
 
 }

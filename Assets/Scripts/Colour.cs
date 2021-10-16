@@ -21,10 +21,7 @@ public class Colour : MonoBehaviour
         }
 
         NewColour();
-
-     
     }
-
 
     public void NewColour()
     {
@@ -39,11 +36,5 @@ public class Colour : MonoBehaviour
             MyImage.GetComponent<Image>().color = new Color(1 ,1, 0, 1);
         }
     }
-
-   
-
-
-
-
 
 }

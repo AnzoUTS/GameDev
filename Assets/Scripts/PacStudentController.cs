@@ -11,6 +11,13 @@ public class PacStudentController : MonoBehaviour
     private float speed;
     private float movement;
     private float duration;
+    private bool teleportL;
+    private bool teleportR;
+    private bool isMoving;
+    private bool powerUp;
+    private bool canMove;
+    private int objectCount;
+    private int hitDirection;
 
     private KeyCode currentInput;
     private KeyCode lastInput;
@@ -18,7 +25,8 @@ public class PacStudentController : MonoBehaviour
     private Vector3 NormPos;
     private Vector3 localPos;
     private Vector3 lerpPos;
-    bool isMoving;
+    public List<Vector3> Walkable;
+
     private Tween tween;
     private Animator anim;
     public AudioClip movement_FX;
@@ -26,25 +34,12 @@ public class PacStudentController : MonoBehaviour
     public AudioClip wall_FX;
     public AudioClip die_FX;
     private AudioSource pacaudio;
-  //  private Animator OrcA;
-   // private Animator OrcB;
-   // private Animator OrcC;
-   // private Animator OrcD;
-    //private AudioSource music;
-    public List<Vector3> Walkable;
     private GameObject[] gameObjects;
     public ParticleSystem dust;
     public ParticleSystem wallHit;
     public ParticleSystem die;
-    private bool teleportL;
-    private bool teleportR;
     private BoxCollider boxCollider;
-    private int hitDirection;
     private GameManagement gameManagment;
-    private bool powerUp;
-    private bool canMove;
-    private int objectCount;
-
 
     void Start()
     {
@@ -52,16 +47,12 @@ public class PacStudentController : MonoBehaviour
         canMove = true;
         teleportL = false;
         teleportR = false;
-        boxCollider = GetComponent<BoxCollider>();
         hitDirection = 5;
         speed = 2.5f;
         lastInput = KeyCode.None;
+        boxCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
         pacaudio = GetComponent<AudioSource>();
-        //OrcA = GameObject.Find("OrcA").GetComponent<Animator>();
-       // OrcB = GameObject.Find("OrcB").GetComponent<Animator>();
-       // OrcC = GameObject.Find("OrcC").GetComponent<Animator>();
-      //  OrcD = GameObject.Find("OrcD").GetComponent<Animator>();
         currentPos = new Vector3(1f, -1f, 0f);
         transform.position = currentPos;
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
@@ -151,13 +142,7 @@ public class PacStudentController : MonoBehaviour
 
                 else
                 {
-                    if (Direction(lastInput))
-                    {
-                    }
-                    else
-                    {
-                        Direction(currentInput);
-                    }
+                   Direction(currentInput);
                 }
             }
         }
@@ -210,9 +195,6 @@ public class PacStudentController : MonoBehaviour
 
     public bool Direction(KeyCode key)
     {
-
-        if (canMove == true)
-        {
 
             if (teleportL == true && NormPos.x == -1)
             {
@@ -317,9 +299,7 @@ public class PacStudentController : MonoBehaviour
                 {
                     return false;
                 }
-            }
 
-            return false;
         }
 
         return false;
@@ -431,7 +411,7 @@ public class PacStudentController : MonoBehaviour
             Debug.Log("GameLives :" + GameManagement.Life);
             tween = null;
             canMove = false;
-            Invoke("startMove", 3f);
+            Invoke("startMove", 4f);
             StartCoroutine(PacDie());
             currentInput = KeyCode.None;
             lastInput = KeyCode.None;
@@ -442,9 +422,6 @@ public class PacStudentController : MonoBehaviour
         {
             Debug.Log("Kill Ghost");
         }
-
-
-
 
     }
 
@@ -462,24 +439,7 @@ public class PacStudentController : MonoBehaviour
         yield return new WaitForSeconds(3f);
         anim.SetBool("up", true);
         gameObject.transform.position = new Vector3(1, -1, 0);
-  
     }
-
-/*
-    IEnumerator ScareGhosts()
-    {
-        GameManagement.Scared = true;
-*//*        OrcA.SetBool("isScared", true);
-        OrcB.SetBool("isScared", true);
-        OrcC.SetBool("isScared", true);
-        OrcD.SetBool("isScared", true);
-        yield return new WaitForSeconds(7f);
-        OrcA.SetBool("isScared", false);
-        OrcB.SetBool("isScared", false);
-        OrcC.SetBool("isScared", false);
-        OrcD.SetBool("isScared", false);*//*
-    }*/
-
 
     void startMove()
     {

@@ -25,35 +25,31 @@ public class CherryController : MonoBehaviour
     {
         x = Random.Range(-20, 20);
         y = Random.Range(-20, 20);
-        direction = Random.Range(1, 5); // max Exclusive for int
+        direction = Random.Range(1, 5); // range 1-4
 
         switch (direction)
         {
             case 1: 
                 {
                     Instantiate(cherry, new Vector3(x + centerX, 5, 0), Quaternion.Euler(0, 0, 0));
-                  //  Debug.Log("x Start " + (x + centerX) + "|| y Start " + 5 + "|| axis :" + axis);
                     break;
                 }
 
             case 2:
                 {
                     Instantiate(cherry, new Vector3(40, y + centerY, 0), Quaternion.Euler(0, 0, 0));
-                 //   Debug.Log("x Start " + 40 + "|| y Start " + (y + centerY) + "|| axis :" + axis);
                     break;
                 }
 
             case 3:
                 {
                     Instantiate(cherry, new Vector3(-x + centerX, -33, 0), Quaternion.Euler(0, 0, 0));
-                //    Debug.Log("x Start " + (-x + centerX) + "|| y Start " + -33 + "|| axis :" + axis);
                     break;
                 }
 
             case 4:
                 {
                     Instantiate(cherry, new Vector3(-15, -y + centerY, 0), Quaternion.Euler(0, 0, 0));
-                //    Debug.Log("x Start " + -15 + "|| y Start " +  (-y + centerY) + "|| axis :" + axis);
                     break;
                 }
         }
@@ -77,7 +73,6 @@ public class CherryController : MonoBehaviour
             return y;
         }
     }
-
     public static int Axis
     {
         get

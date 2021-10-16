@@ -13,31 +13,26 @@ public class AudioController : MonoBehaviour
     private static bool ghostDead;
     private static bool music;
 
-
     void Start ()
     {
       backgroundMusic = GetComponent<AudioSource>();
       music = false;
     }
 
-
     public static bool GhostScared
     {
         set { ghostScared = value; }
     }
-
 
     public static bool Music
     {
         set { music = value; }
     }
 
-
     public static bool GhostDead
     {
         set { ghostDead = value; }
     }
-
 
     private void Update()
     {
@@ -46,8 +41,6 @@ public class AudioController : MonoBehaviour
         {
             StartCoroutine(Main());
         }
-
-        // check for bugs in changing sounds
             if (ghostScared == true)
             {
                 StopCoroutine(Main());
@@ -68,7 +61,6 @@ public class AudioController : MonoBehaviour
         {
             backgroundMusic.Stop();
         }
-
 
             if (ghostDead == true)
         {
@@ -98,7 +90,6 @@ public class AudioController : MonoBehaviour
         backgroundMusic.volume = 0.5f;
         backgroundMusic.Play();
         yield return new WaitForSeconds(backgroundMusic.clip.length);
-
     }
 
     public IEnumerator Dead()
@@ -119,6 +110,4 @@ public class AudioController : MonoBehaviour
         ghostScared = false;
 
     }
-
-
 }

@@ -12,11 +12,7 @@ public class Score : MonoBehaviour
     {
         scoreText = GetComponent<Text>();
         scoreInt = GameManagement.Score;
-
-
-        // set starting score; 
         scoreInt = 0;
-
     }
 
     void Update()

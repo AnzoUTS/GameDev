@@ -53,7 +53,6 @@ public class GameManagement : MonoBehaviour
         Debug.Log("Starting Pellets :" + pellets);
     }
 
-
     private void Update()
     {
         if(scared == true)
@@ -64,11 +63,9 @@ public class GameManagement : MonoBehaviour
             if (ScaredTime <= 0)
             {
                 scared = false;
-                ghostTime.SetActive(false);
-               
+                ghostTime.SetActive(false);          
             }
         }
-
 
         if (lives == 0 || pellets ==0 )
         {
@@ -76,7 +73,6 @@ public class GameManagement : MonoBehaviour
             GameResults();
         }
     }
-
 
     public static int Pellets
     {
@@ -108,17 +104,9 @@ public class GameManagement : MonoBehaviour
         get { return scared; }
     }
 
-
     public void GameResults()
     {
         gameOver.SetActive(true);
-
-
-/*        if (!gameOverMusic.isPlaying)
-        {
-            Invoke("EndSound", 1f);
-        }*/
-
         Invoke("StartScreen", 3f);
 
         Debug.Log("PREF bestscore " + highScore + " PREF best time " + bestTime);
@@ -146,19 +134,9 @@ public class GameManagement : MonoBehaviour
         }
     }
 
-
-
     private void StartScreen()
     {
             SceneManager.LoadScene("StartScene");
     }
-
-/*    private void EndSound()
-    {
-        gameOverMusic.Play();
-    }*/
-
-
-
     
 }

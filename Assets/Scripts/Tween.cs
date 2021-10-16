@@ -18,8 +18,5 @@ public class Tween
         this.EndPos = endPos;
         this.StartTime = startTime;
         this.Duration = duration;
-
-
     }
-
 }

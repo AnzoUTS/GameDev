@@ -6,14 +6,10 @@ using UnityEngine.UI;
 public class GameOver : MonoBehaviour
 {
     private Text gameoverText;
-
-
     void Start()
     {
         
         gameoverText = GetComponent<Text>();
         
     }
-
-
 }

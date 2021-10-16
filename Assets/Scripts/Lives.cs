@@ -11,7 +11,6 @@ public class Lives : MonoBehaviour
     void Start()
     {
         life = gameObject.transform.GetChild(0).GetComponent<Image>();
-
     }
 
     void Update()
@@ -27,7 +26,5 @@ public class Lives : MonoBehaviour
             Destroy(life);
             }
         }
-
-
     }
 }
