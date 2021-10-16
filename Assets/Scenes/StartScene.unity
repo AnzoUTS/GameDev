@@ -512,6 +512,7 @@ GameObject:
   - component: {fileID: 364582008}
   - component: {fileID: 364582010}
   - component: {fileID: 364582009}
+  - component: {fileID: 364582011}
   m_Layer: 5
   m_Name: High Score
   m_TagString: Untagged
@@ -580,6 +581,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364582007}
   m_CullTransparentMesh: 1
+--- !u!114 &364582011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364582007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ac881d85200cbd4fb5cabbb09090972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &529322830
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,8 +1004,9 @@ GameObject:
   - component: {fileID: 820502109}
   - component: {fileID: 820502111}
   - component: {fileID: 820502110}
+  - component: {fileID: 820502112}
   m_Layer: 5
-  m_Name: Time
+  m_Name: High Time
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1059,6 +1073,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 820502108}
   m_CullTransparentMesh: 1
+--- !u!114 &820502112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820502108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efb041a407204ab4398e14a4a50f135c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &846750754
 GameObject:
   m_ObjectHideFlags: 0

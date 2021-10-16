@@ -1,23 +1,56 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManagement : MonoBehaviour
 {
-    private GameObject ghostTime;
     private static int score;
     private static float scaredTime;
     private static bool scared;
     public static int lives;
+    private string finalTime;
+    private string highScore;
+    private string bestTime;
+    private DateTime previousTime;
+    private DateTime currentTime;
+    private GameObject[] walkableGameObjects;
+    private GameObject gameOver;
+    private GameObject ghostTime;
+    private int startingPellets; 
+    private int previousBest;
+    private static int pellets;
+    public AudioClip gameOverClip;
+    AudioSource gameOverMusic;
 
     private void Start()
     {
+        highScore = PlayerPrefs.GetString("HighScore");
+        previousBest = int.Parse(highScore);
+        bestTime = PlayerPrefs.GetString("FastestTime");
         ghostTime = GameObject.Find("GhostTime");
+        walkableGameObjects = GameObject.FindGameObjectsWithTag("Walkable");
+        gameOver = GameObject.Find("GameOver");
+        gameOver.SetActive(false);
         ghostTime.SetActive(false);
         score = 0;
         scaredTime = 0;
         lives = 3;
+        gameOverMusic = GetComponent<AudioSource>();
+        gameOverMusic.clip = gameOverClip;
+
+        foreach (GameObject obj in walkableGameObjects)
+        {
+            if (obj.name.Contains("Pellet"))
+            {
+                startingPellets++;
+            }
+        }
+        pellets = startingPellets-1;
+        Debug.Log("Starting Pellets :" + pellets);
     }
 
 
@@ -27,35 +60,35 @@ public class GameManagement : MonoBehaviour
         {
             ghostTime.SetActive(true);
             ScaredTime -= Time.deltaTime;
-            // Debug.Log(ScaredTime);
+            //Debug.Log("ScardTime" + scaredTime);
             if (ScaredTime <= 0)
             {
-                ghostTime.SetActive(false);
                 scared = false;
+                ghostTime.SetActive(false);
+               
             }
+        }
+
+
+        if (lives == 0 || pellets ==0 )
+        {
+            finalTime = GameTime.finalTime;
+            GameResults();
         }
     }
 
 
-
-/*    public void PacLife()
+    public static int Pellets
     {
-        lives--;
-        Debug.Log("PacLife :" +lives);
-        if (lives == 0)
-        {
-            Debug.Log("GameOver");
-        }
-
-    }*/
+        set { pellets = value; }
+        get { return pellets; }
+    }
 
     public static int Life
     {
         set { lives = value; }
         get { return lives; }
     }
-
-
 
     public static int Score
     {
@@ -76,20 +109,56 @@ public class GameManagement : MonoBehaviour
     }
 
 
+    public void GameResults()
+    {
+        gameOver.SetActive(true);
+
+
+/*        if (!gameOverMusic.isPlaying)
+        {
+            Invoke("EndSound", 1f);
+        }*/
+
+        Invoke("StartScreen", 3f);
+
+        Debug.Log("PREF bestscore " + highScore + " PREF best time " + bestTime);
+        Debug.Log("gamescore " + score + " gametime " + finalTime);
+        
+        if (score > previousBest) {
+            PlayerPrefs.SetString("FastestTime", finalTime);
+            PlayerPrefs.SetString("HighScore", score.ToString());
+            Debug.Log("New High Score");
+        } 
+
+        if (score == previousBest)
+
+        {
+            var cultureInfo = new CultureInfo("en-AU");
+            previousTime = DateTime.ParseExact(bestTime, "hh:mm:ss", cultureInfo);
+            currentTime = DateTime.ParseExact(finalTime, "hh:mm:ss", cultureInfo);
+            Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
+
+            if ( currentTime < previousTime)
+            {
+                PlayerPrefs.SetString("FastestTime", finalTime);
+                Debug.Log("New Fastest Time");
+            }     
+        }
+    }
 
 
 
+    private void StartScreen()
+    {
+            SceneManager.LoadScene("StartScene");
+    }
+
+/*    private void EndSound()
+    {
+        gameOverMusic.Play();
+    }*/
+
+
+
+    
 }
-
-/*    int PlayerPrefs.GetInt(string key);
-    float PlayerPrefs.GetFloat(string key);
-    string PlayerPrefs.GetString ((string key);
-    void PlayerPrefs.SetInt (string key, int value);
-    void PlayerPrefs.SetFloat(string key, float value);
-    void PlayerPrefs.SetString (string key, string value);
-    bool PlayerPrefs.HasKey (string key);
-    void PlayerPrefs.DeleteKey (string key);
-    void PlayerPrefs.DeleteAll();
-  */
-
-//}

@@ -26,11 +26,11 @@ public class PacStudentController : MonoBehaviour
     public AudioClip wall_FX;
     public AudioClip die_FX;
     private AudioSource pacaudio;
-    private Animator OrcA;
-    private Animator OrcB;
-    private Animator OrcC;
-    private Animator OrcD;
-    private AudioSource music;
+  //  private Animator OrcA;
+   // private Animator OrcB;
+   // private Animator OrcC;
+   // private Animator OrcD;
+    //private AudioSource music;
     public List<Vector3> Walkable;
     private GameObject[] gameObjects;
     public ParticleSystem dust;
@@ -43,6 +43,7 @@ public class PacStudentController : MonoBehaviour
     private GameManagement gameManagment;
     private bool powerUp;
     private bool canMove;
+    private int objectCount;
 
 
     void Start()
@@ -57,18 +58,21 @@ public class PacStudentController : MonoBehaviour
         lastInput = KeyCode.None;
         anim = GetComponent<Animator>();
         pacaudio = GetComponent<AudioSource>();
-        OrcA = GameObject.Find("OrcA").GetComponent<Animator>();
-        OrcB = GameObject.Find("OrcB").GetComponent<Animator>();
-        OrcC = GameObject.Find("OrcC").GetComponent<Animator>();
-        OrcD = GameObject.Find("OrcD").GetComponent<Animator>();
-        currentPos = new Vector3(12f, -11f, 0f);
+        //OrcA = GameObject.Find("OrcA").GetComponent<Animator>();
+       // OrcB = GameObject.Find("OrcB").GetComponent<Animator>();
+       // OrcC = GameObject.Find("OrcC").GetComponent<Animator>();
+      //  OrcD = GameObject.Find("OrcD").GetComponent<Animator>();
+        currentPos = new Vector3(1f, -1f, 0f);
         transform.position = currentPos;
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
 
         foreach (GameObject item in gameObjects)
         {
             Walkable.Add(item.transform.position);
+            objectCount++;
         }
+
+        Debug.Log("Objects " + objectCount);
     }
 
     private void FixedUpdate()
@@ -198,7 +202,7 @@ public class PacStudentController : MonoBehaviour
 
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
     {
-        if (tween == null || canMove == true)
+        if (tween == null && canMove == true)
         {
             tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
         }
@@ -382,6 +386,8 @@ public class PacStudentController : MonoBehaviour
         {
             Destroy(trigger.gameObject);
             GameManagement.Score += 10;
+            GameManagement.Pellets -= 1;
+            Debug.Log("Pellets Remaining :" + GameManagement.Pellets);
             pacaudio.clip = pellet_FX;
             pacaudio.Play();
         }
@@ -407,15 +413,16 @@ public class PacStudentController : MonoBehaviour
             Destroy(trigger.gameObject);
             AudioController.GhostScared = true;
             GameManagement.ScaredTime = 10f;
-            StartCoroutine(ScareGhosts());
+            GameManagement.Scared = true;
+            //StartCoroutine(ScareGhosts());
         }
 
 
-        if (trigger.gameObject.CompareTag("Enemy") && powerUp ==false)
+        if (trigger.gameObject.CompareTag("Enemy") && powerUp ==false) // come back to this and check death animation
         {
             pacaudio.clip = die_FX;
             pacaudio.Play();
-            anim.SetBool("isDead", true);
+            anim.SetTrigger("isDead");
             anim.SetBool("down", false);
             anim.SetBool("up", false);
             anim.SetBool("left", false);
@@ -452,18 +459,17 @@ public class PacStudentController : MonoBehaviour
     IEnumerator PacDie()
     {
         die.Play();
-        yield return new WaitForSeconds(1.65f);
-        anim.SetBool("isDead", false);
+        yield return new WaitForSeconds(3f);
         anim.SetBool("up", true);
         gameObject.transform.position = new Vector3(1, -1, 0);
-        
+  
     }
 
-
+/*
     IEnumerator ScareGhosts()
     {
         GameManagement.Scared = true;
-        OrcA.SetBool("isScared", true);
+*//*        OrcA.SetBool("isScared", true);
         OrcB.SetBool("isScared", true);
         OrcC.SetBool("isScared", true);
         OrcD.SetBool("isScared", true);
@@ -471,8 +477,8 @@ public class PacStudentController : MonoBehaviour
         OrcA.SetBool("isScared", false);
         OrcB.SetBool("isScared", false);
         OrcC.SetBool("isScared", false);
-        OrcD.SetBool("isScared", false);
-    }
+        OrcD.SetBool("isScared", false);*//*
+    }*/
 
 
     void startMove()

@@ -18,7 +18,6 @@ public class AudioController : MonoBehaviour
     {
       backgroundMusic = GetComponent<AudioSource>();
       music = false;
-    //StartCoroutine(Main());
     }
 
 
@@ -50,26 +49,28 @@ public class AudioController : MonoBehaviour
 
         // check for bugs in changing sounds
             if (ghostScared == true)
-        {
-            //backgroundMusic.Stop();
-            StopCoroutine(Main());
-
-            if (backgroundMusic.clip != OrcScared)
             {
+                StopCoroutine(Main());
+
+                if (backgroundMusic.clip != OrcScared)
+                {
                 StopCoroutine(Dead());
                 backgroundMusic.Stop();
-            }
+                }
 
-
-            if (!backgroundMusic.isPlaying)
-            {
+                if (!backgroundMusic.isPlaying)
+                {
                 StartCoroutine(Scared());
+                }
             }
+
+        if (GameManagement.Scared == false && backgroundMusic.clip == OrcScared)
+        {
+            backgroundMusic.Stop();
         }
 
 
-
-        if (ghostDead == true)
+            if (ghostDead == true)
         {
             StopCoroutine(Main());
             StopCoroutine(Scared());
@@ -86,11 +87,9 @@ public class AudioController : MonoBehaviour
 
             }
         }
-
        // Debug.Log("background" + " scard " + ghostScared + " dead " + ghostDead);
 
     }
-
 
     public IEnumerator Main()
     {
@@ -102,10 +101,6 @@ public class AudioController : MonoBehaviour
 
     }
 
-
-
-
-
     public IEnumerator Dead()
     {
         backgroundMusic.clip = OrcDead;
@@ -115,8 +110,7 @@ public class AudioController : MonoBehaviour
         backgroundMusic.Stop();
     }
 
-
-        public IEnumerator Scared()
+    public IEnumerator Scared()
     {
         backgroundMusic.clip = OrcScared;
         backgroundMusic.volume =1;
