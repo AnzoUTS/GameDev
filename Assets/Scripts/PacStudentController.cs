@@ -42,11 +42,13 @@ public class PacStudentController : MonoBehaviour
     private int hitDirection;
     private GameManagement gameManagment;
     private bool powerUp;
+    private bool canMove;
 
 
     void Start()
     {
         powerUp = false;
+        canMove = true;
         teleportL = false;
         teleportR = false;
         boxCollider = GetComponent<BoxCollider>();
@@ -136,19 +138,22 @@ public class PacStudentController : MonoBehaviour
         {
             // Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput);
 
-            if (Direction(lastInput))
-            {
-                currentInput = lastInput;
-            }
-
-            else
+            if (canMove == true)
             {
                 if (Direction(lastInput))
                 {
+                    currentInput = lastInput;
                 }
+
                 else
                 {
-                    Direction(currentInput);
+                    if (Direction(lastInput))
+                    {
+                    }
+                    else
+                    {
+                        Direction(currentInput);
+                    }
                 }
             }
         }
@@ -193,7 +198,7 @@ public class PacStudentController : MonoBehaviour
 
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
     {
-        if (tween == null)
+        if (tween == null || canMove == true)
         {
             tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
         }
@@ -201,109 +206,116 @@ public class PacStudentController : MonoBehaviour
 
     public bool Direction(KeyCode key)
     {
-        if (teleportL == true && NormPos.x == -1)
+
+        if (canMove == true)
         {
-            teleportL = false;
-            AddTween(transform, new Vector3(27f, -14, 0), new Vector3(26f, -14, 0), duration);
-            return true;
-        }
 
-        else if (teleportR == true && NormPos.x == +1)
-        {
-            teleportR = false;
-            AddTween(transform, new Vector3(0, -14, 0), new Vector3(1f, -14, 0), duration);
-            return true;
-        }
-        else
-        {
-            teleportL = false;
-            teleportR = false;
-
-            int x = (int)Math.Round(localPos.x);
-            int y = (int)Math.Round(localPos.y);
-            float z = localPos.z;
-
-            if (key == KeyCode.A)
+            if (teleportL == true && NormPos.x == -1)
             {
-                lerpPos = new Vector3(x - 1, y, z);
-                if (MoveCheck(lerpPos))
-                { 
-                    anim.SetBool("left", true);
-                    anim.SetBool("down", false);
-                    anim.SetBool("up", false);
-                    anim.SetBool("right", false);
-                    hitDirection = 1;
-                    boxCollider.center = new Vector3(-0.1f, 0, 0); // adjust box
-                    AddTween(transform, localPos, new Vector3(x - 1, y, z), duration);
-                    return true;
+                teleportL = false;
+                AddTween(transform, new Vector3(27f, -14, 0), new Vector3(26f, -14, 0), duration);
+                return true;
+            }
+
+            else if (teleportR == true && NormPos.x == +1)
+            {
+                teleportR = false;
+                AddTween(transform, new Vector3(0, -14, 0), new Vector3(1f, -14, 0), duration);
+                return true;
+            }
+            else
+            {
+                teleportL = false;
+                teleportR = false;
+
+                int x = (int)Math.Round(localPos.x);
+                int y = (int)Math.Round(localPos.y);
+                float z = localPos.z;
+
+                if (key == KeyCode.A)
+                {
+                    lerpPos = new Vector3(x - 1, y, z);
+                    if (MoveCheck(lerpPos))
+                    {
+                        anim.SetBool("left", true);
+                        anim.SetBool("down", false);
+                        anim.SetBool("up", false);
+                        anim.SetBool("right", false);
+                        hitDirection = 1;
+                        boxCollider.center = new Vector3(-0.1f, 0, 0); // adjust box
+                        AddTween(transform, localPos, new Vector3(x - 1, y, z), duration);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
-                else
+                else if (key == KeyCode.D)
+                {
+                    lerpPos = new Vector3(x + 1, y, z);
+                    if (MoveCheck(lerpPos))
+                    {
+                        anim.SetBool("right", true);
+                        anim.SetBool("down", false);
+                        anim.SetBool("left", false);
+                        anim.SetBool("up", false);
+                        hitDirection = 2;
+                        boxCollider.center = new Vector3(0.1f, 0, 0); // adjust box
+                        AddTween(transform, localPos, new Vector3(x + 1, y, z), duration);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else if (key == KeyCode.W)
+                {
+                    lerpPos = new Vector3(x, y + 1, z);
+                    if (MoveCheck(lerpPos))
+                    {
+                        anim.SetBool("up", true);
+                        anim.SetBool("down", false);
+                        anim.SetBool("left", false);
+                        anim.SetBool("right", false);
+                        hitDirection = 3;
+                        boxCollider.center = new Vector3(0, 0.1f, 0); // adjust box
+                        AddTween(transform, localPos, new Vector3(x, y + 1, z), duration);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else if (key == KeyCode.S)
+                {
+                    lerpPos = new Vector3(x, y - 1, z);
+                    if (MoveCheck(lerpPos))
+                    {
+                        anim.SetBool("down", true);
+                        anim.SetBool("up", false);
+                        anim.SetBool("left", false);
+                        anim.SetBool("right", false);
+
+                        hitDirection = 4;
+                        boxCollider.center = new Vector3(0, -0.1f, 0); // adjust box
+                        AddTween(transform, localPos, new Vector3(x, y - 1, z), duration);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else if (key == KeyCode.None)
                 {
                     return false;
                 }
             }
-            else if (key == KeyCode.D)
-            {
-                lerpPos = new Vector3(x + 1, y, z);
-                if (MoveCheck(lerpPos))
-                {
-                    anim.SetBool("right", true);
-                    anim.SetBool("down", false);
-                    anim.SetBool("left", false);
-                    anim.SetBool("up", false);
-                    hitDirection = 2;
-                    boxCollider.center = new Vector3(0.1f, 0, 0); // adjust box
-                    AddTween(transform, localPos, new Vector3(x + 1, y, z), duration);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else if (key == KeyCode.W)
-            {
-                lerpPos = new Vector3(x, y + 1, z);
-                if (MoveCheck(lerpPos))
-                {
-                    anim.SetBool("up", true);
-                    anim.SetBool("down", false);
-                    anim.SetBool("left", false);
-                    anim.SetBool("right", false);
-                    hitDirection = 3;
-                    boxCollider.center = new Vector3(0, 0.1f, 0); // adjust box
-                    AddTween(transform, localPos, new Vector3(x, y + 1, z), duration);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else if (key == KeyCode.S)
-            {
-                lerpPos = new Vector3(x, y - 1, z);
-                if (MoveCheck(lerpPos))
-                {
-                    anim.SetBool("down", true);
-                    anim.SetBool("up", false);
-                    anim.SetBool("left", false);
-                    anim.SetBool("right", false);
 
-                    hitDirection = 4;
-                    boxCollider.center = new Vector3(0, -0.1f, 0); // adjust box
-                    AddTween(transform, localPos, new Vector3(x, y - 1, z), duration);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else if (key == KeyCode.None)
-            {
-                return false;
-            }
+            return false;
         }
 
         return false;
@@ -411,6 +423,8 @@ public class PacStudentController : MonoBehaviour
             GameManagement.Life-=1;
             Debug.Log("GameLives :" + GameManagement.Life);
             tween = null;
+            canMove = false;
+            Invoke("startMove", 3f);
             StartCoroutine(PacDie());
             currentInput = KeyCode.None;
             lastInput = KeyCode.None;
@@ -440,13 +454,9 @@ public class PacStudentController : MonoBehaviour
         die.Play();
         yield return new WaitForSeconds(1.65f);
         anim.SetBool("isDead", false);
-        gameObject.SetActive(false);
-        //yield return new WaitForSeconds(2f);
-        gameObject.transform.position = new Vector3(1, -1, 0);
         anim.SetBool("up", true);
+        gameObject.transform.position = new Vector3(1, -1, 0);
         
-       // yield return new WaitForSeconds(1f);
-        gameObject.SetActive(true);
     }
 
 
@@ -462,6 +472,12 @@ public class PacStudentController : MonoBehaviour
         OrcB.SetBool("isScared", false);
         OrcC.SetBool("isScared", false);
         OrcD.SetBool("isScared", false);
+    }
+
+
+    void startMove()
+    {
+        canMove = true;
     }
 
     private void WallHit()

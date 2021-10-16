@@ -11,18 +11,26 @@ public class AudioController : MonoBehaviour
     public static AudioClip musicClip;
     private static bool ghostScared;
     private static bool ghostDead;
+    private static bool music;
 
 
     void Start ()
     {
       backgroundMusic = GetComponent<AudioSource>();
-      StartCoroutine(Main());
+      music = false;
+    //StartCoroutine(Main());
     }
 
 
     public static bool GhostScared
     {
         set { ghostScared = value; }
+    }
+
+
+    public static bool Music
+    {
+        set { music = value; }
     }
 
 
@@ -35,19 +43,20 @@ public class AudioController : MonoBehaviour
     private void Update()
     {
 
-        if (!backgroundMusic.isPlaying)
+        if (!backgroundMusic.isPlaying && music == true)
         {
             StartCoroutine(Main());
         }
 
-
+        // check for bugs in changing sounds
             if (ghostScared == true)
         {
             //backgroundMusic.Stop();
             StopCoroutine(Main());
 
-            if (backgroundMusic.clip == Normal)
+            if (backgroundMusic.clip != OrcScared)
             {
+                StopCoroutine(Dead());
                 backgroundMusic.Stop();
             }
 
@@ -74,6 +83,7 @@ public class AudioController : MonoBehaviour
             if (!backgroundMusic.isPlaying)
             {
                 StartCoroutine(Dead());
+
             }
         }
 
@@ -101,7 +111,8 @@ public class AudioController : MonoBehaviour
         backgroundMusic.clip = OrcDead;
         backgroundMusic.volume = 1;
         backgroundMusic.Play();
-        yield return new WaitForSeconds(backgroundMusic.clip.length); ;
+        yield return new WaitForSeconds(5); ;
+        backgroundMusic.Stop();
     }
 
 

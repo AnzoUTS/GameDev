@@ -35,9 +35,19 @@ public class Enemy : MonoBehaviour
             anim.SetBool("isDead", true);
             AudioController.GhostDead = true;
             GameManagement.Score += 300;
+            StartCoroutine(EnemyDead());
 
         }
 
+
+    }
+
+
+    IEnumerator EnemyDead()
+    {
+        yield return new WaitForSeconds(5);
+        anim.SetBool("isDead", false);
+        AudioController.GhostDead = false;
 
     }
 
