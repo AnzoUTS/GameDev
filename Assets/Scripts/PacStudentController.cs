@@ -60,10 +60,10 @@ public class PacStudentController : MonoBehaviour
         foreach (GameObject item in gameObjects)
         {
             Walkable.Add(item.transform.position);
-            objectCount++;
+           // objectCount++;
         }
 
-        Debug.Log("Objects " + objectCount);
+       // Debug.Log("Objects " + objectCount);
     }
 
     private void FixedUpdate()

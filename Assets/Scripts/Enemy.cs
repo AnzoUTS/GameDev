@@ -10,10 +10,10 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
-        anim.SetBool("up", false);
+/*        anim.SetBool("up", false);
         anim.SetBool("down", false);
         anim.SetBool("left", true);
-        anim.SetBool("right", false);
+        anim.SetBool("right", false);*/
         isAlive = true;
     }
 
