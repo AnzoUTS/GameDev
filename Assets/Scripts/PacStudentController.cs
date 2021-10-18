@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class PacStudentController : MonoBehaviour
 {
@@ -25,6 +24,7 @@ public class PacStudentController : MonoBehaviour
     private Vector3 NormPos;
     private Vector3 localPos;
     private Vector3 lerpPos;
+    private static Vector3 pacPosition;
     public List<Vector3> Walkable;
 
     private Tween tween;
@@ -54,19 +54,26 @@ public class PacStudentController : MonoBehaviour
         anim = GetComponent<Animator>();
         pacaudio = GetComponent<AudioSource>();
         currentPos = new Vector3(1f, -1f, 0f);
-        transform.position = currentPos;
+        //transform.position = currentPos;
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
 
         foreach (GameObject item in gameObjects)
         {
             Walkable.Add(item.transform.position);
-           // objectCount++;
         }
-
-       // Debug.Log("Objects " + objectCount);
     }
 
-    private void FixedUpdate()
+
+
+    public static Vector3 PacPosition
+    {
+    set { pacPosition = value;  }
+    get { return pacPosition; }
+    }
+
+
+
+/*    private void FixedUpdate()
     {
         duration = 1 / speed;
         localPos = transform.localPosition;
@@ -77,11 +84,14 @@ public class PacStudentController : MonoBehaviour
             currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
             transform.position = currentPos;
         }
-    }
+    }*/
 
 
     void Update()
     {
+
+        pacPosition = currentPos;
+
         movement = speed * Time.deltaTime;
 
         timer += Time.deltaTime;
@@ -106,16 +116,22 @@ public class PacStudentController : MonoBehaviour
             }
         }
 
+
+        duration = 1 / speed;
+        localPos = transform.localPosition;
+
+
+
         if (tween != null)
         {
+
+            float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
+            currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
+            transform.position = currentPos;
+
+
             float distance = Vector3.Distance(tween.Target.position, tween.EndPos);
             NormPos = (tween.EndPos - tween.StartPos).normalized;
-          //  Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
-
-/*            if (NormPos.x != 0.0f || NormPos.y != 0.0f) // what is this for????
-            {
-
-            }*/
 
             if (distance > 0)
             {
@@ -131,10 +147,10 @@ public class PacStudentController : MonoBehaviour
 
         if (currentInput == KeyCode.None || tween == null)
         {
-            // Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput);
+       //  Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput);
 
-            if (canMove == true)
-            {
+/*            if (canMove == true)
+            {*/
                 if (Direction(lastInput))
                 {
                     currentInput = lastInput;
@@ -144,15 +160,19 @@ public class PacStudentController : MonoBehaviour
                 {
                    Direction(currentInput);
                 }
-            }
+           // }
         }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            lastInput = KeyCode.A;
+
+            //Debug.Log("Last Input :A");
+
+           lastInput = KeyCode.A;
             if (currentInput == KeyCode.None)
             {
                 currentInput = KeyCode.A;
+               // Debug.Log("Last Input :A2");
             }
         }
 
@@ -367,7 +387,7 @@ public class PacStudentController : MonoBehaviour
             Destroy(trigger.gameObject);
             GameManagement.Score += 10;
             GameManagement.Pellets -= 1;
-            Debug.Log("Pellets Remaining :" + GameManagement.Pellets);
+           // Debug.Log("Pellets Remaining :" + GameManagement.Pellets);
             pacaudio.clip = pellet_FX;
             pacaudio.Play();
         }
@@ -389,7 +409,7 @@ public class PacStudentController : MonoBehaviour
         {
             powerUp = true;
             Invoke("PowerUp", 10.0f);
-            Debug.Log("powerUp - True");
+       //     Debug.Log("powerUp - True");
             Destroy(trigger.gameObject);
             AudioController.GhostScared = true;
             GameManagement.ScaredTime = 10f;

@@ -11,6 +11,7 @@ public class GameManagement : MonoBehaviour
     private static int score;
     private static float scaredTime;
     private static bool scared;
+    private static bool recovery;
     public static int lives;
     private string finalTime;
     private string highScore;
@@ -60,12 +61,26 @@ public class GameManagement : MonoBehaviour
             ghostTime.SetActive(true);
             ScaredTime -= Time.deltaTime;
             //Debug.Log("ScardTime" + scaredTime);
-            if (ScaredTime <= 0)
+            if (ScaredTime <= 3)
             {
                 scared = false;
-                ghostTime.SetActive(false);          
+                recovery = true;
+               // ghostTime.SetActive(false);          
             }
         }
+
+        if (recovery == true)
+        {
+            if (ScaredTime <= 0)
+            {
+
+                recovery = false;
+                ghostTime.SetActive(false);
+            }
+        }
+
+
+
 
         if (lives == 0 || pellets ==0 )
         {
@@ -102,6 +117,13 @@ public class GameManagement : MonoBehaviour
     {
         set { scared = value; }
         get { return scared; }
+    }
+
+
+    public static bool Recovery
+    {
+        set { recovery = value; }
+        get { return recovery; }
     }
 
     public void GameResults()
