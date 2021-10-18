@@ -41,6 +41,7 @@ public class GhostController : MonoBehaviour
     private Vector3 ghostLocation;
     private Vector3 direction;
     private Vector3 previousDirection;
+    private Vector3 lastDirection;
 
 
 
@@ -69,6 +70,7 @@ public class GhostController : MonoBehaviour
         }
 
         NormPos = new Vector3(0, 1, 0);
+        tween = null;
 
     }
 
@@ -216,15 +218,19 @@ public class GhostController : MonoBehaviour
         }
 
 
-    AddTween(transform, localPos, newDirection, duration);
+    //AddTween(transform, localPos, newDirection, duration);
 
 
     }
 
 
     //private Vector3 GhostBrain()
-          private void GhostBrain()
+    private void GhostBrain()
     {
+
+        ghostOptions.Clear();
+
+
         // avoid rounding point errors
         int x = (int)Math.Round(localPos.x);
         int y = (int)Math.Round(localPos.y);
@@ -232,22 +238,86 @@ public class GhostController : MonoBehaviour
 
         //ghostOptions.Clear();
 
-        up = new Vector3(x, y+1, z);
-        down = new Vector3(x, y-1, z);
-        left = new Vector3(x-1, y, z);
-        right = new Vector3(x+1, y, z);
+        up = new Vector3(x, y + 1, z);
+        down = new Vector3(x, y - 1, z);
+        left = new Vector3(x - 1, y, z);
+        right = new Vector3(x + 1, y, z);
 
         // Debug.Log("last Position " +lastPosition);
 
         // Debug.Log("up " + up + " down" + down + " left " + left + "  right " + right);
 
-        /*                if (NormPos.y == 0 && NormPos.x == 0)
+/*        if (NormPos.y == 0 && NormPos.x == 0)
+        {
+            NormPos = previousDirection;
+        }*/
+
+
+        if (lastDirection.y == 0 && lastDirection.x == 0)
+        {
+            lastDirection = new Vector3(0,1,0);
+        }
+
+
+
+        /*        if (NormPos.y == 1 && NormPos.x == 0) // up
                 {
-                    NormPos = previousDirection;
+
+                    if (Walkable.Contains(up)) // up
+                        ghostOptions.Add(up);
+
+                    if (Walkable.Contains(left)) // left
+                        ghostOptions.Add(left);
+
+                    if (Walkable.Contains(right)) // right
+                        ghostOptions.Add(right);
                 }
-        */
 
-        if (NormPos.y == 1 && NormPos.x == 0) // up
+
+
+
+                else if (NormPos.y == -1 && NormPos.x == 0) // down
+                {
+
+                    if (Walkable.Contains(down)) // down
+                        ghostOptions.Add(down);
+
+                    if (Walkable.Contains(left)) // left
+                        ghostOptions.Add(left);
+
+                    if (Walkable.Contains(right)) // right
+                        ghostOptions.Add(right);
+                }
+
+
+                else if (NormPos.x == -1 && NormPos.y == 0) // left
+                {
+
+                    if (Walkable.Contains(up)) // up
+                        ghostOptions.Add(up);
+
+                    if (Walkable.Contains(down)) // down
+                        ghostOptions.Add(down);
+
+                    if (Walkable.Contains(left)) // left
+                        ghostOptions.Add(left);
+
+
+
+                else if (NormPos.x == 1 && NormPos.y == 0) // right
+                {
+
+                    if (Walkable.Contains(down)) // down
+                        ghostOptions.Add(down);
+
+                    if (Walkable.Contains(right)) // right
+                        ghostOptions.Add(right);
+
+                    if (Walkable.Contains(up)) // up
+                        ghostOptions.Add(up);
+
+                }*/
+        if (lastDirection.y == 1 && lastDirection.x == 0) // up
         {
 
             if (Walkable.Contains(up)) // up
@@ -258,12 +328,14 @@ public class GhostController : MonoBehaviour
 
             if (Walkable.Contains(right)) // right
                 ghostOptions.Add(right);
+
+            moveGhost();
         }
 
 
 
 
-        else if (NormPos.y == -1 && NormPos.x == 0) // down
+        else if (lastDirection.y == -1 && lastDirection.x == 0) // down
         {
 
             if (Walkable.Contains(down)) // down
@@ -274,12 +346,12 @@ public class GhostController : MonoBehaviour
 
             if (Walkable.Contains(right)) // right
                 ghostOptions.Add(right);
-            //if (Walkable.Contains(down) && lastPosition != down) // down
-            //    ghostOptions.Add(down);
+
+            moveGhost();
         }
 
 
-        else if (NormPos.x == -1 && NormPos.y == 0) // left
+        else if (lastDirection.x == -1 && lastDirection.y == 0) // left
         {
 
             if (Walkable.Contains(up)) // up
@@ -290,26 +362,16 @@ public class GhostController : MonoBehaviour
 
             if (Walkable.Contains(left)) // left
                 ghostOptions.Add(left);
-            /*
-                                if (Walkable.Contains(right)) // right
-                                    ghostOptions.Add(right);
-            */
 
+            moveGhost();
 
-            //if (Walkable.Contains(down) && lastPosition != down) // down
-            //    ghostOptions.Add(down);
         }
 
-
-
-        else if (NormPos.x == 1 && NormPos.y == 0) // right
+        else if (lastDirection.x == 1 && lastDirection.y == 0) // right
         {
 
             if (Walkable.Contains(down)) // down
                 ghostOptions.Add(down);
-            /*
-                                if (Walkable.Contains(left)) // left
-                                    ghostOptions.Add(left);*/
 
             if (Walkable.Contains(right)) // right
                 ghostOptions.Add(right);
@@ -317,118 +379,108 @@ public class GhostController : MonoBehaviour
             if (Walkable.Contains(up)) // up
                 ghostOptions.Add(up);
 
+            moveGhost();
 
-
-
-            //if (Walkable.Contains(down) && lastPosition != down) // down
-            //    ghostOptions.Add(down);
         }
+
+
         else
         {
             Debug.Log("confused!!!!!!!!!!!!!!!!!!!!" + previousDirection);
 
+            Debug.Log("Transform " + transform + "localPos " + localPos + "direction " + direction + "(direction-lastDirection)" + (direction - lastDirection) + "(direction + lastDirection) " + (direction + lastDirection));
 
-            if (previousDirection.y == 1 && previousDirection.x == 0) // up
-            {
+//            AddTween(transform, localPos, direction, duration);
 
-                if (Walkable.Contains(up)) // up
-                    ghostOptions.Add(up);
+            AddTween(transform, new Vector3(x, y, z), (direction + lastDirection), duration);
+            /*
+                        if (lastDirection.y == 1 && lastDirection.x == 0) // up
+                        {
 
-                if (Walkable.Contains(left)) // left
-                    ghostOptions.Add(left);
+                            if (Walkable.Contains(up)) // up
+                                ghostOptions.Add(up);
 
-                if (Walkable.Contains(right)) // right
-                    ghostOptions.Add(right);
-            }
+                            if (Walkable.Contains(left)) // left
+                                ghostOptions.Add(left);
 
+                            if (Walkable.Contains(right)) // right
+                                ghostOptions.Add(right);
 
-
-
-            else if (previousDirection.y == -1 && previousDirection.x == 0) // down
-            {
-
-                if (Walkable.Contains(down)) // down
-                    ghostOptions.Add(down);
-
-                if (Walkable.Contains(left)) // left
-                    ghostOptions.Add(left);
-
-                if (Walkable.Contains(right)) // right
-                    ghostOptions.Add(right);
-                //if (Walkable.Contains(down) && lastPosition != down) // down
-                //    ghostOptions.Add(down);
-            }
-
-
-            else if (previousDirection.x == -1 && previousDirection.y == 0) // left
-            {
-
-                if (Walkable.Contains(up)) // up
-                    ghostOptions.Add(up);
-
-                if (Walkable.Contains(down)) // down
-                    ghostOptions.Add(down);
-
-                if (Walkable.Contains(left)) // left
-                    ghostOptions.Add(left);
-                /*
-                                    if (Walkable.Contains(right)) // right
-                                        ghostOptions.Add(right);
-                */
-
-
-                //if (Walkable.Contains(down) && lastPosition != down) // down
-                //    ghostOptions.Add(down);
-            }
+                            moveGhost();
+                        }
 
 
 
-            else if (previousDirection.x == 1 && previousDirection.y == 0) // right
-            {
 
-                if (Walkable.Contains(down)) // down
-                    ghostOptions.Add(down);
-                /*
-                                    if (Walkable.Contains(left)) // left
-                                        ghostOptions.Add(left);*/
+                        else if (lastDirection.y == -1 && lastDirection.x == 0) // down
+                        {
 
-                if (Walkable.Contains(right)) // right
-                    ghostOptions.Add(right);
+                            if (Walkable.Contains(down)) // down
+                                ghostOptions.Add(down);
 
-                if (Walkable.Contains(up)) // up
-                    ghostOptions.Add(up);
+                            if (Walkable.Contains(left)) // left
+                                ghostOptions.Add(left);
+
+                            if (Walkable.Contains(right)) // right
+                                ghostOptions.Add(right);
+                            //if (Walkable.Contains(down) && lastPosition != down) // down
+                            //    ghostOptions.Add(down);
+
+                            moveGhost();
+                        }
+
+
+                        else if (lastDirection.x == -1 && lastDirection.y == 0) // left
+                        {
+
+                            if (Walkable.Contains(up)) // up
+                                ghostOptions.Add(up);
+
+                            if (Walkable.Contains(down)) // down
+                                ghostOptions.Add(down);
+
+                            if (Walkable.Contains(left)) // left
+                                ghostOptions.Add(left);
+                            *//*
+                                                if (Walkable.Contains(right)) // right
+                                                    ghostOptions.Add(right);
+                            *//*
+
+
+                            //if (Walkable.Contains(down) && lastPosition != down) // down
+                            //    ghostOptions.Add(down);
+                            moveGhost();
+                        }
 
 
 
-            }
+                        else if (lastDirection.x == 1 && lastDirection.y == 0) // right
+                        {
+
+                            if (Walkable.Contains(down)) // down
+                                ghostOptions.Add(down);
+                            *//*
+                                                if (Walkable.Contains(left)) // left
+                                                    ghostOptions.Add(left);*//*
+
+                            if (Walkable.Contains(right)) // right
+                                ghostOptions.Add(right);
+
+                            if (Walkable.Contains(up)) // up
+                                ghostOptions.Add(up);
+                            moveGhost();
+            */
+
+
+            //}
         }
 
 
 
 
 
-            ghostThought = UnityEngine.Random.Range(0, ghostOptions.Count);
-        Debug.Log("Normal pos " + NormPos + "Valid options " + ghostOptions.Count + " lastPosition" + lastPosition + " localpos" + localPos + " ghostThought "+ ghostThought);
 
-        foreach (Vector3 option in ghostOptions)
-        {
-            Debug.Log("ghostArrayOptions " + option);
 
-        }
-    
-
-            direction = ghostOptions[ghostThought];
-        
-
-        //previousDirection = NormPos;
-        // Debug.Log("LASTpos " + lastPosition + "DIRECTION" + direction);
-
-        ghostOptions.Clear();
-
-        AddTween(transform, localPos, direction, duration);
-
-        //ghostOptions.Clear();
-        //return direction;
     }
 
 
@@ -439,5 +491,40 @@ public class GhostController : MonoBehaviour
             tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
         }
     }
+
+
+
+    private void moveGhost()
+    {
+
+        int x = (int)Math.Round(localPos.x);
+        int y = (int)Math.Round(localPos.y);
+        float z = localPos.z;
+
+        ghostThought = UnityEngine.Random.Range(0, ghostOptions.Count);
+        Debug.Log("Normal pos " + NormPos + "Valid options " + ghostOptions.Count + " lastPosition" + lastPosition + " localpos" + localPos + " ghostThought " + ghostThought);
+
+        foreach (Vector3 option in ghostOptions)
+        {
+            Debug.Log("ghostArrayOptions " + option);
+
+        }
+
+        direction = ghostOptions[ghostThought];
+
+        lastDirection = direction - new Vector3(x, y, z);
+        Debug.Log("last direction : " + lastDirection);
+
+        //previousDirection = NormPos;
+        // Debug.Log("LASTpos " + lastPosition + "DIRECTION" + direction);
+
+        //ghostOptions.Clear();
+
+        AddTween(transform, new Vector3(x, y, z), direction, duration);
+
+        //ghostOptions.Clear();
+        //return direction;
+    }
+
 
 }
