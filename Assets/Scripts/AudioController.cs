@@ -10,7 +10,7 @@ public class AudioController : MonoBehaviour
     public AudioClip OrcDead;
     public static AudioClip musicClip;
     private static bool ghostScared;
-    private static bool ghostDead;
+    private static int ghostDead;
     private static bool music;
 
     void Start ()
@@ -29,7 +29,7 @@ public class AudioController : MonoBehaviour
         set { music = value; }
     }
 
-    public static bool GhostDead
+    public static int GhostDead
     {
         set { ghostDead = value; }
     }
@@ -62,7 +62,7 @@ public class AudioController : MonoBehaviour
             backgroundMusic.Stop();
         }
 
-            if (ghostDead == true)
+            if (ghostDead >0)
             {
             StopCoroutine(Main());
             StopCoroutine(Scared());
@@ -85,7 +85,7 @@ public class AudioController : MonoBehaviour
 
         }
 
-            if (!ghostDead && backgroundMusic.clip == OrcDead)
+            if (ghostDead ==0 && backgroundMusic.clip == OrcDead)
         {
             backgroundMusic.Stop();
         }

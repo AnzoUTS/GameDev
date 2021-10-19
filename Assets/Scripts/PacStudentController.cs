@@ -405,6 +405,7 @@ public class PacStudentController : MonoBehaviour
             WallHit();
         }
 
+
         if (trigger.gameObject.name.Contains("PowerFlash"))
         {
             powerUp = true;
@@ -418,7 +419,7 @@ public class PacStudentController : MonoBehaviour
         }
 
 
-        if (trigger.gameObject.CompareTag("Enemy") && powerUp ==false) // come back to this and check death animation
+        if (trigger.gameObject.CompareTag("Enemy") && !powerUp) // come back to this and check death animation
         {
             pacaudio.clip = die_FX;
             pacaudio.Play();
@@ -427,7 +428,7 @@ public class PacStudentController : MonoBehaviour
             anim.SetBool("up", false);
             anim.SetBool("left", false);
             anim.SetBool("right", false);
-            GameManagement.Life-=1;
+            GameManagement.Life -= 1;
             Debug.Log("GameLives :" + GameManagement.Life);
             tween = null;
             canMove = false;
@@ -444,6 +445,28 @@ public class PacStudentController : MonoBehaviour
         }
 
     }
+
+
+
+/*    public void PacDeath()
+    {
+        pacaudio.clip = die_FX;
+        pacaudio.Play();
+        anim.SetTrigger("isDead");
+        anim.SetBool("down", false);
+        anim.SetBool("up", false);
+        anim.SetBool("left", false);
+        anim.SetBool("right", false);
+        GameManagement.Life -= 1;
+        Debug.Log("GameLives :" + GameManagement.Life);
+        tween = null;
+        canMove = false;
+        Invoke("startMove", 4f);
+        StartCoroutine(PacDie());
+        currentInput = KeyCode.None;
+        lastInput = KeyCode.None;
+    
+    }*/
 
 
     void PowerUp()

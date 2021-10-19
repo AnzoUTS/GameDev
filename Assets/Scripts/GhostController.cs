@@ -40,13 +40,26 @@ public class GhostController : MonoBehaviour
     private Vector3 lastDirection;
     private Vector3 startingPos;
     private Vector3 pacPosition;
-    private bool isAlive;
+    public  bool isAlive;
     private bool isScared;
     private bool isRecovery;
     private float targetDistance;
+    PacStudentController pacman;
+
+
+
+/*    public static bool IsAlive
+    {
+        set { isAlive = value; }
+        get { return isAlive; }
+    }
+*/
+
 
     void Start()
     {
+
+        pacman = gameObject.GetComponent<PacStudentController>(); // access pacman script
         speed = 1.7f;
         boxCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
@@ -574,22 +587,39 @@ public class GhostController : MonoBehaviour
 
     private void OnTriggerEnter(Collider trigger)
     {
-        if (GameManagement.Scared == true && trigger.name.Contains("PacStudent"))
+        if (trigger.name.Contains("PacStudent"))
         {
-            Debug.Log(enemyName + "is Dead");
-            isAlive = false;
-            AudioController.GhostDead = true;
-            GameManagement.Score += 300;
-            /*     CancelInvoke("Recovery");
-                   CancelInvoke("NormalState");*/
-            //     StartCoroutine(EnemyDead()); // Removed from 80% Section           
+           if(GameManagement.Scared || GameManagement.Recovery)
+           {
+                Debug.Log(enemyName + "is Dead");
+                isAlive = false;
+                AudioController.GhostDead=+1;
+                GameManagement.Score += 300;
+                /*     CancelInvoke("Recovery");
+                       CancelInvoke("NormalState");*/
+                //     StartCoroutine(EnemyDead()); // Removed from 80% Section           
+           }
+
         }
+
+/*        if (trigger.name.Contains("PacStudent"))
+        {
+            if (!GameManagement.Scared && !GameManagement.Recovery && isAlive)
+            {
+                pacman = gameObject.GetComponent<PacStudentController>();
+                pacman.PacDeath(); // access pacman script   
+                Debug.Log("PacKill");
+            }
+
+        }*/
+
 
         if (trigger.name.Contains("GhostArea"))
         {
             ghostArea = true;
             isAlive = true;
-     //       Debug.Log("GhostArea = True");
+            // AudioController.GhostDead=+1;
+            //       Debug.Log("GhostArea = True");
 
             // Debug.Log(enemyName + "is Alive thanks to" + trigger.name);
             /*            anim.SetBool("up", true);
