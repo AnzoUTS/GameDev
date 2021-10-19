@@ -26,8 +26,9 @@ public class GameManagement : MonoBehaviour
     private static int pellets;
     public AudioClip gameOverClip;
     AudioSource gameOverMusic;
+
     public List<string> deadGhosts;
-    public static String ghostName;
+    private static string ghostName;
     public static int deadGhostCount;
 
     private void Start()
@@ -59,7 +60,22 @@ public class GameManagement : MonoBehaviour
 
     private void Update()
     {
-        if(Scared == true)
+
+        //timer += Time.deltaTime;
+
+        /*        if ((int)timer > lastTime)
+                {
+                    if (lastTime >= 0)
+                    {
+                       // Debug.Log("last time " + lastTime + " movement " + movement + "duration "+ duration);
+                    }
+                    lastTime = (int)timer;
+                }
+          */
+
+
+
+        if (Scared == true)
         {
             Recovery = false;
             ghostTime.SetActive(true);
@@ -93,11 +109,11 @@ public class GameManagement : MonoBehaviour
             GameResults();
         }
 
-
+/*
         if (ghostName != null)
         {
-            AddDeadGhost(ghostName);
-        }
+            DeadGhost(ghostName);
+        }*/
     
     
     
@@ -105,11 +121,7 @@ public class GameManagement : MonoBehaviour
     
     }
 
-    public static int DeadGhostCount
-    {
-        set { deadGhostCount = value; }
-        get { return deadGhostCount; }
-    }
+
 
 
     public static int Pellets
@@ -151,27 +163,45 @@ public class GameManagement : MonoBehaviour
 
 
 
-    public static string AddGhost
+/*    public string Ghost
     {
-        set { ghostName = value; }
-        get { return ghostName; }
+        set { GhostName = value; }
+        get { return GhostName; }
+    }*/
+/*    public static int DeadGhostCount
+    {
+        set { deadGhostCount = value; }
+        get { return deadGhostCount; }
+    }*/
+
+
+
+
+
+   // public static string GhostName { get => ghostName; set => ghostName = value; }
+
+    public void DeadGhost(string ghostName)
+    {
+        //Ghost = ghostName; // this ghost instance
+        deadGhosts.Add(ghostName);
+        Debug.Log(" Ghost added :" + ghostName + " Total ghosts :" + deadGhosts.Count);
+        //ghostName = null;
     }
 
 
-
-
-
-    public void AddDeadGhost(string name)
+    public void AliveGhost(string ghostName)
     {
-        deadGhosts.Add(name);
-        Debug.Log(" Ghost added :" + name + " Total ghosts :" + deadGhosts.Count);
-        ghostName = null;
-    
+       // this.Ghost = ghostName; // this ghost instance
+        deadGhosts.Remove(ghostName);
+        Debug.Log(" Ghost :" + ghostName + " Removed Total ghosts :" + deadGhosts.Count);
+        //ghostName = null;
     }
-    
-    
-   
 
+
+    public int GhostCount()
+    {
+        return deadGhosts.Count;
+    }
 
 
 

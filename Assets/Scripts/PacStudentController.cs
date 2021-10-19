@@ -46,7 +46,7 @@ public class PacStudentController : MonoBehaviour
     void Start()
     {
 
-        gameManagement = gameObject.GetComponent<GameManagement>();
+        gameManagement = GameObject.Find("GameManagement").GetComponent<GameManagement>();
         powerUp = false;
         canMove = true;
         teleportL = false;
@@ -77,7 +77,7 @@ public class PacStudentController : MonoBehaviour
 
 
 
-/*    private void FixedUpdate()
+    private void FixedUpdate()
     {
         duration = 1 / speed;
         localPos = transform.localPosition;
@@ -88,7 +88,7 @@ public class PacStudentController : MonoBehaviour
             currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
             transform.position = currentPos;
         }
-    }*/
+    }
 
 
     void Update()
@@ -97,18 +97,6 @@ public class PacStudentController : MonoBehaviour
         pacPosition = currentPos;
 
         movement = speed * Time.deltaTime;
-
-        timer += Time.deltaTime;
-
-        if ((int)timer > lastTime)
-        {
-            if (lastTime >= 0)
-            {
-               // Debug.Log("last time " + lastTime + " movement " + movement + "duration "+ duration);
-            }
-            lastTime = (int)timer;
-        }
-  
 
             StartCoroutine(IsMoving());
 
@@ -120,18 +108,19 @@ public class PacStudentController : MonoBehaviour
             }
         }
 
+       
 
-        duration = 1 / speed;
+/*        duration = 1 / speed;
         localPos = transform.localPosition;
-
+*/
 
 
         if (tween != null)
         {
 
-            float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
+/*            float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
             currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
-            transform.position = currentPos;
+            transform.position = currentPos;*/
 
 
             float distance = Vector3.Distance(tween.Target.position, tween.EndPos);
@@ -423,7 +412,7 @@ public class PacStudentController : MonoBehaviour
         }
 
 
-        if (trigger.gameObject.CompareTag("Enemy") && !powerUp) // come back to this and check death animation
+        if (trigger.gameObject.CompareTag("Enemy") && !powerUp &&!gameManagement.deadGhosts.Contains(trigger.gameObject.name)) 
         {
             pacaudio.clip = die_FX;
             pacaudio.Play();
@@ -443,12 +432,12 @@ public class PacStudentController : MonoBehaviour
         }
 
 
-        if (trigger.gameObject.CompareTag("Enemy") && powerUp == true)
+        if (trigger.gameObject.CompareTag("Enemy") && powerUp && !gameManagement.deadGhosts.Contains(trigger.gameObject.name))
         {
             // creat a list in gamemanagment?
             string dead = trigger.gameObject.name;
             //gameManagement.AddDeadGhost(dead);
-            GameManagement.AddGhost = dead;
+            gameManagement.DeadGhost(dead);
 
             //Debug.Log("Kill Ghost");
         }

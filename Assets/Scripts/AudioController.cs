@@ -12,11 +12,14 @@ public class AudioController : MonoBehaviour
     //private static bool ghostScared;
    // private static int ghostDead;
     private static bool music;
+    GameManagement gameManagement;
 
     void Start ()
     {
-      backgroundMusic = GetComponent<AudioSource>();
-      music = false;
+    gameManagement = GameObject.Find("GameManagement").GetComponent<GameManagement>();
+    backgroundMusic = GetComponent<AudioSource>();
+    music = false;
+
     }
 
     /*    public static bool GhostScared
@@ -38,52 +41,48 @@ public class AudioController : MonoBehaviour
     private void Update()
     {
 
-        if (GameManagement.deadGhostCount == 0 && backgroundMusic.clip == OrcDead)
-        {
-            backgroundMusic.Stop();
-            Debug.Log("stoping dead audio");
-        }
-
 
 
         if (!backgroundMusic.isPlaying && music)
         {
             StartCoroutine(Main());
         }
-            if (GameManagement.Scared || GameManagement.Recovery)
-            {
+
+        if ((GameManagement.Scared || GameManagement.Recovery) && backgroundMusic.clip != OrcDead!)
+        {
                 StopCoroutine(Main());
 
-                if (backgroundMusic.clip != OrcScared)
-                {
-               // StopCoroutine(Dead());
+            if (backgroundMusic.clip != OrcScared)
+            {
                 backgroundMusic.Stop();
-                }
-
-                if (!backgroundMusic.isPlaying)
-                {
-                StartCoroutine(Scared());
-                }
             }
+
+            if (!backgroundMusic.isPlaying)
+            {
+                StartCoroutine(Scared());
+            }
+        }
 
    /*     if ((!GameManagement.Scared || !GameManagement.Recovery) && backgroundMusic.clip == OrcScared)
         {
             backgroundMusic.Stop();
         }*/
 
-            if (GameManagement.deadGhostCount > 0)
-            {
+        if (gameManagement.GhostCount() > 0)
+        {
 
+            if (backgroundMusic.clip != OrcDead!)
+            {
                 backgroundMusic.Stop();
                 StopCoroutine(Main());
                 StopCoroutine(Scared());
-          
+
                 //ghostScared = false;
 
-                if (backgroundMusic.clip != OrcDead)
+/*                if (backgroundMusic.clip != OrcDead)
                 {
                     backgroundMusic.Stop();
-                }
+                }*/
                 if (!backgroundMusic.isPlaying)
                 {
 
@@ -93,11 +92,17 @@ public class AudioController : MonoBehaviour
 
                     //StartCoroutine(Dead());
                 }
-
             }
+        }
+
+        if (gameManagement.GhostCount() == 0 && backgroundMusic.clip == OrcDead)
+        {
+            backgroundMusic.Stop();
+            Debug.Log("stoping dead audio");
+        }
 
 
-       // Debug.Log("background" + " scard " + ghostScared + " dead " + ghostDead);
+        // Debug.Log("background" + " scard " + ghostScared + " dead " + ghostDead);
 
     }
 

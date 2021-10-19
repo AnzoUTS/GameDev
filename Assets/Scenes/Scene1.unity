@@ -6052,6 +6052,7 @@ MonoBehaviour:
   GhostArea: []
   GhostAreaExitA: []
   ghostOptions: []
+  isAlive: 0
 --- !u!1 &180081547
 GameObject:
   m_ObjectHideFlags: 0
@@ -7295,7 +7296,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 204398534}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.2}
@@ -10727,7 +10728,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 325081820}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.2}
@@ -11072,6 +11073,7 @@ MonoBehaviour:
   GhostArea: []
   GhostAreaExitA: []
   ghostOptions: []
+  isAlive: 0
 --- !u!54 &326512537
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -20668,7 +20670,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 565811731}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.2}
@@ -21916,7 +21918,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593686001}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.2}
@@ -29998,6 +30000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverClip: {fileID: 8300000, guid: b36935a3f018dfa458a1f01d5e1c55df, type: 3}
+  deadGhosts: []
 --- !u!4 &800907626
 Transform:
   m_ObjectHideFlags: 0
@@ -38806,6 +38809,7 @@ MonoBehaviour:
   GhostArea: []
   GhostAreaExitA: []
   ghostOptions: []
+  isAlive: 0
 --- !u!54 &1073005106
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -58450,7 +58454,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590956178}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.2}
@@ -62849,7 +62853,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1732708753}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.2}
@@ -68171,6 +68175,7 @@ MonoBehaviour:
   GhostArea: []
   GhostAreaExitA: []
   ghostOptions: []
+  isAlive: 0
 --- !u!1 &1906467468
 GameObject:
   m_ObjectHideFlags: 0

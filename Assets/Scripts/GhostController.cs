@@ -23,7 +23,7 @@ public class GhostController : MonoBehaviour
     private Animator anim;
     private GameObject[] gameObjects;
     private BoxCollider boxCollider;
-    private GameManagement gameManagment;
+   // private GameManagement gameManagment;
     private int currentInput;
     private Vector3 lastPosition;
     private string enemyName;
@@ -45,20 +45,21 @@ public class GhostController : MonoBehaviour
     private bool isRecovery;
     private float targetDistance;
     PacStudentController pacman;
+    GameManagement gameManagement;
 
 
 
-/*    public static bool IsAlive
-    {
-        set { isAlive = value; }
-        get { return isAlive; }
-    }
-*/
+    /*    public static bool IsAlive
+        {
+            set { isAlive = value; }
+            get { return isAlive; }
+        }
+    */
 
 
     void Start()
     {
-
+        gameManagement = GameObject.Find("GameManagement").GetComponent<GameManagement>();
         pacman = gameObject.GetComponent<PacStudentController>(); // access pacman script
         speed = 1.7f;
         boxCollider = GetComponent<BoxCollider>();
@@ -101,6 +102,21 @@ public class GhostController : MonoBehaviour
 
     }
 
+
+    private void FixedUpdate()
+    {
+        duration = 1 / speed;
+        localPos = transform.localPosition;
+
+        if (tween != null)
+        {
+            float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
+            currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
+            transform.position = currentPos;
+        }
+    }
+
+
     void Update()
     {
         duration = 1 / speed;
@@ -113,20 +129,7 @@ public class GhostController : MonoBehaviour
             transform.position = currentPos;
         }
 
-
-
          movement = speed * Time.deltaTime;
-
-        timer += Time.deltaTime;
-
-        if ((int)timer > lastTime)
-        {
-            if (lastTime >= 0)
-            {
-        
-            }
-            lastTime = (int)timer;
-        }
 
         if (tween != null)
         {
@@ -597,7 +600,6 @@ public class GhostController : MonoBehaviour
                 isAlive = false;
                 //AudioController.GhostDead++;
                 GameManagement.Score += 300;
-               // Debug.Log("DeadAudio ADD new Ghost  = " + AudioController.GhostDead);
                 /*     CancelInvoke("Recovery");
                        CancelInvoke("NormalState");*/
                 //     StartCoroutine(EnemyDead()); // Removed from 80% Section           
@@ -605,22 +607,12 @@ public class GhostController : MonoBehaviour
 
         }
 
-/*        if (trigger.name.Contains("PacStudent"))
-        {
-            if (!GameManagement.Scared && !GameManagement.Recovery && isAlive)
-            {
-                pacman = gameObject.GetComponent<PacStudentController>();
-                pacman.PacDeath(); // access pacman script   
-                Debug.Log("PacKill");
-            }
 
-        }*/
-
-
-        if (trigger.name.Contains("GhostArea"))
+        if (trigger.name.Contains("GhostArea") && !isAlive)
         {
             ghostArea = true;
             isAlive = true;
+            gameManagement.AliveGhost(enemyName);
 
 
             // Debug.Log(enemyName + "is Alive thanks to" + trigger.name);
