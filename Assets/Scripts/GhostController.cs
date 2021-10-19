@@ -48,15 +48,6 @@ public class GhostController : MonoBehaviour
     GameManagement gameManagement;
 
 
-
-    /*    public static bool IsAlive
-        {
-            set { isAlive = value; }
-            get { return isAlive; }
-        }
-    */
-
-
     void Start()
     {
         gameManagement = GameObject.Find("GameManagement").GetComponent<GameManagement>();
@@ -154,24 +145,18 @@ public class GhostController : MonoBehaviour
         {
             if (canMove == true && isAlive)
             {
-                if (localPos == startingPos)
+/*                if (localPos == startingPos)
                 {
-/*                    ghostOptions.Clear();
-                    ghostArea = true;
-                    tween = null;
-                    Debug.Log("localPos triggered");*/
-                }
 
+                }*/
 
                 GhostBrain();
             }
 
             else if (!isAlive)
             {
-                
+                Debug.Log("isalive False 1");
                 AddTween(transform, localPos, startingPos, 10); // send to ghost area
-
-
             }
         }
 
@@ -192,12 +177,9 @@ public class GhostController : MonoBehaviour
             isRecovery = false;
         }
 
-
-
-
         if (isAlive)
 
-        //if (!GameManagement.Scared && isAlive)
+
         {
             if (NormPos == new Vector3(-1, 0, 0))
             {
@@ -240,7 +222,6 @@ public class GhostController : MonoBehaviour
                 anim.SetBool("right", false);
                 anim.SetBool("isScared", true);
                 anim.SetBool("isDead", false);
-                // Invoke("Recovery", 7f);
             }
             if (isRecovery)
             {
@@ -251,7 +232,6 @@ public class GhostController : MonoBehaviour
                 anim.SetBool("isScared", false);
                 anim.SetBool("isRecovery", true);
                 anim.SetBool("isDead", false);
-                // Invoke("Recovery", 7f);
             }
         }
         else if (!isAlive)
@@ -268,23 +248,8 @@ public class GhostController : MonoBehaviour
         {
 
             Debug.Log("unkown State!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + GameManagement.Recovery + " " + GameManagement.Scared + " " + isAlive);
-
-            /*            anim.SetBool("up", true);
-                        anim.SetBool("down", false);
-                        anim.SetBool("up", false);
-                        anim.SetBool("left", false);
-                        anim.SetBool("right", false);
-                        anim.SetBool("isScared", false);
-                        anim.SetBool("isRecovery", false);
-                        anim.SetBool("isDead", false);*/
         }
-
-
-       // Debug.Log(enemyName + " isAlive " + isAlive);
-
     }
-
-
 
     private void GhostBrain()
     {
@@ -304,15 +269,11 @@ public class GhostController : MonoBehaviour
             lastDirection = new Vector3(0,1,0);
         }
 
-
-        if (isAlive == false)
+/*        if (isAlive == false)
         {
-
-           // AudioController.GhostDead++;
-            Debug.Log("isalive False");
+            Debug.Log("isalive False 2");
             AddTween(transform, new Vector3(x, y, z), startingPos, 10); // send to ghost area
-
-        }
+        }*/
 
 
         if (ghostArea == false)

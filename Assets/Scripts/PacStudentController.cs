@@ -15,7 +15,6 @@ public class PacStudentController : MonoBehaviour
     private bool isMoving;
     private bool powerUp;
     private bool canMove;
-    private int objectCount;
     private int hitDirection;
 
     private KeyCode currentInput;
@@ -39,7 +38,6 @@ public class PacStudentController : MonoBehaviour
     public ParticleSystem wallHit;
     public ParticleSystem die;
     private BoxCollider boxCollider;
-    //private GameManagement gameManagment;
     GameManagement gameManagement;
 
 
@@ -67,8 +65,6 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
-
-
     public static Vector3 PacPosition
     {
     set { pacPosition = value;  }
@@ -93,12 +89,10 @@ public class PacStudentController : MonoBehaviour
 
     void Update()
     {
-
         pacPosition = currentPos;
-
         movement = speed * Time.deltaTime;
-
-            StartCoroutine(IsMoving());
+        
+        StartCoroutine(IsMoving());
 
         if (isMoving)
         {
@@ -108,21 +102,8 @@ public class PacStudentController : MonoBehaviour
             }
         }
 
-       
-
-/*        duration = 1 / speed;
-        localPos = transform.localPosition;
-*/
-
-
         if (tween != null)
         {
-
-/*            float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
-            currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
-            transform.position = currentPos;*/
-
-
             float distance = Vector3.Distance(tween.Target.position, tween.EndPos);
             NormPos = (tween.EndPos - tween.StartPos).normalized;
 
@@ -133,17 +114,11 @@ public class PacStudentController : MonoBehaviour
             else
             {
                 tween = null;
-
             }
-
         }
 
         if (currentInput == KeyCode.None || tween == null)
         {
-       //  Debug.Log("Last Input : " + lastInput + " Current Input : " + currentInput);
-
-/*            if (canMove == true)
-            {*/
                 if (Direction(lastInput))
                 {
                     currentInput = lastInput;
@@ -153,19 +128,14 @@ public class PacStudentController : MonoBehaviour
                 {
                    Direction(currentInput);
                 }
-           // }
         }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-
-            //Debug.Log("Last Input :A");
-
            lastInput = KeyCode.A;
             if (currentInput == KeyCode.None)
             {
                 currentInput = KeyCode.A;
-               // Debug.Log("Last Input :A2");
             }
         }
 
@@ -197,7 +167,6 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
-
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
     {
         if (tween == null && canMove == true)
@@ -208,7 +177,6 @@ public class PacStudentController : MonoBehaviour
 
     public bool Direction(KeyCode key)
     {
-
             if (teleportL == true && NormPos.x == -1)
             {
                 teleportL = false;
@@ -312,8 +280,7 @@ public class PacStudentController : MonoBehaviour
                 {
                     return false;
                 }
-
-        }
+            }
 
         return false;
     }
@@ -330,7 +297,6 @@ public class PacStudentController : MonoBehaviour
             return false;
         }
     }
-
 
     private IEnumerator IsMoving()
     {
@@ -380,7 +346,6 @@ public class PacStudentController : MonoBehaviour
             Destroy(trigger.gameObject);
             GameManagement.Score += 10;
             GameManagement.Pellets -= 1;
-           // Debug.Log("Pellets Remaining :" + GameManagement.Pellets);
             pacaudio.clip = pellet_FX;
             pacaudio.Play();
         }
@@ -403,14 +368,10 @@ public class PacStudentController : MonoBehaviour
         {
             powerUp = true;
             Invoke("PowerUp", 10.0f);
-       //     Debug.Log("powerUp - True");
             Destroy(trigger.gameObject);
-            //AudioController.GhostScared = true;
             GameManagement.ScaredTime = 10f;
             GameManagement.Scared = true;
-            //StartCoroutine(ScareGhosts());
         }
-
 
         if (trigger.gameObject.CompareTag("Enemy") && !powerUp &&!gameManagement.deadGhosts.Contains(trigger.gameObject.name)) 
         {
@@ -431,48 +392,18 @@ public class PacStudentController : MonoBehaviour
             lastInput = KeyCode.None;
         }
 
-
         if (trigger.gameObject.CompareTag("Enemy") && powerUp && !gameManagement.deadGhosts.Contains(trigger.gameObject.name))
-        {
-            // creat a list in gamemanagment?
-            string dead = trigger.gameObject.name;
-            //gameManagement.AddDeadGhost(dead);
-            gameManagement.DeadGhost(dead);
-
-            //Debug.Log("Kill Ghost");
+            {
+                string dead = trigger.gameObject.name;
+                gameManagement.DeadGhost(dead);
+            }
         }
-
-    }
-
-
-
-/*    public void PacDeath()
-    {
-        pacaudio.clip = die_FX;
-        pacaudio.Play();
-        anim.SetTrigger("isDead");
-        anim.SetBool("down", false);
-        anim.SetBool("up", false);
-        anim.SetBool("left", false);
-        anim.SetBool("right", false);
-        GameManagement.Life -= 1;
-        Debug.Log("GameLives :" + GameManagement.Life);
-        tween = null;
-        canMove = false;
-        Invoke("startMove", 4f);
-        StartCoroutine(PacDie());
-        currentInput = KeyCode.None;
-        lastInput = KeyCode.None;
-    
-    }*/
-
 
     void PowerUp()
     {
         powerUp = false;
         Debug.Log("powerUp - False");
     }
-
 
     IEnumerator PacDie()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // the code below is from 80% section and no longer used
+    // ####################################the code below is from 80% section and no longer used ############################
     private Animator anim;
     private bool isAlive; 
 

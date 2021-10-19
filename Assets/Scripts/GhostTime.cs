@@ -21,6 +21,4 @@ public class GhostTime : MonoBehaviour
         timeInt = (int)Math.Round(timeInt);
         timeText.text = "Ghost Scared Time : " + timeInt;
     }
-
-   
 }
