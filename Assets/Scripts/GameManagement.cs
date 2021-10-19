@@ -56,31 +56,32 @@ public class GameManagement : MonoBehaviour
 
     private void Update()
     {
-        if(scared == true)
+        if(Scared == true)
         {
+            Recovery = false;
             ghostTime.SetActive(true);
             ScaredTime -= Time.deltaTime;
-            //Debug.Log("ScardTime" + scaredTime);
+      //      Debug.Log("GhostTime Scared:");
+
             if (ScaredTime <= 3)
             {
-                scared = false;
-                recovery = true;
-               // ghostTime.SetActive(false);          
+                Scared = false;
+                Recovery = true;
+       //         Debug.Log("GhostTime Recovery:");
             }
         }
 
-        if (recovery == true)
+        if (Recovery == true)
         {
             ScaredTime -= Time.deltaTime;
 
             if (ScaredTime <= 0)
             {    
-                recovery = false;
+                Recovery = false;
                 ghostTime.SetActive(false);
+             //   Debug.Log("GhostTime Off:");
             }
         }
-
-
 
 
         if (lives == 0 || pellets ==0 )
