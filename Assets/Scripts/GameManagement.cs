@@ -71,9 +71,10 @@ public class GameManagement : MonoBehaviour
 
         if (recovery == true)
         {
-            if (ScaredTime <= 0)
-            {
+            ScaredTime -= Time.deltaTime;
 
+            if (ScaredTime <= 0)
+            {    
                 recovery = false;
                 ghostTime.SetActive(false);
             }

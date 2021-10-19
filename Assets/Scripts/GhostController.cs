@@ -62,6 +62,7 @@ public class GhostController : MonoBehaviour
                 GhostAreaExitA.Add(item.transform.position);
         }
 
+        Debug.Log("ghost options at start "+ ghostOptions.Count);
 
         if (enemyName == "OrcA")
         {
@@ -225,7 +226,8 @@ public class GhostController : MonoBehaviour
             anim.SetBool("isScared", false);
             anim.SetBool("isRecovery", false);
             anim.SetBool("isDead", true);
-        } else
+        } 
+        else
         {
             anim.SetBool("up", true);
             anim.SetBool("down", false);
@@ -376,8 +378,9 @@ public class GhostController : MonoBehaviour
         int y = (int)Math.Round(localPos.y);
         float z = localPos.z;
 
-        if (ghostOptions.Count == 0 && ghostArea == true)
-        {
+        if (ghostOptions.Count == 0)
+            //if (ghostOptions.Count == 0 && ghostArea == true)
+            {
             Debug.Log("Ghost has no other option - Ghost area True");
 
             if (Walkable.Contains(up)) // up
@@ -396,7 +399,7 @@ public class GhostController : MonoBehaviour
                 ghostOptions.Add(up);
         }
 
-        if (ghostOptions.Count == 0 && ghostArea == false)
+/*        if (ghostOptions.Count == 0 && ghostArea == false)
         {
             Debug.Log("Ghost has no other option - Ghost Area False");
 
@@ -411,7 +414,7 @@ public class GhostController : MonoBehaviour
 
             if (Walkable.Contains(down) && !GhostArea.Contains(down)) // down
                 ghostOptions.Add(down);
-        }
+        }*/
 
 
         if (enemyName == "OrcC" && ghostArea == false)
@@ -430,14 +433,37 @@ public class GhostController : MonoBehaviour
         }
 
         if (enemyName == "OrcB" || ghostArea == true)
-          //  if (enemyName == "OrcB" || (enemyName == "OrcC" && ghostArea == true))
+        //  if (enemyName == "OrcB" || (enemyName == "OrcC" && ghostArea == true))
         {
 
 
-            Debug.Log("Normal pos " + NormPos + "Valid options " + ghostOptions.Count + " lastPosition" + lastPosition + " localpos" + localPos);
+           // Debug.Log("Normal pos " + NormPos + "Valid options " + ghostOptions.Count + " lastPosition" + lastPosition + " localpos" + localPos);
 
             foreach (Vector3 option in ghostOptions)
             {
+                /*                Debug.Log("Ghost Defence Options " + option);
+                                pacPosition = PacStudentController.PacPosition;
+                                float pacDistance = Vector3.Distance(option, pacPosition);
+                                Debug.Log("Ghost option distance " + pacDistance);
+                                if (ghostOptions.Count == 1)
+                                {
+                                    Debug.Log("direction option 1" + option);
+                                    direction = option;
+                                    targetDistance = pacDistance;
+                                }
+                                else if (targetDistance > pacDistance)
+                                {
+                                        direction = option;
+                                        Debug.Log("direction option multi" + option);
+                                } else
+                                {
+                                    direction = ghostOptions[0];
+                                    Debug.Log("direction option last direction" + direction);
+                                }*/
+
+
+
+
                 Debug.Log("Ghost Defence Options " + option);
                 pacPosition = PacStudentController.PacPosition;
                 float pacDistance = Vector3.Distance(option, pacPosition);
@@ -450,19 +476,20 @@ public class GhostController : MonoBehaviour
                 }
                 else if (targetDistance > pacDistance)
                 {
-                        direction = option;
-                        Debug.Log("direction option multi" + option);
-                } else
+                    direction = option;
+                    Debug.Log("direction option multi" + option);
+                }
+                else
                 {
                     direction = ghostOptions[0];
                     Debug.Log("direction option last direction" + direction);
                 }
-                
 
-              
+
+
             }
 
-            Debug.Log("ghost direction decision" + direction);
+            Debug.Log("ORC B ghost direction decision" + direction);
 
         }
 
@@ -491,30 +518,29 @@ public class GhostController : MonoBehaviour
                                     }
                                 }*/
 
-                if (ghostOptions.Count == 1)
-                {
-                    Debug.Log("direction option 1" + option);
-                    direction = option;
-                    targetDistance = pacDistance;
+                    if (ghostOptions.Count == 1)
+                    {
+                        Debug.Log("direction option 1" + option);
+                        direction = option;
+                        targetDistance = pacDistance;
+                    }
+                    else if (targetDistance < pacDistance)
+                    {
+                        direction = option;
+                        Debug.Log("direction option multi" + option);
+                    }
+                    else
+                    {
+                        direction = ghostOptions[0];
+                        Debug.Log("direction option last direction" + direction);
+                    }
                 }
-                else if (targetDistance < pacDistance)
-                {
-                    direction = option;
-                    Debug.Log("direction option multi" + option);
-                }
-                else
-                {
-                    direction = ghostOptions[0];
-                    Debug.Log("direction option last direction" + direction);
-                }
-            }
 
-
+            Debug.Log("ORC A ghost direction decision" + direction);
         }
 
             lastDirection = direction - new Vector3(x, y, z);
-            //   Debug.Log("last direction : " + lastDirection);
-            Debug.Log("ghost area " + ghostArea + "DECISION" + direction + "Last direction" + lastDirection + "Valid options " + ghostOptions.Count + " lastPosition" + lastPosition + " localpos" + localPos + " ghostThought " + ghostThought + " new Vector3(x, y, z)" + new Vector3(x, y, z) + "direction " + direction);
+          //  Debug.Log("ghost area " + ghostArea + "DECISION" + direction + "Last direction" + lastDirection + "Valid options " + ghostOptions.Count + " lastPosition" + lastPosition + " localpos" + localPos + " ghostThought " + ghostThought + " new Vector3(x, y, z)" + new Vector3(x, y, z) + "direction " + direction);
 
             AddTween(transform, new Vector3(x, y, z), direction, duration);
         
@@ -539,22 +565,24 @@ public class GhostController : MonoBehaviour
         {
             ghostArea = true;
             isAlive = true;
+            Debug.Log("GhostArea = True");
 
-            Debug.Log(enemyName + "is Alive thanks to" + trigger.name);
-/*            anim.SetBool("up", true);
-            anim.SetBool("down", false);
-            anim.SetBool("up", false);
-            anim.SetBool("left", false);
-            anim.SetBool("right", false);
-            anim.SetBool("isScared", false);
-            anim.SetBool("isRecovery", false);
-            anim.SetBool("isDead", false);*/
-
+            // Debug.Log(enemyName + "is Alive thanks to" + trigger.name);
+            /*            anim.SetBool("up", true);
+                        anim.SetBool("down", false);
+                        anim.SetBool("up", false);
+                        anim.SetBool("left", false);
+                        anim.SetBool("right", false);
+                        anim.SetBool("isScared", false);
+                        anim.SetBool("isRecovery", false);
+                        anim.SetBool("isDead", false);
+            */
         }
 
         if (!trigger.name.Contains("GhostArea"))
         {
             ghostArea = false;
+            Debug.Log("GhostArea = False");
         }
 
 

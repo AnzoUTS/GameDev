@@ -47,7 +47,7 @@ public class AudioController : MonoBehaviour
 
                 if (backgroundMusic.clip != OrcScared)
                 {
-                StopCoroutine(Dead());
+               // StopCoroutine(Dead());
                 backgroundMusic.Stop();
                 }
 
@@ -63,7 +63,7 @@ public class AudioController : MonoBehaviour
         }
 
             if (ghostDead == true)
-        {
+            {
             StopCoroutine(Main());
             StopCoroutine(Scared());
           
@@ -75,9 +75,19 @@ public class AudioController : MonoBehaviour
             }
             if (!backgroundMusic.isPlaying)
             {
-                StartCoroutine(Dead());
 
+                backgroundMusic.clip = OrcDead;
+                backgroundMusic.volume = 1;
+                backgroundMusic.Play();
+
+                //StartCoroutine(Dead());
             }
+
+        }
+
+            if (!ghostDead && backgroundMusic.clip == OrcDead)
+        {
+            backgroundMusic.Stop();
         }
        // Debug.Log("background" + " scard " + ghostScared + " dead " + ghostDead);
 
