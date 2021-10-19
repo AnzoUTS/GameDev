@@ -378,7 +378,7 @@ public class GhostController : MonoBehaviour
 
         if (ghostOptions.Count == 0 && ghostArea == true)
         {
-            Debug.Log("Ghost has no other option");
+            Debug.Log("Ghost has no other option - Ghost area True");
 
             if (Walkable.Contains(up)) // up
                 ghostOptions.Add(up);
@@ -398,7 +398,7 @@ public class GhostController : MonoBehaviour
 
         if (ghostOptions.Count == 0 && ghostArea == false)
         {
-            Debug.Log("Ghost has no other option");
+            Debug.Log("Ghost has no other option - Ghost Area False");
 
             if (Walkable.Contains(up) && !GhostArea.Contains(up)) // up
                 ghostOptions.Add(up);
@@ -417,7 +417,6 @@ public class GhostController : MonoBehaviour
         if (enemyName == "OrcC" && ghostArea == false)
         {
 
-
             ghostThought = UnityEngine.Random.Range(0, ghostOptions.Count);
             //Debug.Log("Normal pos " + NormPos + "Valid options " + ghostOptions.Count + " lastPosition" + lastPosition + " localpos" + localPos + " ghostThought " + ghostThought);
 
@@ -428,21 +427,14 @@ public class GhostController : MonoBehaviour
 
             direction = ghostOptions[ghostThought];
 
-/*            lastDirection = direction - new Vector3(x, y, z);
-            //   Debug.Log("last direction : " + lastDirection);
-            Debug.Log("ghost area " + ghostArea + "Last direction" + lastDirection + "Valid options " + ghostOptions.Count + " lastPosition" + lastPosition + " localpos" + localPos + " ghostThought " + ghostThought + " new Vector3(x, y, z)" + new Vector3(x, y, z) + "direction " + direction);
-
-            AddTween(transform, new Vector3(x, y, z), direction, duration);*/
-
-
         }
 
         if (enemyName == "OrcB" || ghostArea == true)
           //  if (enemyName == "OrcB" || (enemyName == "OrcC" && ghostArea == true))
-            {
+        {
 
 
-            Debug.Log("Normal pos " + NormPos + "Valid options " + ghostOptions.Count + " lastPosition" + lastPosition + " localpos" + localPos + " ghostThought " + ghostThought);
+            Debug.Log("Normal pos " + NormPos + "Valid options " + ghostOptions.Count + " lastPosition" + lastPosition + " localpos" + localPos);
 
             foreach (Vector3 option in ghostOptions)
             {
@@ -452,17 +444,25 @@ public class GhostController : MonoBehaviour
                 Debug.Log("Ghost option distance " + pacDistance);
                 if (ghostOptions.Count == 1)
                 {
+                    Debug.Log("direction option 1" + option);
                     direction = option;
                     targetDistance = pacDistance;
                 }
-                else
+                else if (targetDistance > pacDistance)
                 {
-                    if (pacDistance > targetDistance)
-                    {
                         direction = option;
-                    }
+                        Debug.Log("direction option multi" + option);
+                } else
+                {
+                    direction = ghostOptions[0];
+                    Debug.Log("direction option last direction" + direction);
                 }
+                
+
+              
             }
+
+            Debug.Log("ghost direction decision" + direction);
 
         }
 
@@ -478,19 +478,36 @@ public class GhostController : MonoBehaviour
                     pacPosition = PacStudentController.PacPosition;
                     float pacDistance = Vector3.Distance(option, pacPosition);
                     Debug.Log("Ghost option distance " + pacDistance);
+                /*                if (ghostOptions.Count == 1)
+                                {
+                                    direction = option;
+                                    targetDistance = pacDistance;
+                                }
+                                else
+                                {
+                                    if (pacDistance > targetDistance)
+                                    {
+                                        direction = option;
+                                    }
+                                }*/
+
                 if (ghostOptions.Count == 1)
                 {
+                    Debug.Log("direction option 1" + option);
                     direction = option;
                     targetDistance = pacDistance;
                 }
+                else if (targetDistance < pacDistance)
+                {
+                    direction = option;
+                    Debug.Log("direction option multi" + option);
+                }
                 else
                 {
-                    if (pacDistance > targetDistance)
-                        {
-                            direction = option;
-                        }
-                    }
+                    direction = ghostOptions[0];
+                    Debug.Log("direction option last direction" + direction);
                 }
+            }
 
 
         }
