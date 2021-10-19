@@ -9,8 +9,8 @@ public class AudioController : MonoBehaviour
     public AudioClip OrcScared;
     public AudioClip OrcDead;
     public static AudioClip musicClip;
-    private static bool ghostScared;
-    private static int ghostDead;
+    //private static bool ghostScared;
+   // private static int ghostDead;
     private static bool music;
 
     void Start ()
@@ -19,29 +19,38 @@ public class AudioController : MonoBehaviour
       music = false;
     }
 
-    public static bool GhostScared
-    {
-        set { ghostScared = value; }
-    }
+    /*    public static bool GhostScared
+        {
+            set { ghostScared = value; }
+        }*/
 
     public static bool Music
     {
         set { music = value; }
     }
 
-    public static int GhostDead
-    {
-        set { ghostDead = value; }
-    }
+    /*    public static int GhostDead
+        {
+            set { ghostDead = value; }
+            get { return ghostDead; }
+        }*/
 
     private void Update()
     {
 
-        if (!backgroundMusic.isPlaying && music == true)
+        if (GameManagement.deadGhostCount == 0 && backgroundMusic.clip == OrcDead)
+        {
+            backgroundMusic.Stop();
+            Debug.Log("stoping dead audio");
+        }
+
+
+
+        if (!backgroundMusic.isPlaying && music)
         {
             StartCoroutine(Main());
         }
-            if (ghostScared == true)
+            if (GameManagement.Scared || GameManagement.Recovery)
             {
                 StopCoroutine(Main());
 
@@ -57,38 +66,37 @@ public class AudioController : MonoBehaviour
                 }
             }
 
-        if (GameManagement.Scared == false && backgroundMusic.clip == OrcScared)
+   /*     if ((!GameManagement.Scared || !GameManagement.Recovery) && backgroundMusic.clip == OrcScared)
         {
             backgroundMusic.Stop();
-        }
+        }*/
 
-            if (ghostDead >0)
+            if (GameManagement.deadGhostCount > 0)
             {
-            StopCoroutine(Main());
-            StopCoroutine(Scared());
-          
-            ghostScared = false;
 
-            if (backgroundMusic.clip != OrcDead)
-            {
                 backgroundMusic.Stop();
+                StopCoroutine(Main());
+                StopCoroutine(Scared());
+          
+                //ghostScared = false;
+
+                if (backgroundMusic.clip != OrcDead)
+                {
+                    backgroundMusic.Stop();
+                }
+                if (!backgroundMusic.isPlaying)
+                {
+
+                    backgroundMusic.clip = OrcDead;
+                    backgroundMusic.volume = 1;
+                    backgroundMusic.Play();
+
+                    //StartCoroutine(Dead());
+                }
+
             }
-            if (!backgroundMusic.isPlaying)
-            {
 
-                backgroundMusic.clip = OrcDead;
-                backgroundMusic.volume = 1;
-                backgroundMusic.Play();
 
-                //StartCoroutine(Dead());
-            }
-
-        }
-
-            if (ghostDead ==0 && backgroundMusic.clip == OrcDead)
-        {
-            backgroundMusic.Stop();
-        }
        // Debug.Log("background" + " scard " + ghostScared + " dead " + ghostDead);
 
     }
@@ -102,14 +110,14 @@ public class AudioController : MonoBehaviour
         yield return new WaitForSeconds(backgroundMusic.clip.length);
     }
 
-    public IEnumerator Dead()
+/*    public IEnumerator Dead()
     {
         backgroundMusic.clip = OrcDead;
         backgroundMusic.volume = 1;
         backgroundMusic.Play();
         yield return new WaitForSeconds(5); ;
         backgroundMusic.Stop();
-    }
+    }*/
 
     public IEnumerator Scared()
     {
@@ -117,7 +125,7 @@ public class AudioController : MonoBehaviour
         backgroundMusic.volume =1;
         backgroundMusic.Play();
         yield return new WaitForSeconds(10);
-        ghostScared = false;
+       // ghostScared = false;
 
     }
 }

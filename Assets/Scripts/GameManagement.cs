@@ -26,6 +26,9 @@ public class GameManagement : MonoBehaviour
     private static int pellets;
     public AudioClip gameOverClip;
     AudioSource gameOverMusic;
+    public List<string> deadGhosts;
+    public static String ghostName;
+    public static int deadGhostCount;
 
     private void Start()
     {
@@ -89,7 +92,25 @@ public class GameManagement : MonoBehaviour
             finalTime = GameTime.finalTime;
             GameResults();
         }
+
+
+        if (ghostName != null)
+        {
+            AddDeadGhost(ghostName);
+        }
+    
+    
+    
+    
+    
     }
+
+    public static int DeadGhostCount
+    {
+        set { deadGhostCount = value; }
+        get { return deadGhostCount; }
+    }
+
 
     public static int Pellets
     {
@@ -127,6 +148,32 @@ public class GameManagement : MonoBehaviour
         set { recovery = value; }
         get { return recovery; }
     }
+
+
+
+    public static string AddGhost
+    {
+        set { ghostName = value; }
+        get { return ghostName; }
+    }
+
+
+
+
+
+    public void AddDeadGhost(string name)
+    {
+        deadGhosts.Add(name);
+        Debug.Log(" Ghost added :" + name + " Total ghosts :" + deadGhosts.Count);
+        ghostName = null;
+    
+    }
+    
+    
+   
+
+
+
 
     public void GameResults()
     {

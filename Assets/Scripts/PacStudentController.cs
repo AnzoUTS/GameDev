@@ -39,10 +39,14 @@ public class PacStudentController : MonoBehaviour
     public ParticleSystem wallHit;
     public ParticleSystem die;
     private BoxCollider boxCollider;
-    private GameManagement gameManagment;
+    //private GameManagement gameManagment;
+    GameManagement gameManagement;
+
 
     void Start()
     {
+
+        gameManagement = gameObject.GetComponent<GameManagement>();
         powerUp = false;
         canMove = true;
         teleportL = false;
@@ -412,7 +416,7 @@ public class PacStudentController : MonoBehaviour
             Invoke("PowerUp", 10.0f);
        //     Debug.Log("powerUp - True");
             Destroy(trigger.gameObject);
-            AudioController.GhostScared = true;
+            //AudioController.GhostScared = true;
             GameManagement.ScaredTime = 10f;
             GameManagement.Scared = true;
             //StartCoroutine(ScareGhosts());
@@ -441,7 +445,12 @@ public class PacStudentController : MonoBehaviour
 
         if (trigger.gameObject.CompareTag("Enemy") && powerUp == true)
         {
-            Debug.Log("Kill Ghost");
+            // creat a list in gamemanagment?
+            string dead = trigger.gameObject.name;
+            //gameManagement.AddDeadGhost(dead);
+            GameManagement.AddGhost = dead;
+
+            //Debug.Log("Kill Ghost");
         }
 
     }

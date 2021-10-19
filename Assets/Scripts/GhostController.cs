@@ -304,6 +304,8 @@ public class GhostController : MonoBehaviour
 
         if (isAlive == false)
         {
+
+           // AudioController.GhostDead++;
             Debug.Log("isalive False");
             AddTween(transform, new Vector3(x, y, z), startingPos, 10); // send to ghost area
 
@@ -593,12 +595,13 @@ public class GhostController : MonoBehaviour
            {
                 Debug.Log(enemyName + "is Dead");
                 isAlive = false;
-                AudioController.GhostDead=+1;
+                //AudioController.GhostDead++;
                 GameManagement.Score += 300;
+               // Debug.Log("DeadAudio ADD new Ghost  = " + AudioController.GhostDead);
                 /*     CancelInvoke("Recovery");
                        CancelInvoke("NormalState");*/
                 //     StartCoroutine(EnemyDead()); // Removed from 80% Section           
-           }
+            }
 
         }
 
@@ -618,8 +621,7 @@ public class GhostController : MonoBehaviour
         {
             ghostArea = true;
             isAlive = true;
-            // AudioController.GhostDead=+1;
-            //       Debug.Log("GhostArea = True");
+
 
             // Debug.Log(enemyName + "is Alive thanks to" + trigger.name);
             /*            anim.SetBool("up", true);
@@ -636,11 +638,20 @@ public class GhostController : MonoBehaviour
         if (!trigger.name.Contains("GhostArea"))
         {
             ghostArea = false;
+           // StartCoroutine(GhostAreaMusic());
       //      Debug.Log("GhostArea = False");
         }
 
 
     }
+
+/*    IEnumerator GhostAreaMusic()
+    {
+        AudioController.GhostDead--;
+        yield return new WaitForSeconds(5f);
+        Debug.Log("Music Out");
+    }*/
+
 /*    void Recovery()
     {
         anim.SetBool("isRecovery", true);
