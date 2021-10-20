@@ -19,6 +19,7 @@ public class GhostController : MonoBehaviour
     public List<Vector3> Walkable;
     public List<Vector3> GhostArea;
     public List<Vector3> GhostAreaExitA;
+    public List<Vector3> Ghost4Targets;
     private Tween tween;
     private Animator anim;
     private GameObject[] gameObjects;
@@ -39,12 +40,14 @@ public class GhostController : MonoBehaviour
     private Vector3 lastDirection;
     private Vector3 startingPos;
     private Vector3 pacPosition;
+    private Vector3 ghost4Target;
     public  bool isAlive;
     private bool isScared;
     private bool isRecovery;
     private float targetDistance;
     PacStudentController pacman;
     GameManagement gameManagement;
+    private int ghost4objective;
 
     void Start()
     {
@@ -84,6 +87,27 @@ public class GhostController : MonoBehaviour
         {
             startingPos = new Vector3(14f, -14f, 0f); 
         }
+
+        if (enemyName == "OrcD")
+        {
+            startingPos = new Vector3(15f, -14f, 0f);
+        }
+
+        Ghost4Targets.Add(new Vector3(23, -1, 0));
+        Ghost4Targets.Add(new Vector3(23, -8, 0));
+        Ghost4Targets.Add(new Vector3(27, -14, 0));
+        Ghost4Targets.Add(new Vector3(23, -20, 0));
+        Ghost4Targets.Add(new Vector3(25, -27, 0));
+        Ghost4Targets.Add(new Vector3(15, -25, 0));
+        Ghost4Targets.Add(new Vector3(8, -27, 0));
+        Ghost4Targets.Add(new Vector3(1, -24, 0));
+        Ghost4Targets.Add(new Vector3(4, -20, 0));
+        Ghost4Targets.Add(new Vector3(0, -14, 0));
+        Ghost4Targets.Add(new Vector3(4, -8, 0));
+        Ghost4Targets.Add(new Vector3(1, -1, 0));
+        Ghost4Targets.Add(new Vector3(12, -3, 0));
+        Ghost4Targets.Add(new Vector3(16, -1, 0));
+
     }
 
     private void FixedUpdate()
@@ -108,24 +132,12 @@ public class GhostController : MonoBehaviour
         {
             if (lastTime >= 0)
             {
-                     Debug.Log(enemyName + " GhostArea Status :"  + ghostArea);
+                //Debug.Log(enemyName + " GhostArea Status :"  + ghostArea);
+               
             }
             lastTime = (int)timer;
         }
 
-
-
-
-
-        duration = 1 / speed;
-        localPos = transform.localPosition;
-
-        if (tween != null)
-        {
-            float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
-            currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
-            transform.position = currentPos;
-        }
 
          movement = speed * Time.deltaTime;
 
@@ -156,6 +168,10 @@ public class GhostController : MonoBehaviour
 
             else if (!isAlive)
             {
+                if (enemyName == "Orc4")
+                {
+                    ghost4objective = 0;
+                }
                 ghostArea = true;
                 Debug.Log("isalive False 1");
                 AddTween(transform, localPos, startingPos, 10); // send to ghost area
@@ -169,6 +185,7 @@ public class GhostController : MonoBehaviour
 
         if (GameManagement.Recovery)
         {
+            
             isScared = false;
             isRecovery = true;
         }
@@ -177,6 +194,7 @@ public class GhostController : MonoBehaviour
             isScared = false;
             isRecovery = false;
         }
+
 
         if (isAlive)
         {
@@ -239,9 +257,12 @@ public class GhostController : MonoBehaviour
             anim.SetBool("up", false);
             anim.SetBool("left", false);
             anim.SetBool("right", false);
+            anim.SetBool("isScared", true);
+            anim.SetBool("isRecovery", true);
+   
+            anim.SetBool("isDead", true);
             anim.SetBool("isScared", false);
             anim.SetBool("isRecovery", false);
-            anim.SetBool("isDead", true);
         }
         else
         {
@@ -418,7 +439,46 @@ public class GhostController : MonoBehaviour
 
         }
 
-        if (enemyName == "OrcA" || (!GameManagement.GhostAttack) || (enemyName == "OrcC" && ghostArea))
+
+        if (enemyName == "OrcD")
+        {
+            int ghostTargetCount = Ghost4Targets.Count;
+
+            ghost4Target = Ghost4Targets[ghost4objective];
+            float g4Distance = Vector3.Distance(ghostOptions[0], ghost4Target); 
+            targetDistance = g4Distance;
+            direction = ghostOptions[0];
+
+            foreach (Vector3 option in ghostOptions)
+            {
+             //    Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + ghost4Target);
+                g4Distance = Vector3.Distance(option, ghost4Target);
+
+                if (targetDistance > g4Distance)
+                {
+                    targetDistance = g4Distance;
+                    direction = option;
+                 //   Debug.Log("direction option change" + option + " Target distance " + targetDistance +"option distance" + ghost4Target);
+                }
+            }
+
+            if (g4Distance < 1.5)
+            {
+            
+                ghost4objective++;
+
+
+                if (ghost4objective >= ghostTargetCount)
+                {
+                    ghost4objective = 0;
+                }
+                Debug.Log(" Ghost4 Target :" + ghost4objective + " : " + direction);
+            }
+
+
+        }
+
+        if (enemyName == "OrcA" || (!GameManagement.GhostAttack) || (enemyName == "OrcC" && ghostArea) || (enemyName == "OrcD" && ghostArea))
         {
             pacPosition = PacStudentController.PacPosition;
             float pacDistance = Vector3.Distance(ghostOptions[0], pacPosition); //benchmark distance
@@ -464,9 +524,13 @@ public class GhostController : MonoBehaviour
 
         }
 
+
         if (trigger.name.Contains("GhostArea") && !isAlive)
-        {   
+        {
+            ghost4objective++; // check
             isAlive = true;
+           
+
             if (AudioController.Music) // music used to trigger start and prevent null error.
             {
                 gameManagement.AliveGhost(enemyName);
