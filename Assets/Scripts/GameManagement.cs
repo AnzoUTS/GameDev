@@ -37,8 +37,26 @@ public class GameManagement : MonoBehaviour
 
     private void Start()
     {
+        lives = 3;
+        if (PlayerPrefs.GetString("HighScore") == null)
+        {
+            PlayerPrefs.SetString("HighScore", "0");
+        }
+
         highScore = PlayerPrefs.GetString("HighScore");
-        previousBest = int.Parse(highScore);
+        Debug.Log("high score" + highScore);
+
+        try
+        {
+            previousBest = int.Parse(highScore); // does not seem to load on the first build.
+        }
+        catch
+        {
+            previousBest = 0;
+        }
+
+        
+        //previousBest = int.Parse(highScore);
         bestTime = PlayerPrefs.GetString("FastestTime");
         ghostTime = GameObject.Find("GhostTime");
         walkableGameObjects = GameObject.FindGameObjectsWithTag("Walkable");
@@ -47,7 +65,7 @@ public class GameManagement : MonoBehaviour
         ghostTime.SetActive(false);
         score = 0;
         scaredTime = 0;
-        lives = 3;
+    
         gameOverMusic = GetComponent<AudioSource>();
         gameOverMusic.clip = gameOverClip;
         ghostAttack = true;
@@ -176,16 +194,16 @@ public class GameManagement : MonoBehaviour
 
     public void GameResults()
     {
-        gameOver.SetActive(true);
-        Invoke("StartScreen", 3f);
+       gameOver.SetActive(true);
+       Invoke("StartScreen", 3f);
 
-        Debug.Log("PREF bestscore " + highScore + " PREF best time " + bestTime);
-        Debug.Log("gamescore " + score + " gametime " + finalTime);
+     //   Debug.Log("PREF bestscore " + highScore + " PREF best time " + bestTime);
+       // Debug.Log("gamescore " + score + " gametime " + finalTime);
         
         if (score > previousBest) {
             PlayerPrefs.SetString("FastestTime", finalTime);
             PlayerPrefs.SetString("HighScore", score.ToString());
-            Debug.Log("New High Score");
+         //   Debug.Log("New High Score");
         } 
 
         if (score == previousBest)
@@ -194,12 +212,12 @@ public class GameManagement : MonoBehaviour
             var cultureInfo = new CultureInfo("en-AU");
             previousTime = DateTime.ParseExact(bestTime, "hh:mm:ss", cultureInfo);
             currentTime = DateTime.ParseExact(finalTime, "hh:mm:ss", cultureInfo);
-            Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
+           // Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
 
             if ( currentTime < previousTime)
             {
                 PlayerPrefs.SetString("FastestTime", finalTime);
-                Debug.Log("New Fastest Time");
+             //   Debug.Log("New Fastest Time");
             }     
         }
     }
