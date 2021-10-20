@@ -50,6 +50,8 @@ public class GhostController : MonoBehaviour
 
     void Start()
     {
+        isAlive = true;
+        ghostArea = true;
         gameManagement = GameObject.Find("GameManagement").GetComponent<GameManagement>();
         pacman = gameObject.GetComponent<PacStudentController>(); // access pacman script
         speed = 1.7f;
@@ -89,7 +91,7 @@ public class GhostController : MonoBehaviour
            
         }
 
-        isAlive = true;
+        
 
     }
 
@@ -155,6 +157,7 @@ public class GhostController : MonoBehaviour
 
             else if (!isAlive)
             {
+                ghostArea = true;
                 Debug.Log("isalive False 1");
                 AddTween(transform, localPos, startingPos, 10); // send to ghost area
             }
@@ -398,8 +401,7 @@ public class GhostController : MonoBehaviour
             if (Walkable.Contains(left)) // left
                 ghostOptions.Add(left);
 
-            if (Walkable.Contains(up)) // up
-                ghostOptions.Add(up);
+
         }
 
 /*        if (ghostOptions.Count == 0 && ghostArea == false)
@@ -523,19 +525,19 @@ public class GhostController : MonoBehaviour
 
                     if (ghostOptions.Count == 1)
                     {
-            //            Debug.Log("direction option 1" + option);
+                   //  Debug.Log("direction option 1" + option);
                         direction = option;
                         targetDistance = pacDistance;
                     }
                     else if (targetDistance < pacDistance)
                     {
                         direction = option;
-                //        Debug.Log("direction option multi" + option);
+                //    Debug.Log("direction option multi" + option);
                     }
                     else
                     {
                         direction = ghostOptions[0];
-              //          Debug.Log("direction option last direction" + direction);
+                    //    Debug.Log("direction option last direction" + direction);
                     }
                 }
 
@@ -543,7 +545,7 @@ public class GhostController : MonoBehaviour
         }
 
             lastDirection = direction - new Vector3(x, y, z);
-          //  Debug.Log("ghost area " + ghostArea + "DECISION" + direction + "Last direction" + lastDirection + "Valid options " + ghostOptions.Count + " lastPosition" + lastPosition + " localpos" + localPos + " ghostThought " + ghostThought + " new Vector3(x, y, z)" + new Vector3(x, y, z) + "direction " + direction);
+           // Debug.Log("ghost area " + ghostArea + "DECISION" + direction + "Last direction" + lastDirection + "Valid options " + ghostOptions.Count + " lastPosition" + lastPosition + " localpos" + localPos + " ghostThought " + ghostThought + " new Vector3(x, y, z)" + new Vector3(x, y, z) + "direction " + direction);
 
             AddTween(transform, new Vector3(x, y, z), direction, duration);
         
@@ -555,8 +557,9 @@ public class GhostController : MonoBehaviour
     {
         if (trigger.name.Contains("PacStudent"))
         {
-           if(GameManagement.Scared || GameManagement.Recovery)
-           {
+           if(!GameManagement.GhostAttack)
+               // if (GameManagement.Scared || GameManagement.Recovery)
+                {
                 Debug.Log(enemyName + "is Dead");
                 isAlive = false;
                 //AudioController.GhostDead++;
@@ -571,21 +574,23 @@ public class GhostController : MonoBehaviour
 
         if (trigger.name.Contains("GhostArea") && !isAlive)
         {
-            ghostArea = true;
+            
             isAlive = true;
-            gameManagement.AliveGhost(enemyName);
-
+            if (gameManagement.GhostCount() > 0)
+            {
+                gameManagement.AliveGhost(enemyName);
+            }
 
             // Debug.Log(enemyName + "is Alive thanks to" + trigger.name);
-            /*            anim.SetBool("up", true);
-                        anim.SetBool("down", false);
-                        anim.SetBool("up", false);
-                        anim.SetBool("left", false);
-                        anim.SetBool("right", false);
-                        anim.SetBool("isScared", false);
-                        anim.SetBool("isRecovery", false);
-                        anim.SetBool("isDead", false);
-            */
+            anim.SetBool("up", true);
+            anim.SetBool("down", false);
+            anim.SetBool("up", false);
+            anim.SetBool("left", false);
+            anim.SetBool("right", false);
+            anim.SetBool("isScared", false);
+            anim.SetBool("isRecovery", false);
+            anim.SetBool("isDead", false);
+
         }
 
         if (!trigger.name.Contains("GhostArea"))

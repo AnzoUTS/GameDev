@@ -39,11 +39,12 @@ public class PacStudentController : MonoBehaviour
     public ParticleSystem die;
     private BoxCollider boxCollider;
     GameManagement gameManagement;
+    private bool isAlive;
 
 
     void Start()
     {
-
+        isAlive = true;
         gameManagement = GameObject.Find("GameManagement").GetComponent<GameManagement>();
         powerUp = false;
         canMove = true;
@@ -371,10 +372,12 @@ public class PacStudentController : MonoBehaviour
             Destroy(trigger.gameObject);
             GameManagement.ScaredTime = 10f;
             GameManagement.Scared = true;
+            GameManagement.GhostAttack = false;
         }
 
-        if (trigger.gameObject.CompareTag("Enemy") && !powerUp &&!gameManagement.deadGhosts.Contains(trigger.gameObject.name)) 
+        if (trigger.gameObject.CompareTag("Enemy") && !powerUp && isAlive && !gameManagement.deadGhosts.Contains(trigger.gameObject.name)) 
         {
+            isAlive = false;
             pacaudio.clip = die_FX;
             pacaudio.Play();
             anim.SetTrigger("isDead");
@@ -411,6 +414,7 @@ public class PacStudentController : MonoBehaviour
         yield return new WaitForSeconds(3f);
         anim.SetBool("up", true);
         gameObject.transform.position = new Vector3(1, -1, 0);
+        isAlive = true;
     }
 
     void startMove()

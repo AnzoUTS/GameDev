@@ -12,6 +12,7 @@ public class GameManagement : MonoBehaviour
     private static float scaredTime;
     private static bool scared;
     private static bool recovery;
+    public static bool ghostAttack;
     public static int lives;
     private string finalTime;
     private string highScore;
@@ -26,10 +27,13 @@ public class GameManagement : MonoBehaviour
     private static int pellets;
     public AudioClip gameOverClip;
     AudioSource gameOverMusic;
+    public float timer;
+    public float lastTime;
 
     public List<string> deadGhosts;
 /*    private static string ghostName;*/
     public static int deadGhostCount;
+
 
     private void Start()
     {
@@ -46,6 +50,8 @@ public class GameManagement : MonoBehaviour
         lives = 3;
         gameOverMusic = GetComponent<AudioSource>();
         gameOverMusic.clip = gameOverClip;
+        ghostAttack = true;
+
 
         foreach (GameObject obj in walkableGameObjects)
         {
@@ -61,28 +67,29 @@ public class GameManagement : MonoBehaviour
     private void Update()
     {
 
-        //timer += Time.deltaTime;
+        timer += Time.deltaTime;
 
-        /*        if ((int)timer > lastTime)
-                {
-                    if (lastTime >= 0)
-                    {
-                       // Debug.Log("last time " + lastTime + " movement " + movement + "duration "+ duration);
-                    }
-                    lastTime = (int)timer;
-                }
-          */
+        if ((int)timer > lastTime)
+        {
+            if (lastTime >= 0)
+            {
+                Debug.Log("Scared :" + scared + " recovery :" + recovery + " ghostAttack :"+ ghostAttack);
+            }
+            lastTime = (int)timer;
+        }
+
 
         if (Scared == true)
         {
-            Recovery = false;
+            recovery = false;
             ghostTime.SetActive(true);
+            ghostAttack = false;
             ScaredTime -= Time.deltaTime;
 
             if (ScaredTime <= 3)
             {
-                Scared = false;
-                Recovery = true;
+                scared = false;
+                recovery = true;
             }
         }
 
@@ -91,7 +98,8 @@ public class GameManagement : MonoBehaviour
             ScaredTime -= Time.deltaTime;
 
             if (ScaredTime <= 0)
-            {    
+            {
+                ghostAttack = true;
                 Recovery = false;
                 ghostTime.SetActive(false);
             }
@@ -139,6 +147,15 @@ public class GameManagement : MonoBehaviour
         set { recovery = value; }
         get { return recovery; }
     }
+
+
+    public static bool GhostAttack
+    {
+        set { ghostAttack = value; }
+        get { return ghostAttack; }
+    }
+
+
 
     public void DeadGhost(string ghostName)
     {

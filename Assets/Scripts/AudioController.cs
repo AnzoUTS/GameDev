@@ -17,7 +17,6 @@ public class AudioController : MonoBehaviour
     gameManagement = GameObject.Find("GameManagement").GetComponent<GameManagement>();
     backgroundMusic = GetComponent<AudioSource>();
     music = false;
-
     }
 
     public static bool Music
@@ -29,11 +28,12 @@ public class AudioController : MonoBehaviour
     {
         if (!backgroundMusic.isPlaying && music)
         {
+            Debug.Log("Play Main");
             StartCoroutine(Main());
         }
 
-        if ((GameManagement.Scared || GameManagement.Recovery) && backgroundMusic.clip != OrcDead)
-        {
+        if ((!GameManagement.GhostAttack) && backgroundMusic.clip != OrcDead)
+            {
                 StopCoroutine(Main());
 
             if (backgroundMusic.clip != OrcScared)
@@ -43,14 +43,12 @@ public class AudioController : MonoBehaviour
 
             if (!backgroundMusic.isPlaying)
             {
-                StartCoroutine(Scared());
+                Debug.Log("Play Orc Scared");
+                backgroundMusic.clip = OrcScared;
+                backgroundMusic.volume = 1;
+                backgroundMusic.Play();
             }
         }
-
-/*        if ((!GameManagement.Scared || !GameManagement.Recovery) && backgroundMusic.clip != OrcScared)
-        {
-            backgroundMusic.Stop();
-        }*/
 
         if (gameManagement.GhostCount() > 0)
         {
@@ -58,10 +56,10 @@ public class AudioController : MonoBehaviour
             {
                 backgroundMusic.Stop();
                 StopCoroutine(Main());
-                StopCoroutine(Scared());
 
                 if (!backgroundMusic.isPlaying)
                 {
+                    Debug.Log("Play OrcDead");
                     backgroundMusic.clip = OrcDead;
                     backgroundMusic.volume = 1;
                     backgroundMusic.Play();
@@ -69,13 +67,10 @@ public class AudioController : MonoBehaviour
             }
         }
 
-        if (gameManagement.GhostCount() == 0 && backgroundMusic.clip == OrcDead)
+        if (GameManagement.GhostAttack && backgroundMusic.clip !=Normal && gameManagement.GhostCount() == 0)
         {
             backgroundMusic.Stop();
         }
-
-
-
     }
 
     public IEnumerator Main()
@@ -87,11 +82,11 @@ public class AudioController : MonoBehaviour
         yield return new WaitForSeconds(backgroundMusic.clip.length);
     }
 
-    public IEnumerator Scared()
+/*    public IEnumerator Scared()
     {
         backgroundMusic.clip = OrcScared;
         backgroundMusic.volume =1;
         backgroundMusic.Play();
         yield return new WaitForSeconds(10);
-    }
+    }*/
 }
