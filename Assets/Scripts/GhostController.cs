@@ -51,6 +51,7 @@ public class GhostController : MonoBehaviour
 
     void Start()
     {
+        localPos = transform.localPosition;
         isAlive = true;
         ghostArea = true;
         gameManagement = GameObject.Find("GameManagement").GetComponent<GameManagement>();
@@ -85,7 +86,8 @@ public class GhostController : MonoBehaviour
 
         if (enemyName == "OrcC")
         {
-            startingPos = new Vector3(14f, -14f, 0f); 
+            startingPos = new Vector3(14f, -14f, 0f);
+            ghostThought = UnityEngine.Random.Range(0, ghostOptions.Count);
         }
 
         if (enemyName == "OrcD")

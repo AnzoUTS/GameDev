@@ -25,6 +25,7 @@ public class PacStudentController : MonoBehaviour
     private Vector3 lerpPos;
     private static Vector3 pacPosition;
     public List<Vector3> Walkable;
+    public List<Vector3> GhostArea;
 
     private Tween tween;
     private Animator anim;
@@ -63,6 +64,8 @@ public class PacStudentController : MonoBehaviour
         foreach (GameObject item in gameObjects)
         {
             Walkable.Add(item.transform.position);
+            if (item.name.Contains("GhostArea"))
+                GhostArea.Add(item.transform.position);
         }
     }
 
@@ -289,7 +292,7 @@ public class PacStudentController : MonoBehaviour
 
     public bool MoveCheck(Vector3 lerp)
     {
-        if (Walkable.Contains(lerp))
+        if (Walkable.Contains(lerp) && !GhostArea.Contains(lerp))
         {
             return true;
         }
