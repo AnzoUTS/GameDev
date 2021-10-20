@@ -22,6 +22,7 @@ public class AudioController : MonoBehaviour
     public static bool Music
     {
         set { music = value; }
+        get { return music; }
     }
 
     private void Update()

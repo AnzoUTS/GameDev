@@ -135,8 +135,8 @@ GameObject:
   - component: {fileID: 320573}
   - component: {fileID: 320574}
   m_Layer: 0
-  m_Name: Empty-GhostArea (12)
-  m_TagString: Walkable
+  m_Name: Empty-GhostArea (12) ExitA
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -807,8 +807,8 @@ GameObject:
   - component: {fileID: 34709075}
   - component: {fileID: 34709076}
   m_Layer: 0
-  m_Name: 'Empty-GhostArea (15) '
-  m_TagString: Walkable
+  m_Name: Empty-Gho
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1465,8 +1465,8 @@ GameObject:
   - component: {fileID: 49703098}
   - component: {fileID: 49703099}
   m_Layer: 0
-  m_Name: 'Empty-GhostArea (3) '
-  m_TagString: Walkable
+  m_Name: Empty-G6
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1478,13 +1478,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 49703096}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.0002791954, w: 1}
   m_LocalPosition: {x: 12, y: -13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 993282535}
   m_RootOrder: 58
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.032}
 --- !u!212 &49703098
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7217,8 +7217,8 @@ GameObject:
   - component: {fileID: 204398536}
   - component: {fileID: 204398537}
   m_Layer: 0
-  m_Name: Empty-GhostArea (2)
-  m_TagString: Walkable
+  m_Name: Empty
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10649,8 +10649,8 @@ GameObject:
   - component: {fileID: 325081822}
   - component: {fileID: 325081823}
   m_Layer: 0
-  m_Name: Empty-GhostArea (7)
-  m_TagString: Walkable
+  m_Name: Empty-4
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12886,8 +12886,8 @@ GameObject:
   - component: {fileID: 382108734}
   - component: {fileID: 382108735}
   m_Layer: 0
-  m_Name: Empty-GhostArea (6)
-  m_TagString: Walkable
+  m_Name: Empty-G-
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13174,8 +13174,8 @@ GameObject:
   - component: {fileID: 385715912}
   - component: {fileID: 385715913}
   m_Layer: 0
-  m_Name: 'Empty-GhostArea (9) '
-  m_TagString: Walkable
+  m_Name: Empty-GhostArea (9) ExitA
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20591,8 +20591,8 @@ GameObject:
   - component: {fileID: 565811733}
   - component: {fileID: 565811734}
   m_Layer: 0
-  m_Name: Empty-GhostArea (8)
-  m_TagString: Walkable
+  m_Name: Empty-
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21839,8 +21839,8 @@ GameObject:
   - component: {fileID: 593686003}
   - component: {fileID: 593686004}
   m_Layer: 0
-  m_Name: Empty-GhostArea (14)
-  m_TagString: Walkable
+  m_Name: Empty-1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58377,8 +58377,8 @@ GameObject:
   - component: {fileID: 1590956180}
   - component: {fileID: 1590956181}
   m_Layer: 0
-  m_Name: Empty-GhostArea (13)
-  m_TagString: Walkable
+  m_Name: Empty-G
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62776,8 +62776,8 @@ GameObject:
   - component: {fileID: 1732708755}
   - component: {fileID: 1732708756}
   m_Layer: 0
-  m_Name: Empty-GhostArea (19)
-  m_TagString: Walkable
+  m_Name: Empty-Gh
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69776,8 +69776,8 @@ GameObject:
   - component: {fileID: 1970040211}
   - component: {fileID: 1970040212}
   m_Layer: 0
-  m_Name: Empty-GhostArea (18)
-  m_TagString: Walkable
+  m_Name: Empty-)
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -73,7 +73,7 @@ public class GameManagement : MonoBehaviour
         {
             if (lastTime >= 0)
             {
-                Debug.Log("Scared :" + scared + " recovery :" + recovery + " ghostAttack :"+ ghostAttack);
+         //       Debug.Log("Scared :" + scared + " recovery :" + recovery + " ghostAttack :"+ ghostAttack);
             }
             lastTime = (int)timer;
         }
@@ -160,13 +160,13 @@ public class GameManagement : MonoBehaviour
     public void DeadGhost(string ghostName)
     {
         deadGhosts.Add(ghostName);
-        Debug.Log(" Ghost added :" + ghostName + " Total ghosts :" + deadGhosts.Count);
+     //   Debug.Log(" Ghost added :" + ghostName + " Total ghosts :" + deadGhosts.Count);
     }
 
     public void AliveGhost(string ghostName)
     {
         deadGhosts.Remove(ghostName);
-        Debug.Log(" Ghost :" + ghostName + " Removed Total ghosts :" + deadGhosts.Count);
+      //  Debug.Log(" Ghost :" + ghostName + " Removed Total ghosts :" + deadGhosts.Count);
     }
 
     public int GhostCount()
