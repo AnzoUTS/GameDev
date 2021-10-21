@@ -474,7 +474,7 @@ public class GhostController : MonoBehaviour
                 {
                     ghost4objective = 0;
                 }
-                Debug.Log(" Ghost4 Target :" + ghost4objective + " : " + direction);
+               // Debug.Log(" Ghost4 Target :" + ghost4objective + " : " + direction);
             }
 
 
@@ -533,17 +533,29 @@ public class GhostController : MonoBehaviour
             isAlive = true;
            
 
-            if (AudioController.Music) // music used to trigger start and prevent null error.
+            if (AudioController.Music && isAlive) // music used to trigger start and prevent null error.
             {
-                gameManagement.AliveGhost(enemyName);
+               
                 anim.SetBool("up", true);
-                anim.SetBool("down", false);
-                anim.SetBool("up", false);
-                anim.SetBool("left", false);
-                anim.SetBool("right", false);
-                anim.SetBool("isScared", false);
-                anim.SetBool("isRecovery", false);
-                anim.SetBool("isDead", false);
+
+                try
+                {
+
+                    gameManagement.AliveGhost(enemyName); // investigate rare error
+                }
+                catch
+                {
+                    Debug.Log(enemyName + "is causing some drama");
+                    gameManagement.AliveGhost(enemyName);
+
+                }
+                /*              anim.SetBool("down", false);
+                                anim.SetBool("up", false);
+                                anim.SetBool("left", false);
+                                anim.SetBool("right", false);
+                                anim.SetBool("isScared", false);
+                                anim.SetBool("isRecovery", false);
+                                anim.SetBool("isDead", false);*/
             }
         }
 

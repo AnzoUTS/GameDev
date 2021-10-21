@@ -49767,10 +49767,10 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1380611367}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0f25555bdb2f18c47b7d5ff49393ea2c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 74b082fb45ff3d4429d3cf3591bb6315, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
@@ -49863,7 +49863,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1380611367}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 81d2202488d04c54c99c25db9937ce7a, type: 3}
@@ -49980,7 +49980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundMusic: {fileID: 0}
   Intro: {fileID: 8300000, guid: 81d2202488d04c54c99c25db9937ce7a, type: 3}
-  Normal: {fileID: 8300000, guid: 0f25555bdb2f18c47b7d5ff49393ea2c, type: 3}
+  Normal: {fileID: 8300000, guid: 74b082fb45ff3d4429d3cf3591bb6315, type: 3}
   OrcScared: {fileID: 8300000, guid: 318e546182f93ee46b19b2eecc655498, type: 3}
   OrcDead: {fileID: 8300000, guid: 0b81d50ca94884d4797530376d020939, type: 3}
 --- !u!82 &1380611372
@@ -49990,7 +49990,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1380611367}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 318e546182f93ee46b19b2eecc655498, type: 3}
@@ -50086,7 +50086,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1380611367}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 913c529bdb2a22f44bc54ff5e07d2818, type: 3}
