@@ -262,9 +262,10 @@ public class GhostController : MonoBehaviour
             anim.SetBool("isScared", true);
             anim.SetBool("isRecovery", true);
    
-            anim.SetBool("isDead", true);
+            
             anim.SetBool("isScared", false);
             anim.SetBool("isRecovery", false);
+            anim.SetBool("isDead", true);
         }
         else
         {
@@ -517,8 +518,9 @@ public class GhostController : MonoBehaviour
             {
                     Debug.Log(enemyName + "is Dead");
                     isAlive = false;
+                    anim.SetBool("isDead", true); // duplicate
                     //AudioController.GhostDead++;
-                    GameManagement.Score += 300;
+                GameManagement.Score += 300;
                     /*     CancelInvoke("Recovery");
                            CancelInvoke("NormalState");
                      StartCoroutine(EnemyDead()); // Removed from 80% Section  */

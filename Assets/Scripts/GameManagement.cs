@@ -197,27 +197,27 @@ public class GameManagement : MonoBehaviour
        gameOver.SetActive(true);
        Invoke("StartScreen", 3f);
 
-     //   Debug.Log("PREF bestscore " + highScore + " PREF best time " + bestTime);
-       // Debug.Log("gamescore " + score + " gametime " + finalTime);
+        Debug.Log("PREF bestscore " + highScore + " PREF best time " + bestTime);
+        Debug.Log("gamescore " + score + " gametime " + finalTime);
         
-        if (score > previousBest) {
+        if (score > previousBest) 
+        {
             PlayerPrefs.SetString("FastestTime", finalTime);
             PlayerPrefs.SetString("HighScore", score.ToString());
-         //   Debug.Log("New High Score");
+            //Debug.Log("New High Score : " + score +" Time :" + finalTime);
         } 
 
         if (score == previousBest)
-
         {
             var cultureInfo = new CultureInfo("en-AU");
             previousTime = DateTime.ParseExact(bestTime, "hh:mm:ss", cultureInfo);
             currentTime = DateTime.ParseExact(finalTime, "hh:mm:ss", cultureInfo);
-           // Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
+            //Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
 
             if ( currentTime < previousTime)
             {
                 PlayerPrefs.SetString("FastestTime", finalTime);
-             //   Debug.Log("New Fastest Time");
+                //Debug.Log("New Fastest Time " + finalTime);
             }     
         }
     }

@@ -24,7 +24,7 @@ public class GameTime : MonoBehaviour
     void Update()
     {
 
-        if (GameManagement.Life > 0)
+        if (GameManagement.Life > 0 && GameManagement.Pellets > 0)
         {
             //Debug.Log(gameTime);
             gameTime = Time.time - startTime;
