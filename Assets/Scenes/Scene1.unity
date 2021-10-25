@@ -5902,7 +5902,6 @@ GameObject:
   - component: {fileID: 178490336}
   - component: {fileID: 178490337}
   - component: {fileID: 178490338}
-  - component: {fileID: 178490339}
   - component: {fileID: 178490340}
   m_Layer: 0
   m_Name: OrcD
@@ -5970,7 +5969,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 178490332}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15, y: -14.00025, z: 0}
+  m_LocalPosition: {x: 15, y: -14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 427059472}
@@ -6037,24 +6036,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &178490339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 178490332}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aa2f7b86f5f9c74a9991ca7f8a821ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Walkable: []
-  GhostArea: []
-  GhostAreaExitA: []
-  Ghost4Targets: []
-  ghostOptions: []
-  isAlive: 0
 --- !u!114 &178490340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11026,7 +11007,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 326512530}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13, y: -14.00025, z: 0}
+  m_LocalPosition: {x: 13, y: -14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1699293536}
@@ -31987,6 +31968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55fa27824f72fbe499d2eb9c0229a879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quitButton: {fileID: 0}
 --- !u!1 &883798389
 GameObject:
   m_ObjectHideFlags: 0
@@ -38607,7 +38589,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1073005099}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14, y: -14.00025, z: 0}
+  m_LocalPosition: {x: 14, y: -14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 519458683}
@@ -67958,7 +67940,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1901645447}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12, y: -14.00025, z: 0}
+  m_LocalPosition: {x: 12, y: -14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 899226077}

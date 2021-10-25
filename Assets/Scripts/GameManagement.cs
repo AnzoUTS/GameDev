@@ -33,6 +33,7 @@ public class GameManagement : MonoBehaviour
     public List<string> deadGhosts;
 /*    private static string ghostName;*/
     public static int deadGhostCount;
+    
 
 
     private void Start()
@@ -60,6 +61,8 @@ public class GameManagement : MonoBehaviour
         bestTime = PlayerPrefs.GetString("FastestTime");
         ghostTime = GameObject.Find("GhostTime");
         walkableGameObjects = GameObject.FindGameObjectsWithTag("Walkable");
+
+
         gameOver = GameObject.Find("GameOver");
         gameOver.SetActive(false);
         ghostTime.SetActive(false);
@@ -84,6 +87,7 @@ public class GameManagement : MonoBehaviour
 
     private void Update()
     {
+        
 
         timer += Time.deltaTime;
 
@@ -226,5 +230,11 @@ public class GameManagement : MonoBehaviour
     {
             SceneManager.LoadScene("StartScene");
     }
-    
+
+
+    public void QuitGame()
+    {
+        UnityEditor.EditorApplication.isPlaying = false; // stops game
+    }
+
 }

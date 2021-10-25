@@ -538,7 +538,7 @@ public class GhostController : MonoBehaviour
             if (AudioController.Music && isAlive) // music used to trigger start and prevent null error.
             {
                
-                anim.SetBool("up", true);
+               // anim.SetBool("up", true);
 
                 try
                 {

@@ -2,13 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StartScene : MonoBehaviour
 {
 
-    public void loadLevel (string scene)
+
+
+
+
+    public void loadLevel(string scene)
     {
-        SceneManager.LoadScene(scene);
+        if (Time.timeScale == 1)
+        {
+            SceneManager.LoadScene(scene);
+        }
     }
+
+
 
 }
