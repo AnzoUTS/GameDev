@@ -33,7 +33,11 @@ public class GameManagement : MonoBehaviour
     public List<string> deadGhosts;
 /*    private static string ghostName;*/
     public static int deadGhostCount;
-    
+    private GameObject[] gameObjects;
+    public List<Vector3> Walkable;
+    public List<Vector3> GhostArea;
+    public List<Vector3> GhostAreaExitA;
+
 
 
     private void Start()
@@ -72,6 +76,19 @@ public class GameManagement : MonoBehaviour
         gameOverMusic = GetComponent<AudioSource>();
         gameOverMusic.clip = gameOverClip;
         ghostAttack = true;
+
+
+        gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
+   
+
+        foreach (GameObject item in gameObjects)
+        {
+            Walkable.Add(item.transform.position);
+            if (item.name.Contains("GhostArea"))
+                GhostArea.Add(item.transform.position);
+            if (item.name.Contains("ExitA"))
+                GhostAreaExitA.Add(item.transform.position);
+        }
 
 
         foreach (GameObject obj in walkableGameObjects)

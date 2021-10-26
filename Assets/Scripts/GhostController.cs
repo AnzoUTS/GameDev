@@ -18,6 +18,7 @@ public class GhostController : MonoBehaviour
     private Vector3 localPos;
     public List<Vector3> Walkable;
     public List<Vector3> GhostArea;
+    public List<Vector3> StartGhostArea;
     public List<Vector3> GhostAreaExitA;
     public List<Vector3> Ghost4Targets;
     private Tween tween;
@@ -48,6 +49,7 @@ public class GhostController : MonoBehaviour
     PacStudentController pacman;
     GameManagement gameManagement;
     private int ghost4objective;
+    float g4Distance;
 
     void Start()
     {
@@ -63,20 +65,26 @@ public class GhostController : MonoBehaviour
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
         canMove = true;
         enemyName = transform.name;
-        foreach (GameObject item in gameObjects)
+
+        Walkable = gameManagement.Walkable;
+        GhostArea = gameManagement.GhostArea;
+        GhostAreaExitA = gameManagement.GhostAreaExitA;
+
+ /*       foreach (GameObject item in gameObjects)
         {
             Walkable.Add(item.transform.position);
             if (item.name.Contains("GhostArea"))
                 GhostArea.Add(item.transform.position);
             if (item.name.Contains("ExitA"))
                 GhostAreaExitA.Add(item.transform.position);
-        }
+        }*/
 
         Debug.Log("ghost options at start "+ ghostOptions.Count);
 
         if (enemyName == "OrcA")
         {
             startingPos = new Vector3(12f, -14f, 0f);
+            //ghostOptions.Add(new Vector3(13, -14, 0));
         }
 
         if (enemyName == "OrcB")
@@ -87,7 +95,8 @@ public class GhostController : MonoBehaviour
         if (enemyName == "OrcC")
         {
             startingPos = new Vector3(14f, -14f, 0f);
-            ghostThought = UnityEngine.Random.Range(0, ghostOptions.Count);
+            //ghostOptions.Add(new Vector3(14, -15, 0));
+            //ghostThought = UnityEngine.Random.Range(0, ghostOptions.Count);
         }
 
         if (enemyName == "OrcD")
@@ -275,7 +284,7 @@ public class GhostController : MonoBehaviour
 
     private void GhostBrain()
     {
-        ghostOptions.Clear();
+        //ghostOptions.Clear();
         // avoid rounding point errors
         int x = (int)Math.Round(localPos.x);
         int y = (int)Math.Round(localPos.y);
@@ -353,6 +362,8 @@ public class GhostController : MonoBehaviour
         }
         if (ghostArea == true)
         {
+
+
             if (Walkable.Contains(up)) // up
                 ghostOptions.Add(up);
 
@@ -365,20 +376,21 @@ public class GhostController : MonoBehaviour
             if (Walkable.Contains(left)) // left
                 ghostOptions.Add(left);
 
+        
 
-/*            if (GhostAreaExitA.Contains(down)) // down
-                ghostOptions.Add(down);
+            /*            if (GhostAreaExitA.Contains(down)) // down
+                            ghostOptions.Add(down);
 
-            if (GhostAreaExitA.Contains(right)) // right
-                ghostOptions.Add(right);
+                        if (GhostAreaExitA.Contains(right)) // right
+                            ghostOptions.Add(right);
 
-            if (GhostAreaExitA.Contains(left)) // left
-                ghostOptions.Add(left);
+                        if (GhostAreaExitA.Contains(left)) // left
+                            ghostOptions.Add(left);
 
-            if (GhostAreaExitA.Contains(up)) // up
-                ghostOptions.Add(up);*/
+                        if (GhostAreaExitA.Contains(up)) // up
+                            ghostOptions.Add(up);*/
 
-           // Debug.Log("ghost area!!!!!!!!!!");
+            // Debug.Log("ghost area!!!!!!!!!!");
 
             moveGhost();
         }
@@ -392,38 +404,77 @@ public class GhostController : MonoBehaviour
         }
     }
 
+    private void ConfusedGhost()
+    {
+        Debug.Log("Ghost has no other option ");
+
+        if (Walkable.Contains(up)) // up
+            ghostOptions.Add(up);
+
+        if (Walkable.Contains(down)) // down
+            ghostOptions.Add(down);
+
+        if (Walkable.Contains(right)) // right
+            ghostOptions.Add(right);
+
+        if (Walkable.Contains(left)) // left
+            ghostOptions.Add(left);
+
+        if (ghostOptions.Count == 0)
+        {
+            Debug.Log("Very confused ghost ");
+            //StartingGhosts();
+        }
+    }
+
+
     private void moveGhost()
     {
+        //ghostOptions.Clear();
+        // avoid rounding point errors
         int x = (int)Math.Round(localPos.x);
         int y = (int)Math.Round(localPos.y);
         float z = localPos.z;
 
-        if (ghostOptions.Count == 0)
-        {
-         Debug.Log("Ghost has no other option ");
+        up = new Vector3(x, y + 1, z);
+        down = new Vector3(x, y - 1, z);
+        left = new Vector3(x - 1, y, z);
+        right = new Vector3(x + 1, y, z);
 
-            if (Walkable.Contains(up)) // up
-                ghostOptions.Add(up);
+        /*        {
+                    Debug.Log("Ghost has no other option ");
 
-            if (Walkable.Contains(down)) // down
-                ghostOptions.Add(down);
+                    if (Walkable.Contains(up)) // up
+                        ghostOptions.Add(up);
 
-            if (Walkable.Contains(right)) // right
-                ghostOptions.Add(right);
+                    if (Walkable.Contains(down)) // down
+                        ghostOptions.Add(down);
 
-            if (Walkable.Contains(left)) // left
-                ghostOptions.Add(left);
-        }
+                    if (Walkable.Contains(right)) // right
+                        ghostOptions.Add(right);
+
+                    if (Walkable.Contains(left)) // left
+                        ghostOptions.Add(left);
+                }*/
 
         if (enemyName == "OrcC")
         {
-            ghostThought = UnityEngine.Random.Range(0, ghostOptions.Count);
+            if (ghostOptions.Count == 0) 
+            {
+                ConfusedGhost();
+            }
+                ghostThought = UnityEngine.Random.Range(0, ghostOptions.Count);
 
             direction = ghostOptions[ghostThought];
         }
 
         if (enemyName == "OrcB")
         {
+            if (ghostOptions.Count == 0)
+            {
+                ConfusedGhost();
+            }
+
             pacPosition = PacStudentController.PacPosition;
             float pacDistance = Vector3.Distance(ghostOptions[0], pacPosition); //benchmark distance
             targetDistance = pacDistance;
@@ -445,16 +496,38 @@ public class GhostController : MonoBehaviour
 
         if (enemyName == "OrcD")
         {
+            if (ghostOptions.Count == 0)
+            {
+                ConfusedGhost();
+
+                foreach (Vector3 option in ghostOptions)
+                {
+                    Debug.Log(option);
+                }
+                Debug.Log("target " + (ghost4Target = Ghost4Targets[ghost4objective]) + " count " + ghostOptions.Count);
+            }
             int ghostTargetCount = Ghost4Targets.Count;
 
             ghost4Target = Ghost4Targets[ghost4objective];
-            float g4Distance = Vector3.Distance(ghostOptions[0], ghost4Target); 
-            targetDistance = g4Distance;
-            direction = ghostOptions[0];
+
+ /*           try
+            {*/
+                g4Distance = Vector3.Distance(ghostOptions[0], ghost4Target);
+                targetDistance = g4Distance;
+                direction = ghostOptions[0];
+      /*      }
+            catch
+            {
+                g4Distance = Vector3.Distance(new Vector3(14, -14, 0), ghost4Target);
+                Debug.Log("2nd time lucky " + g4Distance);
+                direction = new Vector3(14, -14, 0);
+            }
+            */
+            
 
             foreach (Vector3 option in ghostOptions)
             {
-             //    Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + ghost4Target);
+               // Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + ghost4Target);
                 g4Distance = Vector3.Distance(option, ghost4Target);
 
                 if (targetDistance > g4Distance)
@@ -481,16 +554,23 @@ public class GhostController : MonoBehaviour
 
         }
 
-        if (enemyName == "OrcA" || (!GameManagement.GhostAttack) || (enemyName == "OrcC" && ghostArea) || (enemyName == "OrcD" && ghostArea))
+        if (enemyName == "OrcA" || (!GameManagement.GhostAttack) || (enemyName == "OrcC" && ghostArea))
         {
-            pacPosition = PacStudentController.PacPosition;
-            float pacDistance = Vector3.Distance(ghostOptions[0], pacPosition); //benchmark distance
-            targetDistance = pacDistance;
-            direction = ghostOptions[0];
-
-            foreach (Vector3 option in ghostOptions)
+            if (ghostOptions.Count == 0)
             {
-              //   Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + pacDistance);
+                ConfusedGhost();
+            }
+
+            try
+            {
+                pacPosition = PacStudentController.PacPosition;
+                float pacDistance = Vector3.Distance(ghostOptions[0], pacPosition); //benchmark distance
+                targetDistance = pacDistance;
+                direction = ghostOptions[0];
+
+                foreach (Vector3 option in ghostOptions)
+                {
+                    //   Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + pacDistance);
 
                     pacDistance = Vector3.Distance(option, pacPosition);
 
@@ -499,15 +579,27 @@ public class GhostController : MonoBehaviour
                         targetDistance = pacDistance;
                         direction = option;
 
-                  //  Debug.Log("direction option change" + option + " Target distance " + targetDistance +"option distance" + pacDistance);
+                        //  Debug.Log("direction option change" + option + " Target distance " + targetDistance +"option distance" + pacDistance);
                     }
+                }
             }
+            catch
+            {
 
+                //Destroy(gameObject);
+                int lx = (int)Math.Round(localPos.x);
+                int ly = (int)Math.Round(localPos.y);
+                float lz = localPos.z;
+
+                direction = new Vector3(lx, ly+1, lz);
+                Debug.Log("Catch Trigger !!!!!!!!!!!!!!!!!!!" + direction);
+            }
         }
 
             lastDirection = direction - new Vector3(x, y, z);
 
             AddTween(transform, new Vector3(x, y, z), direction, duration);
+            ghostOptions.Clear();
     }
 
     private void OnTriggerEnter(Collider trigger)
@@ -520,7 +612,7 @@ public class GhostController : MonoBehaviour
                     isAlive = false;
                     anim.SetBool("isDead", true); // duplicate
                     //AudioController.GhostDead++;
-                GameManagement.Score += 300;
+                    GameManagement.Score += 300;
                     /*     CancelInvoke("Recovery");
                            CancelInvoke("NormalState");
                      StartCoroutine(EnemyDead()); // Removed from 80% Section  */
@@ -565,7 +657,52 @@ public class GhostController : MonoBehaviour
         {
             ghostArea = false;
         }
+
     }
+
+
+
+
+    void StartingGhosts()
+    {
+
+        Debug.Log("Starting Ghost Triggered"); // rare issue when loading level
+
+        foreach (GameObject item in gameObjects)
+        {
+
+               StartGhostArea.Add(item.transform.position);
+        }
+
+        if (enemyName == "OrcA")
+        {
+
+         
+            ghostOptions.Add(new Vector3(13, -14, 0));
+
+        }
+
+        if (enemyName == "OrcB")
+        {
+         
+          
+            //ghostOptions.Add(new Vector3(13, -13, 0));
+        }
+
+        if (enemyName == "OrcC")
+        {
+
+            ghostOptions.Add(new Vector3(14, -15, 0));
+        }
+
+        if (enemyName == "OrcD")
+        {
+          
+            //ghostOptions.Add(new Vector3(14, -14, 0));
+        }
+    }
+
+
 
 /*    IEnumerator EnemyDead() // only used for 80% Section 
     {
