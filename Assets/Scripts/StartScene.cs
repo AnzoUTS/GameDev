@@ -7,20 +7,42 @@ using UnityEngine.UI;
 public class StartScene : MonoBehaviour
 {
 
+    public void Start()
+    {
+        Debug.Log("StartScreen");
+    }
+
+
+
+
+    public void loadStartScene()
+    {
+        if (Time.timeScale == 1)
+        {
+            SceneManager.LoadScene("StartScene");
+          
+            SceneManager.UnloadSceneAsync("Scene1"); // annoying, but seems to prevent a rare error
+     
+            //SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);
+            
+
+        }
+    }
 
 
 
 
     public void loadLevel(string scene)
     {
-        if (Time.timeScale == 1)
-        {
-         SceneManager.LoadScene(scene);
-         GameManagement.StartMovement = false;
-
-        }
+        GameManagement.StartMovement = false;
+        SceneManager.LoadScene(scene);
     }
 
-
+/*    public void unloadLevel(string scene)
+    {
+        {
+            SceneManager.UnloadSceneAsync(scene); // cleanly 
+        }
+    }*/
 
 }

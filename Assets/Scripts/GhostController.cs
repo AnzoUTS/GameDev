@@ -53,6 +53,8 @@ public class GhostController : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("STARTMOVEMENT - START " + GameManagement.StartMovement);
+
         localPos = transform.localPosition;
         isAlive = true;
         ghostArea = true;
@@ -136,6 +138,7 @@ public class GhostController : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("STARTMOVEMENT " + GameManagement.StartMovement);
 
         timer += Time.deltaTime;
 
@@ -586,7 +589,7 @@ public class GhostController : MonoBehaviour
 
                 foreach (Vector3 option in ghostOptions)
                 {
-                      Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + pacDistance);
+                     // Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + pacDistance);
 
                     pacDistance = Vector3.Distance(option, pacPosition);
 
@@ -595,7 +598,7 @@ public class GhostController : MonoBehaviour
                         targetDistance = pacDistance;
                         direction = option;
 
-                          Debug.Log("direction option change" + option + " Target distance " + targetDistance +"option distance" + pacDistance);
+                     //     Debug.Log("direction option change" + option + " Target distance " + targetDistance +"option distance" + pacDistance);
                     }
                 }
             }
