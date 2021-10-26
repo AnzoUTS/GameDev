@@ -20,7 +20,9 @@ public class StartScene : MonoBehaviour
         if (Time.timeScale == 1)
         {
             SceneManager.LoadScene("StartScene");
-          
+            Time.timeScale = 0;
+
+
             SceneManager.UnloadSceneAsync("Scene1"); // annoying, but seems to prevent a rare error
      
             //SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);
@@ -34,6 +36,7 @@ public class StartScene : MonoBehaviour
 
     public void loadLevel(string scene)
     {
+        Time.timeScale = 0;
         GameManagement.StartMovement = false;
         SceneManager.LoadScene(scene);
     }
