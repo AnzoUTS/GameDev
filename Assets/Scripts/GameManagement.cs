@@ -25,6 +25,7 @@ public class GameManagement : MonoBehaviour
     private int startingPellets; 
     private int previousBest;
     private static int pellets;
+    private static bool startMovement;
     public AudioClip gameOverClip;
     AudioSource gameOverMusic;
     public float timer;
@@ -40,8 +41,31 @@ public class GameManagement : MonoBehaviour
 
 
 
+    private void Awake()
+    {
+       
+
+        gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
+        foreach (GameObject item in gameObjects)
+        {
+            Walkable.Add(item.transform.position);
+            if (item.name.Contains("GhostArea"))
+                GhostArea.Add(item.transform.position);
+            if (item.name.Contains("ExitA"))
+                GhostAreaExitA.Add(item.transform.position);
+            
+           
+        }
+
+        //startMovement = false;
+
+
+    }
+
     private void Start()
     {
+        
+
         lives = 3;
         if (PlayerPrefs.GetString("HighScore") == null)
         {
@@ -80,7 +104,7 @@ public class GameManagement : MonoBehaviour
 
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
    
-
+/*
         foreach (GameObject item in gameObjects)
         {
             Walkable.Add(item.transform.position);
@@ -88,7 +112,7 @@ public class GameManagement : MonoBehaviour
                 GhostArea.Add(item.transform.position);
             if (item.name.Contains("ExitA"))
                 GhostAreaExitA.Add(item.transform.position);
-        }
+        }*/
 
 
         foreach (GameObject obj in walkableGameObjects)
@@ -150,6 +174,14 @@ public class GameManagement : MonoBehaviour
             GameResults();
         }
     }
+
+
+    public static bool StartMovement
+    {
+        set { startMovement = value; }
+        get { return startMovement; }
+    }
+
 
     public static int Pellets
     {

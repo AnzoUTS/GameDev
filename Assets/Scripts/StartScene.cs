@@ -15,7 +15,9 @@ public class StartScene : MonoBehaviour
     {
         if (Time.timeScale == 1)
         {
-            SceneManager.LoadScene(scene);
+         SceneManager.LoadScene(scene);
+         GameManagement.StartMovement = false;
+
         }
     }
 

@@ -152,13 +152,29 @@ public class GhostController : MonoBehaviour
 
          movement = speed * Time.deltaTime;
 
-        if (tween != null)
+        if (tween != null && GameManagement.StartMovement == true)
         {
             float distance = Vector3.Distance(tween.Target.position, tween.EndPos);
             NormPos = (tween.EndPos - tween.StartPos).normalized;
             previousDirection = NormPos;
 
-          //  Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
+
+/*
+            duration = 1 / speed;
+            localPos = transform.localPosition;
+
+            if (tween != null)
+            {
+                float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
+                currentPos = Vector3.Lerp(tween.StartPos, tween.EndPos, timeFraction);
+                transform.position = currentPos;
+            }*/
+
+
+
+
+
+            //  Debug.Log("Normalized  :" + NormPos + " || Animations : anim UP :" + anim.GetBool("up") + " anim RIGHT :" + anim.GetBool("right") + " anim DOWN :" + anim.GetBool("down") + " anim LEFT :" + anim.GetBool("left") + " || Distance : tween Target" + tween.Target.position + " tween EndPos" + tween.EndPos);
 
             if (distance > 0)
             {
@@ -570,7 +586,7 @@ public class GhostController : MonoBehaviour
 
                 foreach (Vector3 option in ghostOptions)
                 {
-                    //   Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + pacDistance);
+                      Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + pacDistance);
 
                     pacDistance = Vector3.Distance(option, pacPosition);
 
@@ -579,7 +595,7 @@ public class GhostController : MonoBehaviour
                         targetDistance = pacDistance;
                         direction = option;
 
-                        //  Debug.Log("direction option change" + option + " Target distance " + targetDistance +"option distance" + pacDistance);
+                          Debug.Log("direction option change" + option + " Target distance " + targetDistance +"option distance" + pacDistance);
                     }
                 }
             }
@@ -621,7 +637,7 @@ public class GhostController : MonoBehaviour
         }
 
 
-        if (trigger.name.Contains("GhostArea") && !isAlive)
+        if (trigger.name.Contains("GhostArea") && !isAlive && GameManagement.StartMovement == true)
         {
             ghost4objective++; // check
             isAlive = true;
