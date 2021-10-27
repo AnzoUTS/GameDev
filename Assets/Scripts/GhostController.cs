@@ -587,8 +587,8 @@ public class GhostController : MonoBehaviour
 
         if (trigger.gameObject.name.Contains("ArtilleryBall"))
         {
-            Debug.Log(enemyName + " is Dead from Artillery");
-            isAlive = false;
+            Debug.Log(enemyName + " is hit from Artillery");
+/*            isAlive = false;
             string dead = trigger.gameObject.name;
             gameManagement.DeadGhost(dead);
             GameManagement.Score += 100;
@@ -600,7 +600,7 @@ public class GhostController : MonoBehaviour
             anim.SetBool("isRecovery", false);
             anim.SetBool("isDead", false);
             anim.SetBool("isDead", true);
-
+*/
 
         }
     }

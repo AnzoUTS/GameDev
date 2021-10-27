@@ -77847,3 +77847,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   artillery: {fileID: 6470953253011463495, guid: 2fbe5f5929320cc4cafcf8b0e76d4f29, type: 3}
   Walkable: []
+  hit: {fileID: 8300000, guid: 02ffcfd9fe5a3f14eab1297f5935526d, type: 3}

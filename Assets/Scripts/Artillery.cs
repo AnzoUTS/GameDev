@@ -23,6 +23,16 @@ public class Artillery : MonoBehaviour
     private AudioSource hitAudio;
     private bool hitTarget;
 
+/*
+    [SerializeField]
+    private GameObject item;
+    private ArtilleryStrike tweener;
+    [SerializeField]
+    private List<GameObject> itemList = new List<GameObject>();
+*/
+
+
+
 
     void Start()
     {
@@ -32,6 +42,10 @@ public class Artillery : MonoBehaviour
         hitTarget = false;
         hitAudio = GetComponent<AudioSource>();
         targetLocation = ArtilleryStrike.StrikeLocation;
+
+/*        tweener = GetComponent<ArtilleryStrike>();
+        itemList.Add(item);*/
+
     }
 
     private void FixedUpdate()
@@ -41,13 +55,14 @@ public class Artillery : MonoBehaviour
         if (tween != null)
         {
             if (targetDistance > 0.4f)
-                {
+            {
                 float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
                 currentPos = (timeFraction * timeFraction * timeFraction) *
                                     (targetLocation - tween.StartPos) + tween.StartPos;
 
                 transform.position = currentPos;
-            } else
+            }
+            else
             {
                 tween = null;
                 transform.position = targetLocation;
@@ -69,16 +84,18 @@ public class Artillery : MonoBehaviour
 
         if (targetDistance == 0 && !hitTarget)
         {
-            if (!hitAudio.isPlaying)
+            
+/*            if (!hitAudio.isPlaying)
             {
                 hitAudio.clip = hit;
                 hitAudio.Play();
                 Debug.Log("Play1 " + targetDistance);
-            }
+            }*/
             StartCoroutine(Explode());    
         }
 
         AddTween(this.transform, this.transform.localPosition, targetLocation, duration);
+        //tweener.AddTween(this.transform, this.transform.localPosition, targetLocation, duration);
     }
 
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
@@ -91,16 +108,19 @@ public class Artillery : MonoBehaviour
 
     IEnumerator Explode()
     {
-        hitTarget = true;
-/*        if (!hitAudio.isPlaying)
-        {
-            hitAudio.clip = hit;
-            hitAudio.Play();
-            Debug.Log("Play2");
-        }*/
-
-        yield return new WaitForSecondsRealtime(8);
+        //hitTarget = true;
+        /*        if (!hitAudio.isPlaying)
+                {
+                    hitAudio.clip = hit;
+                    hitAudio.Play();
+                    Debug.Log("Play2");
+                }*/
         ArtilleryStrike.ActiveStrikes--;
+        ArtilleryStrike.HitTarget = true;
+        yield return new WaitForSecondsRealtime(1.8f);
+        ArtilleryStrike.HitTarget = false;
+        yield return new WaitForSecondsRealtime(5);
+       
         Debug.Log("Active Strikes " +ArtilleryStrike.ActiveStrikes);
         Destroy(this.transform.gameObject);
     }
