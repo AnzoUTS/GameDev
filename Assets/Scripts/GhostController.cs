@@ -81,7 +81,7 @@ public class GhostController : MonoBehaviour
                 GhostAreaExitA.Add(item.transform.position);
         }*/
 
-        Debug.Log("ghost options at start "+ ghostOptions.Count);
+        //Debug.Log("ghost options at start "+ ghostOptions.Count);
 
         if (enemyName == "OrcA")
         {

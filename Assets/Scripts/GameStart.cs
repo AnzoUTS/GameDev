@@ -29,9 +29,13 @@ public class GameStart : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
         start.text = (string)countDown.GetValue(3);
         yield return new WaitForSecondsRealtime(1f);
+        Debug.Log("StartMusic !!!!!!!");
         AudioController.Music = true;
+        Debug.Log("StartMovement !!!!!!!");
         GameManagement.StartMovement = true; // the order here could be important 
+        Debug.Log("GO!!!!!!!");
         Time.timeScale = 1;
+        Debug.Log("timescale!!!!!!!");
         gameObject.SetActive(false);
         
 

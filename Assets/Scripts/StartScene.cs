@@ -10,7 +10,7 @@ public class StartScene : MonoBehaviour
     public void Start()
     {
         Debug.Log("StartScreen");
-        Time.timeScale = 0;
+        Time.timeScale = 1;
 
     }
 
@@ -25,7 +25,7 @@ public class StartScene : MonoBehaviour
             Time.timeScale = 0;
 
 
-            SceneManager.UnloadSceneAsync("Scene1"); // annoying, but seems to prevent a rare error
+            //SceneManager.UnloadSceneAsync("Scene1"); // annoying, but seems to prevent a rare error
      
             //SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);
             

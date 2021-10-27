@@ -45,6 +45,7 @@ public class GameManagement : MonoBehaviour
     {
 
         Time.timeScale = 0;
+        startMovement = false;
 
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
         foreach (GameObject item in gameObjects)
@@ -58,7 +59,7 @@ public class GameManagement : MonoBehaviour
            
         }
 
-        //startMovement = false;
+       
 
 
     }
@@ -308,10 +309,7 @@ public class GameManagement : MonoBehaviour
     public void QuitGame()
     {
 
-        Debug.Log("PREF bestscore " + previousBest + " PREF best time " + bestTime);
-        Debug.Log("gamescore " + score + " gametime " + finalTime);
-        Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
-        Debug.Log("New Fastest Time " + finalTime);
+
         UnityEditor.EditorApplication.isPlaying = false; // stops game
     }
 
@@ -347,6 +345,12 @@ public class GameManagement : MonoBehaviour
                 //Debug.Log("New Fastest Time " + finalTime);
             }
         }
+
+
+        Debug.Log("PREF bestscore " + previousBest + " PREF best time " + bestTime);
+        Debug.Log("gamescore " + score + " gametime " + finalTime);
+        Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
+        Debug.Log("New Fastest Time " + finalTime);
 
     }
 

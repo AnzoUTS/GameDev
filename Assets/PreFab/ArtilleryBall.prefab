@@ -112,7 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fire: {fileID: 7609937551334623448, guid: f16b2e8c1afdbca45abf6134b137198c, type: 3}
   fireTail: {fileID: 5076281030619163414, guid: e9effd9837f35f440bf210931ed12771, type: 3}
-  hit: {fileID: 8300000, guid: 715d9c036afcbc34284ffa40022fa4bf, type: 3}
+  hit: {fileID: 8300000, guid: fdb95046908840b4bbb82a9bcd052357, type: 3}
 --- !u!82 &8851182952458952171
 AudioSource:
   m_ObjectHideFlags: 0

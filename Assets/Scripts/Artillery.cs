@@ -89,7 +89,7 @@ public class Artillery : MonoBehaviour
         Debug.Log("Destroy");
         hitAudio.clip = hit;
         hitAudio.Play();
-        yield return new WaitForSecondsRealtime(8);
+        yield return new WaitForSecondsRealtime(10);
         Destroy(this.transform.gameObject);
     }
 }

@@ -27,7 +27,7 @@ public class ArtilleryStrike : MonoBehaviour
 
     void Update()
     {
-        if (!isStrike)
+        if (!isStrike && GameManagement.StartMovement == true)
         {
             isStrike = true;
             StartCoroutine(Incomming());
@@ -73,7 +73,7 @@ public class ArtilleryStrike : MonoBehaviour
                 }
         }
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         isStrike = false;
     }
 

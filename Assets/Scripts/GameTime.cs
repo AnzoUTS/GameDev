@@ -19,14 +19,20 @@ public class GameTime : MonoBehaviour
     void Start()
     {
         timeText = GetComponent<Text>();
-        startTime = Time.time;
+        //startTime = Time.time;
     }
 
     void Update()
     {
 
-        if (GameManagement.Life > 0 && GameManagement.Pellets > 0)
+        if (GameManagement.Life > 0 && GameManagement.Pellets > 0 && GameManagement.StartMovement == true) 
         {
+            Debug.Log("Game ready " + startTime);
+            if (startTime == 0)
+            {
+                startTime = Time.time;
+                Debug.Log("Game Start Time " + startTime);
+            }
             gameTime = Time.time - startTime;
             TimeSpan timeSpan = TimeSpan.FromSeconds(gameTime);
             time = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
