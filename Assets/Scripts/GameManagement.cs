@@ -43,7 +43,8 @@ public class GameManagement : MonoBehaviour
 
     private void Awake()
     {
-       
+
+        Time.timeScale = 0;
 
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
         foreach (GameObject item in gameObjects)

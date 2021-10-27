@@ -41,7 +41,7 @@ public class ArtilleryStrike : MonoBehaviour
         direction = Random.Range(1, 5); // range 1-4
 
         strikeChoice = UnityEngine.Random.Range(0, walkCount);
-        Debug.Log("choice "+ strikeChoice);
+        // Debug.Log("choice "+ strikeChoice);
 
         strikeLocation = Walkable[strikeChoice];
         Debug.Log("Strike Location " + strikeLocation);
@@ -50,30 +50,30 @@ public class ArtilleryStrike : MonoBehaviour
         {
             case 1:
                 {
-                    Instantiate(artillery, new Vector3(x + centerX, 5, 0), Quaternion.Euler(0, 0, 0));
+                    Instantiate(artillery, new Vector3(x + centerX, 5, 0), Quaternion.Euler(0, -120, 0));
                     break;
                 }
 
             case 2:
                 {
-                    Instantiate(artillery, new Vector3(40, y + centerY, 0), Quaternion.Euler(0, 0, 0));
+                    Instantiate(artillery, new Vector3(40, y + centerY, 0), Quaternion.Euler(0, -120, 0));
                     break;
                 }
 
             case 3:
                 {
-                    Instantiate(artillery, new Vector3(-x + centerX, -33, 0), Quaternion.Euler(0, 0, 0));
+                    Instantiate(artillery, new Vector3(-x + centerX, -33, 0), Quaternion.Euler(0, -120, 0));
                     break;
                 }
 
             case 4:
                 {
-                    Instantiate(artillery, new Vector3(-15, -y + centerY, 0), Quaternion.Euler(0, 0, 0));
+                    Instantiate(artillery, new Vector3(-15, -y + centerY, 0), Quaternion.Euler(0, -120, 0));
                     break;
                 }
         }
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         isStrike = false;
     }
 

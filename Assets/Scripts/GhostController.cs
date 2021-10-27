@@ -523,7 +523,7 @@ public class GhostController : MonoBehaviour
                 {
                     Debug.Log(option);
                 }
-                Debug.Log("target " + (ghost4Target = Ghost4Targets[ghost4objective]) + " count " + ghostOptions.Count);
+          //      Debug.Log("target " + (ghost4Target = Ghost4Targets[ghost4objective]) + " count " + ghostOptions.Count);
             }
             int ghostTargetCount = Ghost4Targets.Count;
 

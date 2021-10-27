@@ -10,6 +10,8 @@ public class StartScene : MonoBehaviour
     public void Start()
     {
         Debug.Log("StartScreen");
+        Time.timeScale = 0;
+
     }
 
 

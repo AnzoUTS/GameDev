@@ -331,7 +331,7 @@ public class PacStudentController : MonoBehaviour
     }
 
 
-        private void OnTriggerEnter(Collider trigger)
+    private void OnTriggerEnter(Collider trigger)
     {
         if (trigger.name == "TeleportL")
         {
@@ -365,6 +365,9 @@ public class PacStudentController : MonoBehaviour
         {
             GameManagement.Score += 200;
             trigger.enabled = false;
+            pacaudio.clip = pellet_FX;
+            pacaudio.Play();
+            trigger.gameObject.SetActive(false);
         }
 
 
@@ -386,7 +389,7 @@ public class PacStudentController : MonoBehaviour
             GameManagement.GhostAttack = false;
         }
 
-        if (trigger.gameObject.CompareTag("Enemy") && !powerUp && isAlive && !gameManagement.deadGhosts.Contains(trigger.gameObject.name)) 
+        if (trigger.gameObject.CompareTag("Enemy") && !powerUp && isAlive && !gameManagement.deadGhosts.Contains(trigger.gameObject.name))
         {
             isAlive = false;
             pacaudio.clip = die_FX;
@@ -407,11 +410,34 @@ public class PacStudentController : MonoBehaviour
         }
 
         if (trigger.gameObject.CompareTag("Enemy") && powerUp && !gameManagement.deadGhosts.Contains(trigger.gameObject.name))
-            {
-                string dead = trigger.gameObject.name;
-                gameManagement.DeadGhost(dead);
-            }
+        {
+            string dead = trigger.gameObject.name;
+            gameManagement.DeadGhost(dead);
         }
+
+
+        if (trigger.gameObject.name.Contains("ArtilleryBall"))
+        {
+            isAlive = false;
+            pacaudio.clip = die_FX;
+            pacaudio.Play();
+            anim.SetTrigger("isDead");
+            anim.SetBool("down", false);
+            anim.SetBool("up", false);
+            anim.SetBool("left", false);
+            anim.SetBool("right", false);
+            GameManagement.Life -= 1;
+            Debug.Log("GameLives :" + GameManagement.Life);
+            tween = null;
+            canMove = false;
+            Invoke("startMove", 4f);
+            StartCoroutine(PacDie());
+            currentInput = KeyCode.None;
+            lastInput = KeyCode.None;
+        }
+
+    }
+
 
     void PowerUp()
     {
