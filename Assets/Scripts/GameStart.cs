@@ -38,9 +38,6 @@ public class GameStart : MonoBehaviour
         Debug.Log("timescale!!!!!!!");
         gameObject.SetActive(false);
         
-
-
-
     }
 
     private IEnumerator StopTime()

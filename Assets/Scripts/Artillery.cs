@@ -67,8 +67,14 @@ public class Artillery : MonoBehaviour
             fire.Play();
         }
 
-        if (targetDistance <= 0.5 && !hitTarget)
+        if (targetDistance == 0 && !hitTarget)
         {
+            if (!hitAudio.isPlaying)
+            {
+                hitAudio.clip = hit;
+                hitAudio.Play();
+                Debug.Log("Play1 " + targetDistance);
+            }
             StartCoroutine(Explode());    
         }
 
@@ -86,10 +92,16 @@ public class Artillery : MonoBehaviour
     IEnumerator Explode()
     {
         hitTarget = true;
-        Debug.Log("Destroy");
-        hitAudio.clip = hit;
-        hitAudio.Play();
-        yield return new WaitForSecondsRealtime(10);
+/*        if (!hitAudio.isPlaying)
+        {
+            hitAudio.clip = hit;
+            hitAudio.Play();
+            Debug.Log("Play2");
+        }*/
+
+        yield return new WaitForSecondsRealtime(8);
+        ArtilleryStrike.ActiveStrikes--;
+        Debug.Log("Active Strikes " +ArtilleryStrike.ActiveStrikes);
         Destroy(this.transform.gameObject);
     }
 }

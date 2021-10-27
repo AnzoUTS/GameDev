@@ -17,6 +17,7 @@ public class ArtilleryStrike : MonoBehaviour
     private static int direction;
     private const float centerX = 13.5f;
     private const float centerY = -14.0f;
+    public static int activeStrikes;
 
     private void Start()
     {
@@ -27,15 +28,19 @@ public class ArtilleryStrike : MonoBehaviour
 
     void Update()
     {
-        if (!isStrike && GameManagement.StartMovement == true)
+        if (!isStrike && GameManagement.StartMovement == true & activeStrikes <2)
         {
             isStrike = true;
             StartCoroutine(Incomming());
         }
+
     }
 
     private IEnumerator Incomming()
     {
+        activeStrikes++;
+        
+
         x = Random.Range(-20, 20);
         y = Random.Range(-20, 20);
         direction = Random.Range(1, 5); // range 1-4
@@ -73,7 +78,7 @@ public class ArtilleryStrike : MonoBehaviour
                 }
         }
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         isStrike = false;
     }
 
@@ -101,6 +106,20 @@ public class ArtilleryStrike : MonoBehaviour
     }
 
 
+    public static int ActiveStrikes
+    {
+        set
+        {
+            activeStrikes = value;
+        }
+        get
+        {
+            return activeStrikes;
+        }
+    }
+
+
+
     public static Vector3 StrikeLocation
     {
 
@@ -113,4 +132,25 @@ public class ArtilleryStrike : MonoBehaviour
             return strikeLocation;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -43,7 +43,6 @@ public class GameManagement : MonoBehaviour
 
     private void Awake()
     {
-
         Time.timeScale = 0;
         startMovement = false;
 
@@ -54,14 +53,8 @@ public class GameManagement : MonoBehaviour
             if (item.name.Contains("GhostArea"))
                 GhostArea.Add(item.transform.position);
             if (item.name.Contains("ExitA"))
-                GhostAreaExitA.Add(item.transform.position);
-            
-           
+                GhostAreaExitA.Add(item.transform.position);  
         }
-
-       
-
-
     }
 
     private void Start()
@@ -86,9 +79,7 @@ public class GameManagement : MonoBehaviour
             previousBest = 0;
         }
 
-        
         //previousBest = int.Parse(highScore);
-        
         
         bestTime = PlayerPrefs.GetString("FastestTime");
 
@@ -328,7 +319,7 @@ public class GameManagement : MonoBehaviour
         {
             PlayerPrefs.SetString("FastestTime", finalTime);
             PlayerPrefs.SetString("HighScore", score.ToString());
-            //Debug.Log("New High Score : " + score +" Time :" + finalTime);
+            Debug.Log("New High Score : " + score +" Time :" + finalTime);
         }
 
         if (score == previousBest)
@@ -337,20 +328,17 @@ public class GameManagement : MonoBehaviour
             previousTime = DateTime.ParseExact(bestTime, "hh:mm:ss", cultureInfo);
             currentTime = DateTime.ParseExact(finalTime, "hh:mm:ss", cultureInfo);
 
-           // Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
+            Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
 
             if (currentTime < previousTime)
             {
                 PlayerPrefs.SetString("FastestTime", finalTime);
-                //Debug.Log("New Fastest Time " + finalTime);
+                Debug.Log("New Fastest Time " + finalTime);
             }
         }
 
 
-        Debug.Log("PREF bestscore " + previousBest + " PREF best time " + bestTime);
-        Debug.Log("gamescore " + score + " gametime " + finalTime);
-        Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
-        Debug.Log("New Fastest Time " + finalTime);
+
 
     }
 
