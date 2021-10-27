@@ -360,6 +360,14 @@ public class PacStudentController : MonoBehaviour
             GameManagement.Score += 100;
         }
 
+
+        if (trigger.gameObject.name.Contains("Burger"))
+        {
+            GameManagement.Score += 200;
+            trigger.enabled = false;
+        }
+
+
         if (trigger.gameObject.CompareTag("Walls"))
         {
             pacaudio.clip = wall_FX;

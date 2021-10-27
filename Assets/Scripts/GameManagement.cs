@@ -86,7 +86,14 @@ public class GameManagement : MonoBehaviour
 
         
         //previousBest = int.Parse(highScore);
+        
+        
         bestTime = PlayerPrefs.GetString("FastestTime");
+
+
+
+
+
         ghostTime = GameObject.Find("GhostTime");
         walkableGameObjects = GameObject.FindGameObjectsWithTag("Walkable");
 
@@ -170,7 +177,7 @@ public class GameManagement : MonoBehaviour
 
         if (lives == 0 || pellets ==0 )
         {
-            finalTime = GameTime.finalTime;
+            
             GameResults();
         }
     }
@@ -247,10 +254,16 @@ public class GameManagement : MonoBehaviour
 
     public void GameResults()
     {
-       gameOver.SetActive(true);
-       Invoke("StartScreen", 3f);
 
-        Debug.Log("PREF bestscore " + highScore + " PREF best time " + bestTime);
+        finalTime = GameTime.finalTime;
+        startMovement = false;
+        //Debug.Log("GET FINAL TIME " + finalTime);
+
+        gameOver.SetActive(true);
+
+        StartCoroutine(Results());
+
+/*        Debug.Log("PREF bestscore " + previousBest + " PREF best time " + bestTime);
         Debug.Log("gamescore " + score + " gametime " + finalTime);
         
         if (score > previousBest) 
@@ -263,27 +276,86 @@ public class GameManagement : MonoBehaviour
         if (score == previousBest)
         {
             var cultureInfo = new CultureInfo("en-AU");
-            previousTime = DateTime.ParseExact(bestTime, "hh:mm:ss", cultureInfo);
+            try
+            {
+                previousTime = DateTime.ParseExact(bestTime, "hh:mm:ss", cultureInfo);
+            }
+            catch
+            {
+                previousTime = DateTime.ParseExact("00:00:00", "hh:mm:ss", cultureInfo);
+            }
             currentTime = DateTime.ParseExact(finalTime, "hh:mm:ss", cultureInfo);
-            //Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
+            Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
 
             if ( currentTime < previousTime)
             {
                 PlayerPrefs.SetString("FastestTime", finalTime);
-                //Debug.Log("New Fastest Time " + finalTime);
+                Debug.Log("New Fastest Time " + finalTime);
             }     
-        }
+        }*/
+
+
+        Invoke("StartScreen", 3f);
     }
 
     private void StartScreen()
     {
-            SceneManager.LoadScene("StartScene");
+        SceneManager.LoadScene("StartScene");
     }
 
 
     public void QuitGame()
     {
+
+        Debug.Log("PREF bestscore " + previousBest + " PREF best time " + bestTime);
+        Debug.Log("gamescore " + score + " gametime " + finalTime);
+        Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
+        Debug.Log("New Fastest Time " + finalTime);
         UnityEditor.EditorApplication.isPlaying = false; // stops game
     }
+
+
+
+    IEnumerator Results()
+    {
+
+
+        yield return new WaitForSecondsRealtime(1);
+
+/*        Debug.Log("PREF bestscore " + previousBest + " PREF best time " + bestTime);
+        Debug.Log("gamescore " + score + " gametime " + finalTime);*/
+
+        if (score > previousBest)
+        {
+            PlayerPrefs.SetString("FastestTime", finalTime);
+            PlayerPrefs.SetString("HighScore", score.ToString());
+            //Debug.Log("New High Score : " + score +" Time :" + finalTime);
+        }
+
+        if (score == previousBest)
+        {
+            var cultureInfo = new CultureInfo("en-AU");           
+            previousTime = DateTime.ParseExact(bestTime, "hh:mm:ss", cultureInfo);
+            currentTime = DateTime.ParseExact(finalTime, "hh:mm:ss", cultureInfo);
+
+           // Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
+
+            if (currentTime < previousTime)
+            {
+                PlayerPrefs.SetString("FastestTime", finalTime);
+                //Debug.Log("New Fastest Time " + finalTime);
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
+
 
 }

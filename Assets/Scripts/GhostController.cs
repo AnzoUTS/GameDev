@@ -53,7 +53,7 @@ public class GhostController : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("STARTMOVEMENT - START " + GameManagement.StartMovement);
+       // Debug.Log("STARTMOVEMENT - START " + GameManagement.StartMovement);
 
         localPos = transform.localPosition;
         isAlive = true;
@@ -138,7 +138,7 @@ public class GhostController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("STARTMOVEMENT " + GameManagement.StartMovement);
+       // Debug.Log("STARTMOVEMENT " + GameManagement.StartMovement);
 
         timer += Time.deltaTime;
 

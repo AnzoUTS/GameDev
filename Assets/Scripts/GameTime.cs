@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,17 +27,26 @@ public class GameTime : MonoBehaviour
 
         if (GameManagement.Life > 0 && GameManagement.Pellets > 0)
         {
-            //Debug.Log(gameTime);
+            gameTime = Time.time - startTime;
+            TimeSpan timeSpan = TimeSpan.FromSeconds(gameTime);
+            time = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+            timeText.text = "GameTime : " + time;
+
+    /*        //Debug.Log(gameTime);
             gameTime = Time.time - startTime;
             hr = (gameTime / 3600f);
             min = (gameTime / 60f);
             sec = (gameTime % 60f);
+
             time = string.Format("{0:00}:{1:00}:{2:00}", hr, min, sec);
-            timeText.text = "GameTime : " + time;
+            timeText.text = "GameTime : " + time;*/
         }
         else
         {
-            finalTime = string.Format("{0:00}:{1:00}:{2:00}", hr, min, sec);
+            /*         TimeSpan timeSpan = TimeSpan.FromSeconds(gameTime);
+                        string timeText = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);*/
+            finalTime = time;
+            //finalTime = string.Format("{0:00}:{1:00}:{2:00}", hr, min, sec);
         }
     }
 
