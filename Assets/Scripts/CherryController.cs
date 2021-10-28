@@ -18,7 +18,7 @@ public class CherryController : MonoBehaviour
 
     void Update()
     {
-        if (!isBurger)
+        if (!isBurger && GameManagement.StartMovement == true)
         {
             isBurger = true;
             StartCoroutine(CherryBurger());
