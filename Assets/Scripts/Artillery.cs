@@ -5,10 +5,7 @@ using UnityEngine;
 public class Artillery : MonoBehaviour
 {
     private Tween tween;
-    private Vector3 localPos;
     private Vector3 currentPos;
-   // private const float centerX = 13.5f;
-   // private const float centerY = -14.0f;
     private int x;
     private int y;
     private int direction;
@@ -23,17 +20,6 @@ public class Artillery : MonoBehaviour
     private AudioSource hitAudio;
     private bool hitTarget;
 
-/*
-    [SerializeField]
-    private GameObject item;
-    private ArtilleryStrike tweener;
-    [SerializeField]
-    private List<GameObject> itemList = new List<GameObject>();
-*/
-
-
-
-
     void Start()
     {
         duration = Random.Range(5, 7); // max Exclusive for int
@@ -42,10 +28,6 @@ public class Artillery : MonoBehaviour
         hitTarget = false;
         hitAudio = GetComponent<AudioSource>();
         targetLocation = ArtilleryStrike.StrikeLocation;
-
-/*        tweener = GetComponent<ArtilleryStrike>();
-        itemList.Add(item);*/
-
     }
 
     private void FixedUpdate()
@@ -57,9 +39,7 @@ public class Artillery : MonoBehaviour
             if (targetDistance > 0.4f)
             {
                 float timeFraction = (Time.time - tween.StartTime) / tween.Duration;
-                currentPos = (timeFraction * timeFraction * timeFraction) *
-                                    (targetLocation - tween.StartPos) + tween.StartPos;
-
+                currentPos = (timeFraction * timeFraction * timeFraction) * (targetLocation - tween.StartPos) + tween.StartPos;
                 transform.position = currentPos;
             }
             else
@@ -82,20 +62,23 @@ public class Artillery : MonoBehaviour
             fire.Play();
         }
 
-        if (targetDistance == 0 && !hitTarget)
+        if (targetDistance <1f && targetDistance !=0)
         {
-            
-/*            if (!hitAudio.isPlaying)
+            hitTarget = true;
+        }
+
+        if (hitTarget)
+        {
+            if (!hitAudio.isPlaying)
             {
                 hitAudio.clip = hit;
-                hitAudio.Play();
-                Debug.Log("Play1 " + targetDistance);
-            }*/
+                hitAudio.Play();   
+            }
+            hitTarget = false;
             StartCoroutine(Explode());    
         }
 
         AddTween(this.transform, this.transform.localPosition, targetLocation, duration);
-        //tweener.AddTween(this.transform, this.transform.localPosition, targetLocation, duration);
     }
 
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
@@ -108,20 +91,7 @@ public class Artillery : MonoBehaviour
 
     IEnumerator Explode()
     {
-        //hitTarget = true;
-        /*        if (!hitAudio.isPlaying)
-                {
-                    hitAudio.clip = hit;
-                    hitAudio.Play();
-                    Debug.Log("Play2");
-                }*/
-        ArtilleryStrike.ActiveStrikes--;
-        ArtilleryStrike.HitTarget = true;
-        yield return new WaitForSecondsRealtime(1.8f);
-        ArtilleryStrike.HitTarget = false;
-        yield return new WaitForSecondsRealtime(5);
-       
-        Debug.Log("Active Strikes " +ArtilleryStrike.ActiveStrikes);
+        yield return new WaitForSecondsRealtime(8);
         Destroy(this.transform.gameObject);
     }
 }
