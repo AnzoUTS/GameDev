@@ -35,7 +35,7 @@ public class GameTime : MonoBehaviour
             gameTime = Time.time - startTime;
             TimeSpan timeSpan = TimeSpan.FromSeconds(gameTime);
             time = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
-            timeText.text = "GameTime " + time;
+            timeText.text = "Game Time " + time;
 
     /*        //Debug.Log(gameTime);
             gameTime = Time.time - startTime;

@@ -33,6 +33,8 @@ public class PacStudentController : MonoBehaviour
     public AudioClip pellet_FX;
     public AudioClip wall_FX;
     public AudioClip die_FX;
+    public AudioClip bonus_FX;
+    public AudioClip hit_FX;
     private AudioSource pacaudio;
     private GameObject[] gameObjects;
     public ParticleSystem dust;
@@ -41,10 +43,15 @@ public class PacStudentController : MonoBehaviour
     private BoxCollider boxCollider;
     GameManagement gameManagement;
     private bool isAlive;
+    SpriteRenderer SpriteRenderer;
+    public Rigidbody rBody;
 
 
     void Start()
     {
+        rBody = GetComponent<Rigidbody>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+        SpriteRenderer.color = Color.white;
         isAlive = true;
         gameManagement = GameObject.Find("GameManagement").GetComponent<GameManagement>();
         powerUp = false;
@@ -173,7 +180,7 @@ public class PacStudentController : MonoBehaviour
 
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endpos, float duration)
     {
-        if (tween == null && canMove == true)
+        if (tween == null && GameManagement.StartMovement && canMove)
         {
             tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
         }
@@ -365,7 +372,7 @@ public class PacStudentController : MonoBehaviour
         {
             GameManagement.Score += 200;
             trigger.enabled = false;
-            pacaudio.clip = pellet_FX;
+            pacaudio.clip = bonus_FX;
             pacaudio.Play();
             trigger.gameObject.SetActive(false);
         }
@@ -391,6 +398,7 @@ public class PacStudentController : MonoBehaviour
 
         if (trigger.gameObject.CompareTag("Enemy") && !powerUp && isAlive && !gameManagement.deadGhosts.Contains(trigger.gameObject.name))
         {
+            rBody.detectCollisions = false;
             isAlive = false;
             pacaudio.clip = die_FX;
             pacaudio.Play();
@@ -418,6 +426,9 @@ public class PacStudentController : MonoBehaviour
 
         if (trigger.gameObject.name.Contains("ArtilleryBall"))
         {
+            GhostInnovation.lockOn = false;  // check this doenst break the other level
+            rBody.detectCollisions = false;
+            SpriteRenderer.color = Color.red;
             isAlive = false;
             pacaudio.clip = die_FX;
             pacaudio.Play();
@@ -431,14 +442,30 @@ public class PacStudentController : MonoBehaviour
             tween = null;
             canMove = false;
             Invoke("startMove", 4f);
+            SpriteRenderer.color = Color.white;
             StartCoroutine(PacDie());
             currentInput = KeyCode.None;
             lastInput = KeyCode.None;
         }
 
+
+        if (trigger.gameObject.name.Contains("MagicBall"))
+        {
+            pacaudio.clip = hit_FX;
+            pacaudio.Play();
+            speed = 1.5f;
+            SpriteRenderer.color = new Color(0.5f, 1f, 1f, 1);
+            Invoke("Unfreeze", 3.0f);
+     
+        }
+
     }
 
-
+    void Unfreeze()
+    {
+        speed = 2.5f;
+        SpriteRenderer.color = Color.white;
+    }
     void PowerUp()
     {
         powerUp = false;
@@ -447,6 +474,7 @@ public class PacStudentController : MonoBehaviour
 
     IEnumerator PacDie()
     {
+        GhostInnovation.lockOn = false;
         die.Play();
         yield return new WaitForSeconds(3f);
         anim.SetBool("up", true);
@@ -456,7 +484,8 @@ public class PacStudentController : MonoBehaviour
 
     void startMove()
     {
-        canMove = true;
+        rBody.detectCollisions = true;
+        canMove = true;  /// need to fix
     }
 
     private void WallHit()

@@ -162,7 +162,7 @@ public class GhostController : MonoBehaviour
 
             else if (!isAlive)
             {
-                if (enemyName == "Orc4")
+                if (enemyName == "OrcD") // Check this, was Orc4 before
                 {
                     ghost4objective = 0;
                 }
@@ -522,10 +522,10 @@ public class GhostController : MonoBehaviour
             }
         }
 
-            lastDirection = direction - new Vector3(x, y, z);
+        lastDirection = direction - new Vector3(x, y, z);
 
-            AddTween(transform, new Vector3(x, y, z), direction, duration);
-            ghostOptions.Clear();
+        AddTween(transform, new Vector3(x, y, z), direction, duration);
+        ghostOptions.Clear();
     }
 
     private void OnTriggerEnter(Collider trigger)
