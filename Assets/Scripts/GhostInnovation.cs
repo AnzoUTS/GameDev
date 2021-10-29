@@ -12,7 +12,6 @@ public class GhostInnovation : MonoBehaviour
     private float movement;
     private float duration;
     private bool isMoving;
-    //private bool canMove;
     private bool ghostArea;
     private Vector3 currentPos;
     private Vector3 NormPos;
@@ -52,6 +51,7 @@ public class GhostInnovation : MonoBehaviour
     private int hitDirection;
     private Vector3 fireballStart;
     public static bool lockOn;
+    SpriteRenderer SpriteRenderer;
 
     void Start()
     {
@@ -66,12 +66,12 @@ public class GhostInnovation : MonoBehaviour
         anim = GetComponent<Animator>();
         ghostLocation = transform.position;
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
-        //canMove = true;   CHECK
         enemyName = transform.name;
         Walkable = gameManagement.Walkable;
         GhostArea = gameManagement.GhostArea;
         GhostAreaExitA = gameManagement.GhostAreaExitA;
         attack = true;
+        SpriteRenderer = GetComponent<SpriteRenderer>();
 
         if (enemyName == "GhostA")
         {
@@ -93,7 +93,6 @@ public class GhostInnovation : MonoBehaviour
         {
             startingPos = new Vector3(15f, -14f, 0f);
         }
-
     }
 
     private void FixedUpdate()
@@ -111,26 +110,7 @@ public class GhostInnovation : MonoBehaviour
 
     void Update()
     {
-
-/*        if (RaycastCheck())
-        {
-            Debug.Log("I SEE PACMAN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        }
-*/
-
         RaycastHit();
-
-
-            timer += Time.deltaTime;
-
-        if ((int)timer > lastTime)
-        {
-            if (lastTime >= 0)
-            {
-
-            }
-            lastTime = (int)timer;
-        }
 
         movement = speed * Time.deltaTime;
 
@@ -143,7 +123,6 @@ public class GhostInnovation : MonoBehaviour
             if (distance > 0)
             {
                 tween.Target.position = currentPos;
-
             }
             else
             {
@@ -160,6 +139,7 @@ public class GhostInnovation : MonoBehaviour
 
             else if (!isAlive)
             {
+                lockOn = false;
                 ghostArea = true;
                 AddTween(transform, localPos, startingPos, 10); // send to ghost area
             }
@@ -172,7 +152,6 @@ public class GhostInnovation : MonoBehaviour
 
         if (GameManagement.Recovery)
         {
-
             isScared = false;
             isRecovery = true;
         }
@@ -245,8 +224,6 @@ public class GhostInnovation : MonoBehaviour
             anim.SetBool("right", false);
             anim.SetBool("isScared", true);
             anim.SetBool("isRecovery", true);
-
-
             anim.SetBool("isScared", false);
             anim.SetBool("isRecovery", false);
             anim.SetBool("isDead", true);
@@ -406,7 +383,6 @@ public class GhostInnovation : MonoBehaviour
         left = new Vector3(x - 1, y, z);
         right = new Vector3(x + 1, y, z);
 
-
         if (enemyName == "GhostA" && !lockOn ||  enemyName == "GhostB" && !lockOn || enemyName == "GhostC" && !lockOn)
         {
 
@@ -444,7 +420,6 @@ public class GhostInnovation : MonoBehaviour
                     direction = option;
                 }
             }
-
         }
 
         //|| (enemyName == "GhostA" && ghostArea) || (enemyName == "GhostB" && ghostArea) || (enemyName == "GhostC" && ghostArea)
@@ -474,8 +449,7 @@ public class GhostInnovation : MonoBehaviour
 
                         //     Debug.Log("direction option change" + option + " Target distance " + targetDistance +"option distance" + pacDistance);
                     }
-                }
-            
+                }          
         }
 
         lastDirection = direction - new Vector3(x, y, z);
@@ -492,6 +466,7 @@ public class GhostInnovation : MonoBehaviour
             {
                 Debug.Log(enemyName + "is Dead");
                 isAlive = false;
+                lockOn = false;
                 anim.SetBool("isDead", true); // duplicate
                                               //AudioController.GhostDead++;
                 GameManagement.Score += 500;
@@ -499,33 +474,20 @@ public class GhostInnovation : MonoBehaviour
         }
 
         if (trigger.name.Contains("GhostArea") && !isAlive && GameManagement.StartMovement == true)
-            {
+        {
                 isAlive = true;
-
 
                 if (AudioController.Music && isAlive) // music used to trigger start and prevent null error.
                 {
-
-                    // anim.SetBool("up", true);
-
                     try
                     {
-
                         gameManagement.AliveGhost(enemyName); // investigate rare error
                     }
                     catch
                     {
                         Debug.Log(enemyName + "is causing some drama");
                         gameManagement.AliveGhost(enemyName);
-
                     }
-                    /*              anim.SetBool("down", false);
-                                    anim.SetBool("up", false);
-                                    anim.SetBool("left", false);
-                                    anim.SetBool("right", false);
-                                    anim.SetBool("isScared", false);
-                                    anim.SetBool("isRecovery", false);
-                                    anim.SetBool("isDead", false);*/
                 }
         }
 
@@ -534,49 +496,23 @@ public class GhostInnovation : MonoBehaviour
                 ghostArea = false;
             }
 
-
             if (trigger.gameObject.name.Contains("ArtilleryBall"))
             {
                 Debug.Log(enemyName + " is hit from Artillery");
-                /*            isAlive = false;
-                            string dead = trigger.gameObject.name;
-                            gameManagement.DeadGhost(dead);
-                            GameManagement.Score += 100;
-                            anim.SetBool("down", false);
-                            anim.SetBool("up", false);
-                            anim.SetBool("left", false);
-                            anim.SetBool("right", false);
-                            anim.SetBool("isScared", false);
-                            anim.SetBool("isRecovery", false);
-                            anim.SetBool("isDead", false);
-                            anim.SetBool("isDead", true);
-                */
-
-            }
-        
-
-
+                speed = 1f;
+                SpriteRenderer.color = Color.red;
+                Invoke("Unfreeze", 5.0f);
+            }    
     }
 
-
-
-
-
-         // public static bool Raycast Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float maxDistance, int layerMask = DefaultRaycastLayers
         public void RaycastHit() // an invisible ray (line) that is cast (drawn) from one point to another in 3D space
         {
-/*            int x = (int)Math.Round(localPos.x);
-            int y = (int)Math.Round(localPos.y);
-            int z = (int)Math.Round(localPos.z);*/
-
             RaycastHit hitInfo;
 
             bool raycastHits = Physics.Raycast(localPos, NormPos, out hitInfo, 28f);
         
-            if (raycastHits == true)
+            if (raycastHits == true && isAlive && !GameManagement.Scared)
             {
-            //Debug.Log("Raycast Hit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + hitInfo.transform.gameObject.name + " : " +hitInfo.transform.gameObject.tag);
-
                 if (hitInfo.transform.gameObject.name.Contains("PacStudent"))
                 {
                 lockOn = true;
@@ -587,10 +523,7 @@ public class GhostInnovation : MonoBehaviour
                     }
                 }
             }
-
-
         }
-
 
     public static bool LockOn
     {
@@ -598,47 +531,44 @@ public class GhostInnovation : MonoBehaviour
         get { return lockOn; }
     }
 
-
-
     IEnumerator PacAttack()
     {
             switch (hitDirection)
             {
                 case 1:
                     {
-                        fireballStart = transform.position = new Vector3(transform.localPosition.x - 0.2f, transform.localPosition.y, 0f);
+                        fireballStart = transform.position = new Vector3(transform.localPosition.x - 0.25f, transform.localPosition.y, 0f);
                         break;
                     }
                 case 2:
                     {
-                        fireballStart = transform.position = new Vector3(transform.localPosition.x + 0.2f, transform.localPosition.y, 0f);
+                        fireballStart = transform.position = new Vector3(transform.localPosition.x + 0.25f, transform.localPosition.y, 0f);
                         break;
                     }
                 case 3:
                     {
-                        fireballStart = transform.position = new Vector3(transform.localPosition.x, transform.localPosition.y + 0.2f, 0f);;
+                        fireballStart = transform.position = new Vector3(transform.localPosition.x, transform.localPosition.y + 0.25f, 0f);;
                         break;
                     }
                 case 4:
                     {
-                        fireballStart = transform.position = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.2f, 0f);
+                        fireballStart = transform.position = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.25f, 0f);
                         break;
                     }
                 case 5:
                     {
-
                         break;
                     }
             }
         
-
         Instantiate(fire, fireballStart, Quaternion.Euler(0, -120, 0));
         yield return new WaitForSecondsRealtime(2);
-            attack = true;
+        attack = true;
     }
 
-
-
-
-
+    void Unfreeze()
+    {
+        speed = 1.7f;
+        SpriteRenderer.color = Color.white;
+    }
 }

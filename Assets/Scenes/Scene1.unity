@@ -8421,7 +8421,7 @@ Transform:
   - {fileID: 1706549971}
   - {fileID: 993282535}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &254058794
 GameObject:
@@ -11384,11 +11384,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!198 &337598630 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5505954011481983590, guid: 16a55c83be388e147828fd10c86db0c2, type: 3}
-  m_PrefabInstance: {fileID: 5505954011684672192}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &338918020
 GameObject:
   m_ObjectHideFlags: 0
@@ -29721,7 +29716,7 @@ Transform:
   - {fileID: 1153629384}
   - {fileID: 1344874091}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &818234356
 GameObject:
@@ -34475,7 +34470,7 @@ Transform:
   m_Children:
   - {fileID: 1380611370}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &973029910
 GameObject:
@@ -46687,7 +46682,7 @@ Transform:
   - {fileID: 602631828}
   - {fileID: 2007170024}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1304639319
 GameObject:
@@ -55470,8 +55465,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -135, y: -50}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -90, y: -50}
+  m_SizeDelta: {x: 120, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1536817085
 MonoBehaviour:
@@ -55494,8 +55489,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.7625168, b: 0.6650944, a: 1}
-    m_HighlightedColor: {r: 0.9245283, g: 0.009240732, b: 0, a: 1}
+    m_NormalColor: {r: 0.6650944, g: 0.9903601, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.4527902, b: 0.4481132, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -55541,7 +55536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 0c213bc6f6c931a48ae67b5c6c127a5c, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -55549,8 +55544,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: f4a09be4f563efa4d84711bc79a8dfd0, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -73983,7 +73978,7 @@ PrefabInstance:
     - target: {fileID: 5505954010198739150, guid: 16a55c83be388e147828fd10c86db0c2, type: 3}
       propertyPath: die
       value: 
-      objectReference: {fileID: 337598630}
+      objectReference: {fileID: 0}
     - target: {fileID: 5505954011481983590, guid: 16a55c83be388e147828fd10c86db0c2, type: 3}
       propertyPath: playOnAwake
       value: 0

@@ -6,7 +6,7 @@ using UnityEngine;
 public class PacStudentController : MonoBehaviour
 {
     private int lastTime;
-    private float timer = -0.0f;
+   // private float timer = -0.0f;
     private float speed;
     private float movement;
     private float duration;
@@ -367,7 +367,6 @@ public class PacStudentController : MonoBehaviour
             GameManagement.Score += 100;
         }
 
-
         if (trigger.gameObject.name.Contains("Burger"))
         {
             GameManagement.Score += 200;
@@ -377,14 +376,12 @@ public class PacStudentController : MonoBehaviour
             trigger.gameObject.SetActive(false);
         }
 
-
         if (trigger.gameObject.CompareTag("Walls"))
         {
             pacaudio.clip = wall_FX;
             pacaudio.Play();
             WallHit();
         }
-
 
         if (trigger.gameObject.name.Contains("PowerFlash"))
         {
@@ -423,10 +420,9 @@ public class PacStudentController : MonoBehaviour
             gameManagement.DeadGhost(dead);
         }
 
-
         if (trigger.gameObject.name.Contains("ArtilleryBall"))
         {
-            GhostInnovation.lockOn = false;  // check this doenst break the other level
+            //GhostInnovation.lockOn = false;  // check this doenst break the other level
             rBody.detectCollisions = false;
             SpriteRenderer.color = Color.red;
             isAlive = false;
@@ -453,10 +449,9 @@ public class PacStudentController : MonoBehaviour
         {
             pacaudio.clip = hit_FX;
             pacaudio.Play();
-            speed = 1.5f;
-            SpriteRenderer.color = new Color(0.5f, 1f, 1f, 1);
+            speed = 1.3f;
+            SpriteRenderer.color = Color.cyan;
             Invoke("Unfreeze", 3.0f);
-     
         }
 
     }
