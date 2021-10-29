@@ -10582,7 +10582,7 @@ GameObject:
   - component: {fileID: 320327668}
   - component: {fileID: 320327669}
   m_Layer: 0
-  m_Name: Empty (10) ExitA
+  m_Name: Empty (10) SpawnExit
   m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11562,7 +11562,7 @@ GameObject:
   - component: {fileID: 336812547}
   - component: {fileID: 336812548}
   m_Layer: 0
-  m_Name: Empty (9) ExitA
+  m_Name: Empty (9) SpawnExit
   m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23734,7 +23734,7 @@ GameObject:
   - component: {fileID: 621563988}
   - component: {fileID: 621563989}
   m_Layer: 0
-  m_Name: Empty (38) ExitA
+  m_Name: Empty (38) SpawnExit
   m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32960,7 +32960,7 @@ GameObject:
   - component: {fileID: 875719786}
   - component: {fileID: 875719787}
   m_Layer: 0
-  m_Name: Empty (39) ExitA
+  m_Name: Empty (39) SpawnExit
   m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36109,7 +36109,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.02180491, g: 0.028605038, b: 0.09433961, a: 0}
+  m_BackGroundColor: {r: 0.06630473, g: 0.06786222, b: 0.09433961, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -75632,7 +75632,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3740535988118546798, guid: b05f05b2f99bb0a41a73725301c0fbfe, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3740535988118546798, guid: b05f05b2f99bb0a41a73725301c0fbfe, type: 3}
       propertyPath: m_LocalPosition.x
@@ -78026,12 +78026,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7042043358960104464, guid: 16a55c83be388e147828fd10c86db0c2, type: 3}
+      propertyPath: frozen
+      value: 
+      objectReference: {fileID: 8300000, guid: 5f14e59ed1ef7f645884ac2d296701ae, type: 3}
+    - target: {fileID: 7042043358960104464, guid: 16a55c83be388e147828fd10c86db0c2, type: 3}
       propertyPath: bonus_FX
       value: 
       objectReference: {fileID: 8300000, guid: ece59026b896348408a5deb46de4fd15, type: 3}
     - target: {fileID: 7042043358960104465, guid: 16a55c83be388e147828fd10c86db0c2, type: 3}
       propertyPath: m_Name
       value: PacStudent
+      objectReference: {fileID: 0}
+    - target: {fileID: 7042043358960104477, guid: 16a55c83be388e147828fd10c86db0c2, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16a55c83be388e147828fd10c86db0c2, type: 3}
@@ -78098,6 +78106,10 @@ PrefabInstance:
     - target: {fileID: 7771276401278538275, guid: 970c92f7b6e2fda4a84a40a3e309bb82, type: 3}
       propertyPath: m_Name
       value: GameManagement
+      objectReference: {fileID: 0}
+    - target: {fileID: 7771276401278538279, guid: 970c92f7b6e2fda4a84a40a3e309bb82, type: 3}
+      propertyPath: m_Volume
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7771276401278538279, guid: 970c92f7b6e2fda4a84a40a3e309bb82, type: 3}
       propertyPath: m_PlayOnAwake

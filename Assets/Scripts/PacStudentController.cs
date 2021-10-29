@@ -35,6 +35,7 @@ public class PacStudentController : MonoBehaviour
     public AudioClip die_FX;
     public AudioClip bonus_FX;
     public AudioClip hit_FX;
+    public AudioClip frozen;
     private AudioSource pacaudio;
     private GameObject[] gameObjects;
     public ParticleSystem dust;
@@ -44,7 +45,7 @@ public class PacStudentController : MonoBehaviour
     GameManagement gameManagement;
     private bool isAlive;
     SpriteRenderer SpriteRenderer;
-    public Rigidbody rBody;
+    private  Rigidbody rBody;
 
 
     void Start()
@@ -332,6 +333,7 @@ public class PacStudentController : MonoBehaviour
      
         if (!pacaudio.isPlaying)
         {
+            pacaudio.volume = 0.5f;
             pacaudio.clip = movement_FX;
             pacaudio.Play();
         }
@@ -358,6 +360,7 @@ public class PacStudentController : MonoBehaviour
             GameManagement.Score += 10;
             GameManagement.Pellets -= 1;
             pacaudio.clip = pellet_FX;
+            pacaudio.volume = 0.3f;
             pacaudio.Play();
         }
 
@@ -369,6 +372,7 @@ public class PacStudentController : MonoBehaviour
 
         if (trigger.gameObject.name.Contains("Burger"))
         {
+            pacaudio.volume = 0.5f;
             GameManagement.Score += 200;
             trigger.enabled = false;
             pacaudio.clip = bonus_FX;
@@ -378,6 +382,7 @@ public class PacStudentController : MonoBehaviour
 
         if (trigger.gameObject.CompareTag("Walls"))
         {
+            pacaudio.volume = 0.5f;
             pacaudio.clip = wall_FX;
             pacaudio.Play();
             WallHit();
@@ -426,6 +431,7 @@ public class PacStudentController : MonoBehaviour
             rBody.detectCollisions = false;
             SpriteRenderer.color = Color.red;
             isAlive = false;
+            pacaudio.volume = 1f;
             pacaudio.clip = die_FX;
             pacaudio.Play();
             anim.SetTrigger("isDead");
@@ -447,7 +453,8 @@ public class PacStudentController : MonoBehaviour
 
         if (trigger.gameObject.name.Contains("MagicBall"))
         {
-            pacaudio.clip = hit_FX;
+            pacaudio.clip = frozen;
+            pacaudio.volume = 1;
             pacaudio.Play();
             speed = 1.3f;
             SpriteRenderer.color = Color.cyan;

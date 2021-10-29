@@ -10340,7 +10340,7 @@ GameObject:
   - component: {fileID: 320327668}
   - component: {fileID: 320327669}
   m_Layer: 0
-  m_Name: Empty (10) ExitA
+  m_Name: Empty (10) SpawnExit
   m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11300,7 +11300,7 @@ GameObject:
   - component: {fileID: 336812547}
   - component: {fileID: 336812548}
   m_Layer: 0
-  m_Name: Empty (9) ExitA
+  m_Name: Empty (9) SpawnExit
   m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22947,7 +22947,7 @@ GameObject:
   - component: {fileID: 621563988}
   - component: {fileID: 621563989}
   m_Layer: 0
-  m_Name: Empty (38) ExitA
+  m_Name: Empty (38) SpawnExit
   m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31362,7 +31362,7 @@ GameObject:
   - component: {fileID: 875719786}
   - component: {fileID: 875719787}
   m_Layer: 0
-  m_Name: Empty (39) ExitA
+  m_Name: Empty (39) SpawnExit
   m_TagString: Walkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

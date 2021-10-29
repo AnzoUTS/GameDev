@@ -20,7 +20,8 @@ public class GhostInnovation : MonoBehaviour
     public List<Vector3> GhostArea;
     public List<Vector3> StartGhostArea;
     public List<Vector3> GhostAreaExitA;
-    public List<Vector3> Ghost4Targets;
+    public List<Vector3> spawnExitTarget;
+    private float exitDistance;
     private Tween tween;
     private Animator anim;
     private GameObject[] gameObjects;
@@ -41,6 +42,7 @@ public class GhostInnovation : MonoBehaviour
     private Vector3 lastDirection;
     private Vector3 startingPos;
     private Vector3 pacPosition;
+    private Vector3 spawnExit;
     public bool isAlive;
     private bool isScared;
     private bool isRecovery;
@@ -76,22 +78,25 @@ public class GhostInnovation : MonoBehaviour
         if (enemyName == "GhostA")
         {
             startingPos = new Vector3(12f, -14f, 0f);
+            spawnExit = new Vector3(13f, -17f, 0f);
         }
 
         if (enemyName == "GhostB")
         {
             startingPos = new Vector3(13f, -14f, 0f);
+            spawnExit = new Vector3(13f, -11f, 0f);
         }
 
         if (enemyName == "GhostC")
         {
             startingPos = new Vector3(14f, -14f, 0f);
-
+            spawnExit = new Vector3(14f, -11f, 0f);
         }
 
         if (enemyName == "GhostD")
         {
             startingPos = new Vector3(15f, -14f, 0f);
+            spawnExit = new Vector3(14f, -17f, 0f);
         }
     }
 
@@ -351,7 +356,7 @@ public class GhostInnovation : MonoBehaviour
 
     private void ConfusedGhost()
     {
-        Debug.Log("Ghost has no other option ");
+        Debug.Log("Ghost has no other option - May need to turn around");
 
         if (Walkable.Contains(up)) // up
             ghostOptions.Add(up);
@@ -396,8 +401,8 @@ public class GhostInnovation : MonoBehaviour
 
             direction = ghostOptions[ghostThought];
         }
-
-        if (enemyName == "GhostD" || enemyName == "GhostB" && ghostArea || enemyName == "GhostA" && lockOn || enemyName == "GhostB" && lockOn || enemyName == "GhostC" && lockOn)
+        if (enemyName == "GhostD"  || enemyName == "GhostB" && ghostArea ||  enemyName == "GhostB" && lockOn || enemyName == "GhostA" && lockOn && !ghostArea || enemyName == "GhostC" && lockOn && !ghostArea)
+         //   if (enemyName == "GhostD" || enemyName == "GhostB" && ghostArea || enemyName == "GhostA" && lockOn || enemyName == "GhostB" && lockOn || enemyName == "GhostC" && lockOn)
         {
             if (ghostOptions.Count == 0)
             {
@@ -424,7 +429,7 @@ public class GhostInnovation : MonoBehaviour
 
         //|| (enemyName == "GhostA" && ghostArea) || (enemyName == "GhostB" && ghostArea) || (enemyName == "GhostC" && ghostArea)
 
-        if ((!GameManagement.GhostAttack) || (enemyName == "GhostB" && ghostArea) || (enemyName == "GhostC" && ghostArea))
+        if ((!GameManagement.GhostAttack) ||( enemyName == "GhostA" && ghostArea) || (enemyName == "GhostC" && ghostArea))
         {
             if (ghostOptions.Count == 0)
             {
@@ -473,8 +478,8 @@ public class GhostInnovation : MonoBehaviour
             }
         }
 
-        if (trigger.name.Contains("GhostArea") && !isAlive && GameManagement.StartMovement == true)
-        {
+            if (trigger.name.Contains("GhostArea") && !isAlive && GameManagement.StartMovement == true)
+            {
                 isAlive = true;
 
                 if (AudioController.Music && isAlive) // music used to trigger start and prevent null error.
@@ -489,9 +494,10 @@ public class GhostInnovation : MonoBehaviour
                         gameManagement.AliveGhost(enemyName);
                     }
                 }
-        }
+            }
 
-            if (!trigger.name.Contains("GhostArea"))
+            //if (!trigger.name.Contains("GhostArea"))
+            if (trigger.name.Contains("SpawnExit"))
             {
                 ghostArea = false;
             }
@@ -509,7 +515,7 @@ public class GhostInnovation : MonoBehaviour
         {
             RaycastHit hitInfo;
 
-            bool raycastHits = Physics.Raycast(localPos, NormPos, out hitInfo, 28f);
+            bool raycastHits = Physics.Raycast(localPos, NormPos, out hitInfo, 20f);
         
             if (raycastHits == true && isAlive && !GameManagement.Scared)
             {

@@ -6,12 +6,11 @@ using UnityEngine;
 public class GhostController : MonoBehaviour
 {
     private int lastTime;
-    private float timer = -0.0f;
+   //rivate float timer = -0.0f;
     private float speed;
     private float movement;
     private float duration;
     private bool isMoving;
-   // private bool canMove;
     private bool ghostArea;
     private Vector3 currentPos;
     private Vector3 NormPos;
@@ -34,7 +33,7 @@ public class GhostController : MonoBehaviour
     private Vector3 left;
     private Vector3 right;
     public List<Vector3> ghostOptions;
-    int ghostThought;
+    private int ghostThought;
     private Vector3 ghostLocation;
     private Vector3 direction;
     private Vector3 previousDirection;
@@ -63,7 +62,6 @@ public class GhostController : MonoBehaviour
         anim = GetComponent<Animator>();
         ghostLocation = transform.position;
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
-        //canMove = true;
         enemyName = transform.name;
 
         Walkable = gameManagement.Walkable;
@@ -73,7 +71,6 @@ public class GhostController : MonoBehaviour
         if (enemyName == "OrcA")
         {
             startingPos = new Vector3(12f, -14f, 0f);
-            //ghostOptions.Add(new Vector3(13, -14, 0));
         }
 
         if (enemyName == "OrcB")
@@ -84,7 +81,6 @@ public class GhostController : MonoBehaviour
         if (enemyName == "OrcC")
         {
             startingPos = new Vector3(14f, -14f, 0f);
-
         }
 
         if (enemyName == "OrcD")
@@ -123,7 +119,7 @@ public class GhostController : MonoBehaviour
 
     void Update()
     {
-
+/*
         timer += Time.deltaTime;
 
         if ((int)timer > lastTime)
@@ -133,7 +129,7 @@ public class GhostController : MonoBehaviour
                
             }
             lastTime = (int)timer;
-        }
+        }*/
 
          movement = speed * Time.deltaTime;
 
@@ -167,7 +163,6 @@ public class GhostController : MonoBehaviour
                     ghost4objective = 0;
                 }
                 ghostArea = true;
-                Debug.Log("isalive False 1");
                 AddTween(transform, localPos, startingPos, 10); // send to ghost area
             }
         }
@@ -252,8 +247,6 @@ public class GhostController : MonoBehaviour
             anim.SetBool("right", false);
             anim.SetBool("isScared", true);
             anim.SetBool("isRecovery", true);
-   
-            
             anim.SetBool("isScared", false);
             anim.SetBool("isRecovery", false);
             anim.SetBool("isDead", true);
@@ -276,10 +269,10 @@ public class GhostController : MonoBehaviour
         left = new Vector3(x - 1, y, z);
         right = new Vector3(x + 1, y, z);
 
-        if (lastDirection.y == 0 && lastDirection.x == 0)
+/*        if (lastDirection.y == 0 && lastDirection.x == 0)
         {
             lastDirection = new Vector3(0,1,0);
-        }
+        }*/
 
         if (ghostArea == false)
         {
@@ -368,7 +361,7 @@ public class GhostController : MonoBehaviour
 
     private void ConfusedGhost()
     {
-        Debug.Log("Ghost has no other option ");
+        Debug.Log("Ghost has no other option - May need to turn around");
 
         if (Walkable.Contains(up)) // up
             ghostOptions.Add(up);
@@ -385,7 +378,6 @@ public class GhostController : MonoBehaviour
         if (ghostOptions.Count == 0)
         {
             Debug.Log("Very confused ghost ");
-            //StartingGhosts();
         }
     }
 
@@ -488,8 +480,6 @@ public class GhostController : MonoBehaviour
             {
                 ConfusedGhost();
             }
-            try
-            {
                 pacPosition = PacStudentController.PacPosition;
                 float pacDistance = Vector3.Distance(ghostOptions[0], pacPosition); //benchmark distance
                 targetDistance = pacDistance;
@@ -509,17 +499,6 @@ public class GhostController : MonoBehaviour
                      //     Debug.Log("direction option change" + option + " Target distance " + targetDistance +"option distance" + pacDistance);
                     }
                 }
-            }
-            catch
-            {
-                //Destroy(gameObject);
-                int lx = (int)Math.Round(localPos.x);
-                int ly = (int)Math.Round(localPos.y);
-                float lz = localPos.z;
-
-                direction = new Vector3(lx, ly+1, lz);
-                Debug.Log("Catch Trigger !!!!!!!!!!!!!!!!!!!" + direction);
-            }
         }
 
         lastDirection = direction - new Vector3(x, y, z);
@@ -529,6 +508,7 @@ public class GhostController : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider trigger)
+
     {
         if (trigger.name.Contains("PacStudent"))
         {
@@ -537,7 +517,7 @@ public class GhostController : MonoBehaviour
                 Debug.Log(enemyName + "is Dead");
                 isAlive = false;
                 anim.SetBool("isDead", true); // duplicate
-                                              //AudioController.GhostDead++;
+
                 GameManagement.Score += 300;
                 /*     CancelInvoke("Recovery");
                        CancelInvoke("NormalState");
@@ -552,64 +532,26 @@ public class GhostController : MonoBehaviour
             ghost4objective++; // check
             isAlive = true;
 
-
             if (AudioController.Music && isAlive) // music used to trigger start and prevent null error.
             {
-
-                // anim.SetBool("up", true);
-
                 try
                 {
-
                     gameManagement.AliveGhost(enemyName); // investigate rare error
                 }
                 catch
                 {
                     Debug.Log(enemyName + "is causing some drama");
                     gameManagement.AliveGhost(enemyName);
-
                 }
-                /*              anim.SetBool("down", false);
-                                anim.SetBool("up", false);
-                                anim.SetBool("left", false);
-                                anim.SetBool("right", false);
-                                anim.SetBool("isScared", false);
-                                anim.SetBool("isRecovery", false);
-                                anim.SetBool("isDead", false);*/
             }
         }
 
-        if (!trigger.name.Contains("GhostArea"))
+        if (trigger.name.Contains("SpawnExit"))
         {
             ghostArea = false;
         }
 
-
-        if (trigger.gameObject.name.Contains("ArtilleryBall"))
-        {
-            Debug.Log(enemyName + " is hit from Artillery");
-/*            isAlive = false;
-            string dead = trigger.gameObject.name;
-            gameManagement.DeadGhost(dead);
-            GameManagement.Score += 100;
-            anim.SetBool("down", false);
-            anim.SetBool("up", false);
-            anim.SetBool("left", false);
-            anim.SetBool("right", false);
-            anim.SetBool("isScared", false);
-            anim.SetBool("isRecovery", false);
-            anim.SetBool("isDead", false);
-            anim.SetBool("isDead", true);
-*/
-
-        }
     }
-
-
-
-
-
-
 
 /*    IEnumerator EnemyDead() // only used for 80% Section 
     {
