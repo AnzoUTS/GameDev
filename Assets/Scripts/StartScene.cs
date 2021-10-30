@@ -14,26 +14,14 @@ public class StartScene : MonoBehaviour
 
     }
 
-
-
-
     public void loadStartScene()
     {
         if (Time.timeScale == 1)
         {
             SceneManager.LoadScene("StartScene");
             Time.timeScale = 0;
-
-
-            //SceneManager.UnloadSceneAsync("Scene1"); // annoying, but seems to prevent a rare error
-     
-            //SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);
-            
-
         }
     }
-
-
 
 
     public void loadLevel(string scene)
@@ -42,12 +30,4 @@ public class StartScene : MonoBehaviour
         GameManagement.StartMovement = false;
         SceneManager.LoadScene(scene);
     }
-
-/*    public void unloadLevel(string scene)
-    {
-        {
-            SceneManager.UnloadSceneAsync(scene); // cleanly 
-        }
-    }*/
-
 }

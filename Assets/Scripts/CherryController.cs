@@ -12,10 +12,6 @@ public class CherryController : MonoBehaviour
     private const float centerX = 13.5f;
     private const float centerY = -14.0f;
 
-
-
-
-
     void Update()
     {
         if (!isBurger && GameManagement.StartMovement == true)

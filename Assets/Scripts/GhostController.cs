@@ -6,7 +6,7 @@ using UnityEngine;
 public class GhostController : MonoBehaviour
 {
     private int lastTime;
-   //rivate float timer = -0.0f;
+   //private float timer = -0.0f;
     private float speed;
     private float movement;
     private float duration;
@@ -66,7 +66,7 @@ public class GhostController : MonoBehaviour
 
         Walkable = gameManagement.Walkable;
         GhostArea = gameManagement.GhostArea;
-        GhostAreaExitA = gameManagement.GhostAreaExitA;
+       // GhostAreaExitA = gameManagement.GhostAreaExitA;
 
         if (enemyName == "OrcA")
         {
@@ -259,7 +259,7 @@ public class GhostController : MonoBehaviour
 
     private void GhostBrain()
     {
-        // avoid rounding point errors
+        // this rounding implemented to avoid rounding point errors
         int x = (int)Math.Round(localPos.x);
         int y = (int)Math.Round(localPos.y);
         float z = localPos.z;
@@ -269,10 +269,6 @@ public class GhostController : MonoBehaviour
         left = new Vector3(x - 1, y, z);
         right = new Vector3(x + 1, y, z);
 
-/*        if (lastDirection.y == 0 && lastDirection.x == 0)
-        {
-            lastDirection = new Vector3(0,1,0);
-        }*/
 
         if (ghostArea == false)
         {
@@ -439,7 +435,6 @@ public class GhostController : MonoBehaviour
                 {
                     Debug.Log(option);
                 }
-          //      Debug.Log("target " + (ghost4Target = Ghost4Targets[ghost4objective]) + " count " + ghostOptions.Count);
             }
             int ghostTargetCount = Ghost4Targets.Count;
 
@@ -451,14 +446,12 @@ public class GhostController : MonoBehaviour
             
             foreach (Vector3 option in ghostOptions)
             {
-               // Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + ghost4Target);
                 g4Distance = Vector3.Distance(option, ghost4Target);
 
                 if (targetDistance > g4Distance)
                 {
                     targetDistance = g4Distance;
                     direction = option;
-                 //   Debug.Log("direction option change" + option + " Target distance " + targetDistance +"option distance" + ghost4Target);
                 }
             }
 
@@ -470,7 +463,6 @@ public class GhostController : MonoBehaviour
                 {
                     ghost4objective = 0;
                 }
-               // Debug.Log(" Ghost4 Target :" + ghost4objective + " : " + direction);
             }
         }
 
@@ -487,16 +479,12 @@ public class GhostController : MonoBehaviour
 
                 foreach (Vector3 option in ghostOptions)
                 {
-                     // Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + pacDistance);
-
                     pacDistance = Vector3.Distance(option, pacPosition);
 
                     if (targetDistance < pacDistance)
                     {
                         targetDistance = pacDistance;
                         direction = option;
-
-                     //     Debug.Log("direction option change" + option + " Target distance " + targetDistance +"option distance" + pacDistance);
                     }
                 }
         }
@@ -523,7 +511,6 @@ public class GhostController : MonoBehaviour
                        CancelInvoke("NormalState");
                  StartCoroutine(EnemyDead()); // Removed from 80% Section  */
             }
-
         }
 
 

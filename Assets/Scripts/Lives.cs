@@ -15,7 +15,6 @@ public class Lives : MonoBehaviour
 
     void Update()
     {
-
         lifeCount = GameManagement.Life;
 
         if (lifeCount< 3)

@@ -21,21 +21,17 @@ public class MagicBall : MonoBehaviour
 
     void Start()
     {
-      
         hitTarget = false;
         hitAudio = GetComponent<AudioSource>();
         targetLocation = pacPosition = PacStudentController.PacPosition;
         targetDistance = Vector3.Distance(transform.localPosition, targetLocation);
         duration = (targetDistance / targetDistance) * 1.5f;
-
         hitAudio.clip = hit;
         hitAudio.Play();
     }
 
     private void FixedUpdate()
     {
-        //targetDistance = Vector3.Distance(transform.localPosition, targetLocation);
-
         if (tween != null)
         {
             if (targetDistance > 0.4f)
@@ -61,11 +57,6 @@ public class MagicBall : MonoBehaviour
 
         if (hitTarget)
         {
-            if (!hitAudio.isPlaying)
-            {
-/*                hitAudio.clip = hit;
-                hitAudio.Play();*/
-            }
             hitTarget = false;
             StartCoroutine(Explode());
         }
@@ -86,5 +77,4 @@ public class MagicBall : MonoBehaviour
         yield return new WaitForSecondsRealtime(8);
         Destroy(this.transform.gameObject);
     }
-
 }

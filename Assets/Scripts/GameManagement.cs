@@ -30,15 +30,12 @@ public class GameManagement : MonoBehaviour
     AudioSource gameOverMusic;
     public float timer;
     public float lastTime;
-
     public List<string> deadGhosts;
-/*    private static string ghostName;*/
     public static int deadGhostCount;
     private GameObject[] gameObjects;
     public List<Vector3> Walkable;
     public List<Vector3> GhostArea;
-    public List<Vector3> GhostAreaExitA;
-
+   // public List<Vector3> GhostAreaExitA;
 
 
     private void Awake()
@@ -52,15 +49,13 @@ public class GameManagement : MonoBehaviour
             Walkable.Add(item.transform.position);
             if (item.name.Contains("GhostArea"))
                 GhostArea.Add(item.transform.position);
-            if (item.name.Contains("ExitA"))
-                GhostAreaExitA.Add(item.transform.position);  
+/*            if (item.name.Contains("ExitA"))
+                GhostAreaExitA.Add(item.transform.position);  */
         }
     }
 
     private void Start()
     {
-        
-
         lives = 3;
         if (PlayerPrefs.GetString("HighScore") == null)
         {
@@ -78,14 +73,8 @@ public class GameManagement : MonoBehaviour
         {
             previousBest = 0;
         }
-
-        //previousBest = int.Parse(highScore);
         
         bestTime = PlayerPrefs.GetString("FastestTime");
-
-
-
-
 
         ghostTime = GameObject.Find("GhostTime");
         walkableGameObjects = GameObject.FindGameObjectsWithTag("Walkable");
@@ -101,20 +90,8 @@ public class GameManagement : MonoBehaviour
         gameOverMusic.clip = gameOverClip;
         ghostAttack = true;
 
-
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
    
-/*
-        foreach (GameObject item in gameObjects)
-        {
-            Walkable.Add(item.transform.position);
-            if (item.name.Contains("GhostArea"))
-                GhostArea.Add(item.transform.position);
-            if (item.name.Contains("ExitA"))
-                GhostAreaExitA.Add(item.transform.position);
-        }*/
-
-
         foreach (GameObject obj in walkableGameObjects)
         {
             if (obj.name.Contains("Pellet"))
@@ -129,18 +106,16 @@ public class GameManagement : MonoBehaviour
     private void Update()
     {
         
+       // timer += Time.deltaTime;
 
-        timer += Time.deltaTime;
-
-        if ((int)timer > lastTime)
+/*        if ((int)timer > lastTime)
         {
             if (lastTime >= 0)
             {
-         //       Debug.Log("Scared :" + scared + " recovery :" + recovery + " ghostAttack :"+ ghostAttack);
             }
             lastTime = (int)timer;
         }
-
+*/
 
         if (Scared == true)
         {
@@ -175,13 +150,11 @@ public class GameManagement : MonoBehaviour
         }
     }
 
-
     public static bool StartMovement
     {
         set { startMovement = value; }
         get { return startMovement; }
     }
-
 
     public static int Pellets
     {
@@ -227,7 +200,6 @@ public class GameManagement : MonoBehaviour
     }
 
 
-
     public void DeadGhost(string ghostName)
     {
         deadGhosts.Add(ghostName);
@@ -247,47 +219,10 @@ public class GameManagement : MonoBehaviour
 
     public void GameResults()
     {
-
         finalTime = GameTime.finalTime;
         startMovement = false;
-        //Debug.Log("GET FINAL TIME " + finalTime);
-
         gameOver.SetActive(true);
-
         StartCoroutine(Results());
-
-/*        Debug.Log("PREF bestscore " + previousBest + " PREF best time " + bestTime);
-        Debug.Log("gamescore " + score + " gametime " + finalTime);
-        
-        if (score > previousBest) 
-        {
-            PlayerPrefs.SetString("FastestTime", finalTime);
-            PlayerPrefs.SetString("HighScore", score.ToString());
-            //Debug.Log("New High Score : " + score +" Time :" + finalTime);
-        } 
-
-        if (score == previousBest)
-        {
-            var cultureInfo = new CultureInfo("en-AU");
-            try
-            {
-                previousTime = DateTime.ParseExact(bestTime, "hh:mm:ss", cultureInfo);
-            }
-            catch
-            {
-                previousTime = DateTime.ParseExact("00:00:00", "hh:mm:ss", cultureInfo);
-            }
-            currentTime = DateTime.ParseExact(finalTime, "hh:mm:ss", cultureInfo);
-            Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
-
-            if ( currentTime < previousTime)
-            {
-                PlayerPrefs.SetString("FastestTime", finalTime);
-                Debug.Log("New Fastest Time " + finalTime);
-            }     
-        }*/
-
-
         Invoke("StartScreen", 3f);
     }
 
@@ -296,20 +231,14 @@ public class GameManagement : MonoBehaviour
         SceneManager.LoadScene("StartScene");
     }
 
-
     public void QuitGame()
     {
-
-
-        UnityEditor.EditorApplication.isPlaying = false; // stops game
+        Application.Quit();  // stops game
+     // UnityEditor.EditorApplication.isPlaying = false; // this causes build to crash
     }
-
-
 
     IEnumerator Results()
     {
-
-
         yield return new WaitForSecondsRealtime(1);
 
 /*        Debug.Log("PREF bestscore " + previousBest + " PREF best time " + bestTime);
@@ -319,7 +248,7 @@ public class GameManagement : MonoBehaviour
         {
             PlayerPrefs.SetString("FastestTime", finalTime);
             PlayerPrefs.SetString("HighScore", score.ToString());
-            Debug.Log("New High Score : " + score +" Time :" + finalTime);
+           // Debug.Log("New High Score : " + score +" Time :" + finalTime);
         }
 
         if (score == previousBest)
@@ -328,17 +257,14 @@ public class GameManagement : MonoBehaviour
             previousTime = DateTime.ParseExact(bestTime, "hh:mm:ss", cultureInfo);
             currentTime = DateTime.ParseExact(finalTime, "hh:mm:ss", cultureInfo);
 
-            Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
+         //  Debug.Log("oldtime" + previousTime + " newtime " + currentTime);
 
             if (currentTime < previousTime)
             {
                 PlayerPrefs.SetString("FastestTime", finalTime);
-                Debug.Log("New Fastest Time " + finalTime);
+                //Debug.Log("New Fastest Time " + finalTime);
             }
         }
-
-
-
 
     }
 

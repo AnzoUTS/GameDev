@@ -6,7 +6,6 @@ using UnityEngine;
 public class PacStudentController : MonoBehaviour
 {
     private int lastTime;
-   // private float timer = -0.0f;
     private float speed;
     private float movement;
     private float duration;
@@ -66,7 +65,6 @@ public class PacStudentController : MonoBehaviour
         anim = GetComponent<Animator>();
         pacaudio = GetComponent<AudioSource>();
         currentPos = new Vector3(1f, -1f, 0f);
-        //transform.position = currentPos;
         gameObjects = GameObject.FindGameObjectsWithTag("Walkable");
 
         foreach (GameObject item in gameObjects)
@@ -82,7 +80,6 @@ public class PacStudentController : MonoBehaviour
     set { pacPosition = value;  }
     get { return pacPosition; }
     }
-
 
 
     private void FixedUpdate()
@@ -350,9 +347,7 @@ public class PacStudentController : MonoBehaviour
         if (trigger.name == "TeleportR")
         {
             teleportR = true;
-        }
-
-        // Debug.Log("Trigger Enter: " + trigger.gameObject.name + " : " + trigger.gameObject.transform.position + " : Parent" + trigger.gameObject.transform.parent.name);
+        } 
 
         if (trigger.gameObject.name.Contains("Pellet"))
         {
@@ -427,9 +422,9 @@ public class PacStudentController : MonoBehaviour
 
         if (trigger.gameObject.name.Contains("ArtilleryBall"))
         {
-            //GhostInnovation.lockOn = false;  // check this doenst break the other level
+            
+            GhostInnovation.lockOn = false;  // check this doenst break level 1
             rBody.detectCollisions = false;
-            SpriteRenderer.color = Color.red;
             isAlive = false;
             pacaudio.volume = 1f;
             pacaudio.clip = die_FX;
@@ -439,12 +434,12 @@ public class PacStudentController : MonoBehaviour
             anim.SetBool("up", false);
             anim.SetBool("left", false);
             anim.SetBool("right", false);
+            SpriteRenderer.color = Color.red;
             GameManagement.Life -= 1;
             Debug.Log("GameLives :" + GameManagement.Life);
             tween = null;
             canMove = false;
             Invoke("startMove", 4f);
-            SpriteRenderer.color = Color.white;
             StartCoroutine(PacDie());
             currentInput = KeyCode.None;
             lastInput = KeyCode.None;
@@ -460,7 +455,6 @@ public class PacStudentController : MonoBehaviour
             SpriteRenderer.color = Color.cyan;
             Invoke("Unfreeze", 3.0f);
         }
-
     }
 
     void Unfreeze()
@@ -479,15 +473,17 @@ public class PacStudentController : MonoBehaviour
         GhostInnovation.lockOn = false;
         die.Play();
         yield return new WaitForSeconds(3f);
+        SpriteRenderer.color = Color.white;
         anim.SetBool("up", true);
         gameObject.transform.position = new Vector3(1, -1, 0);
         isAlive = true;
+
     }
 
     void startMove()
     {
         rBody.detectCollisions = true;
-        canMove = true;  /// need to fix
+        canMove = true;  
     }
 
     private void WallHit()

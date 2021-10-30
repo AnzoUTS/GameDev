@@ -88,7 +88,6 @@ public class Artillery : MonoBehaviour
             tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
         }
     }
-
     IEnumerator Explode()
     {
         yield return new WaitForSecondsRealtime(8);

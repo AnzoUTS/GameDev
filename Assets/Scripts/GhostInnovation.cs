@@ -7,7 +7,7 @@ public class GhostInnovation : MonoBehaviour
 {
     public GameObject fire;
     private int lastTime;
-    private float timer = -0.0f;
+    //private float timer = -0.0f;
     private float speed;
     private float movement;
     private float duration;
@@ -71,32 +71,32 @@ public class GhostInnovation : MonoBehaviour
         enemyName = transform.name;
         Walkable = gameManagement.Walkable;
         GhostArea = gameManagement.GhostArea;
-        GhostAreaExitA = gameManagement.GhostAreaExitA;
+       // GhostAreaExitA = gameManagement.GhostAreaExitA;
         attack = true;
         SpriteRenderer = GetComponent<SpriteRenderer>();
 
         if (enemyName == "GhostA")
         {
             startingPos = new Vector3(12f, -14f, 0f);
-            spawnExit = new Vector3(13f, -17f, 0f);
+            spawnExit = new Vector3(13f, -17f, 0f); //not used
         }
 
         if (enemyName == "GhostB")
         {
             startingPos = new Vector3(13f, -14f, 0f);
-            spawnExit = new Vector3(13f, -11f, 0f);
+            spawnExit = new Vector3(13f, -11f, 0f);  //not used
         }
 
         if (enemyName == "GhostC")
         {
             startingPos = new Vector3(14f, -14f, 0f);
-            spawnExit = new Vector3(14f, -11f, 0f);
+            spawnExit = new Vector3(14f, -11f, 0f);  //not used
         }
 
         if (enemyName == "GhostD")
         {
             startingPos = new Vector3(15f, -14f, 0f);
-            spawnExit = new Vector3(14f, -17f, 0f);
+            spawnExit = new Vector3(14f, -17f, 0f);  //not used
         }
     }
 
@@ -245,16 +245,10 @@ public class GhostInnovation : MonoBehaviour
         int x = (int)Math.Round(localPos.x);
         int y = (int)Math.Round(localPos.y);
         float z = localPos.z;
-
         up = new Vector3(x, y + 1, z);
         down = new Vector3(x, y - 1, z);
         left = new Vector3(x - 1, y, z);
         right = new Vector3(x + 1, y, z);
-
-/*        if (lastDirection.y == 0 && lastDirection.x == 0)
-        {
-            lastDirection = new Vector3(0, 1, 0);
-        }*/
 
         if (ghostArea == false)
         {
@@ -340,7 +334,7 @@ public class GhostInnovation : MonoBehaviour
             if (Walkable.Contains(left)) // left
                 ghostOptions.Add(left);
 
-            Debug.Log("Ghost area ");
+           //Debug.Log("Ghost area ");
 
             moveGhost();
         }
@@ -378,7 +372,7 @@ public class GhostInnovation : MonoBehaviour
 
     private void moveGhost()
     {
-        // avoid rounding point errors
+        // rounding implemented to avoid rounding point errors
         int x = (int)Math.Round(localPos.x);
         int y = (int)Math.Round(localPos.y);
         float z = localPos.z;
@@ -397,12 +391,9 @@ public class GhostInnovation : MonoBehaviour
             }
             ghostThought = UnityEngine.Random.Range(0, ghostOptions.Count);
 
-           // Debug.Log("Count " + ghostOptions.Count + " GhostChoice" + ghostThought);
-
             direction = ghostOptions[ghostThought];
         }
         if (enemyName == "GhostD"  || enemyName == "GhostB" && ghostArea ||  enemyName == "GhostB" && lockOn || enemyName == "GhostA" && lockOn && !ghostArea || enemyName == "GhostC" && lockOn && !ghostArea)
-         //   if (enemyName == "GhostD" || enemyName == "GhostB" && ghostArea || enemyName == "GhostA" && lockOn || enemyName == "GhostB" && lockOn || enemyName == "GhostC" && lockOn)
         {
             if (ghostOptions.Count == 0)
             {
@@ -420,14 +411,11 @@ public class GhostInnovation : MonoBehaviour
 
                 if (targetDistance > pacDistance)
                 {
-                  //  Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + pacDistance);
                     targetDistance = pacDistance;
                     direction = option;
                 }
             }
         }
-
-        //|| (enemyName == "GhostA" && ghostArea) || (enemyName == "GhostB" && ghostArea) || (enemyName == "GhostC" && ghostArea)
 
         if ((!GameManagement.GhostAttack) ||( enemyName == "GhostA" && ghostArea) || (enemyName == "GhostC" && ghostArea))
         {
@@ -435,7 +423,6 @@ public class GhostInnovation : MonoBehaviour
             {
                 ConfusedGhost();
             }
-
                 pacPosition = PacStudentController.PacPosition;
                 float pacDistance = Vector3.Distance(ghostOptions[0], pacPosition); //benchmark distance
                 targetDistance = pacDistance;
@@ -443,16 +430,12 @@ public class GhostInnovation : MonoBehaviour
 
                 foreach (Vector3 option in ghostOptions)
                 {
-                    // Debug.Log("Ghost Defence Options " + option + " Target distance " + targetDistance + "option distance" + pacDistance);
-
                     pacDistance = Vector3.Distance(option, pacPosition);
 
                     if (targetDistance < pacDistance)
                     {
                         targetDistance = pacDistance;
                         direction = option;
-
-                        //     Debug.Log("direction option change" + option + " Target distance " + targetDistance +"option distance" + pacDistance);
                     }
                 }          
         }
@@ -496,7 +479,6 @@ public class GhostInnovation : MonoBehaviour
                 }
             }
 
-            //if (!trigger.name.Contains("GhostArea"))
             if (trigger.name.Contains("SpawnExit"))
             {
                 ghostArea = false;

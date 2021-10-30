@@ -26,7 +26,6 @@ public class BurgerMover : MonoBehaviour
         destroyY1 = -99;
         destroyY2 = 99;
 
-      //  Debug.Log("Burger Created");
         x = CherryController.Xvalue;
         y = CherryController.Yvalue;
         direction = CherryController.Axis;
@@ -52,10 +51,8 @@ public class BurgerMover : MonoBehaviour
 
         if (localPos.x <= destroyX1 || localPos.x >= destroyX2 || localPos.y <= destroyY1 || localPos.y >= destroyY2)
         {
-          //  Debug.Log("Burger Destroyed");
             Destroy(transform.gameObject);
         }
-
 
         switch (direction)
         {
@@ -110,7 +107,6 @@ public class BurgerMover : MonoBehaviour
         
         if (tween == null)
         {
-           // Debug.Log("x1 " + destroyX1 + "|| x2 " + destroyX2 + "|| y1 " + destroyY1 + "|| y2 " + destroyY2 + "x Target " + endpos.x + "|| y Target " + endpos.y);
             tween = new Tween(targetObject, startPos, endpos, Time.time, duration);
         }
     }

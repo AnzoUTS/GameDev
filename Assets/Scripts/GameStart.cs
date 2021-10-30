@@ -7,10 +7,6 @@ public class GameStart : MonoBehaviour
 {
     private Text start;
     private string[] countDown = { "3", "2", "1", "GO!" , ""};
- /*   public GameObject ghostA;
-    public GameObject ghostB;
-    public GameObject ghostC;
-    public GameObject ghostD;*/
 
     void Start()
     {
@@ -35,17 +31,14 @@ public class GameStart : MonoBehaviour
         GameManagement.StartMovement = true; // the order here could be important 
         Debug.Log("GO!!!!!!!");
         Time.timeScale = 1;
-        Debug.Log("timescale!!!!!!!");
-        gameObject.SetActive(false);
-        
+        Debug.Log("timescale 1!!!!!!!");
+        gameObject.SetActive(false);    
     }
 
     private IEnumerator StopTime()
     {
         Time.timeScale = 0;
         yield return new WaitForSecondsRealtime(4f);
-    
-
     }
 
 

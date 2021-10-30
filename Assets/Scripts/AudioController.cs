@@ -29,7 +29,7 @@ public class AudioController : MonoBehaviour
     {
         if (!backgroundMusic.isPlaying && music)
         {
-            Debug.Log("Play Main");
+           // Debug.Log("Play Main");
             StartCoroutine(Main());
         }
 
@@ -44,7 +44,7 @@ public class AudioController : MonoBehaviour
 
             if (!backgroundMusic.isPlaying)
             {
-                Debug.Log("Play Orc Scared");
+               // Debug.Log("Play Orc Scared");
                 backgroundMusic.clip = OrcScared;
                 backgroundMusic.volume = 1;
                 backgroundMusic.Play();
@@ -60,7 +60,7 @@ public class AudioController : MonoBehaviour
 
                 if (!backgroundMusic.isPlaying)
                 {
-                    Debug.Log("Play OrcDead");
+                    //Debug.Log("Play OrcDead");
                     backgroundMusic.clip = OrcDead;
                     backgroundMusic.volume = 1;
                     backgroundMusic.Play();
@@ -82,12 +82,4 @@ public class AudioController : MonoBehaviour
         backgroundMusic.Play();
         yield return new WaitForSeconds(backgroundMusic.clip.length);
     }
-
-/*    public IEnumerator Scared()
-    {
-        backgroundMusic.clip = OrcScared;
-        backgroundMusic.volume =1;
-        backgroundMusic.Play();
-        yield return new WaitForSeconds(10);
-    }*/
 }
