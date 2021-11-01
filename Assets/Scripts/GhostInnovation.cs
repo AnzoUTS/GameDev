@@ -334,7 +334,6 @@ public class GhostInnovation : MonoBehaviour
             if (Walkable.Contains(left)) // left
                 ghostOptions.Add(left);
 
-           //Debug.Log("Ghost area ");
 
             moveGhost();
         }

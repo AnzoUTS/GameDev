@@ -158,7 +158,7 @@ public class GhostController : MonoBehaviour
 
             else if (!isAlive)
             {
-                if (enemyName == "OrcD") // Check this, was Orc4 before
+                if (enemyName == "OrcD") 
                 {
                     ghost4objective = 0;
                 }
